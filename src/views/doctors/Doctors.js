@@ -2,18 +2,9 @@ import React, { Component } from 'react'
 import { 
     CAlert,
     CButton,
-    CCard, 
-    CCardBody, 
-    CCardHeader,
     CCol,
     CRow,
-    CSpinner,
-    CTable,
-    CTableBody,
-    CTableDataCell,
-    CTableHead,
-    CTableHeaderCell,
-    CTableRow
+    CSpinner
 } from '@coreui/react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -24,6 +15,7 @@ import notification from '../../services/models/others/notification'
 import DoctorModel from '../../services/models/DoctorModel'
 import DoctorDetails from './DoctorDetails'
 import Notification from '../../components/common/Notification'
+import DoctorTable from './DoctorTable'
 
 export class Doctors extends Component {
     constructor(props) {
@@ -53,29 +45,37 @@ export class Doctors extends Component {
     onAddDoctor = () => {
         this.setState({showDoctorOffcanvas: true, mode: actionTypes.CREATE});
     }
+    
+    onUpdateDoctor = (doctor) => {
+        this.setState({showDoctorOffcanvas: true, mode: actionTypes.UPDATE, doctorSelected: {...doctor}});
+    }
 
     onCloseDoctor = () => {
         this.setState({showDoctorOffcanvas: false, mode: actionTypes.NONE, doctorSelected: new DoctorModel()});
     }
 
-    onChangeDoctor = (doctor) => {
-        this.setState({doctorSelected: doctor});
-    }
-
-    onSaveDoctor = async () => {
+    saveDoctor = async (doctor) => {
         this.setState({loaded: false, failed: false});
         
-        await this.props.createDoctor(this.state.doctorSelected);
+        if (this.state.mode === actionTypes.CREATE) {
+            await this.props.createDoctor(doctor);
+        } else {
+            await this.props.updateDoctor(doctor);
+        }
         const failed = this.props.doctor.failed;
         let newNotification;
         if (failed) {
             newNotification = new notification(colorTypes.DANGER, 'Error', this.props.doctor.error); 
         } else {
-            newNotification = new notification(colorTypes.SUCCESS, 'Success', 'Doctor created.');
+            const titleMessage = this.state.mode === actionTypes.CREATE ? 'Doctor created' : 'Doctor updated';
+            newNotification = new notification(colorTypes.SUCCESS, 'Success', titleMessage);
         }
         this.setState({
             loaded: true, 
             failed: false, 
+            showDoctorOffcanvas: false,
+            mode: actionTypes.NONE, 
+            doctorSelected: new DoctorModel(),
             doctors: [...this.props.doctor.doctors],
             notifications: [...this.state.notifications, newNotification]
         });
@@ -97,43 +97,15 @@ export class Doctors extends Component {
                         <CCol xs="12" className="right-side mb-3">
                             <CButton onClick={this.onAddDoctor}>Add a doctor</CButton>
                         </CCol>
-                        <CCol xs="12">
-                            <CCard>
-                                <CCardHeader>Doctors</CCardHeader>
-                                <CCardBody>
-                                    <CTable>
-                                        <CTableHead>
-                                            <CTableRow>
-                                                <CTableHeaderCell scope="col">Code</CTableHeaderCell>
-                                                <CTableHeaderCell scope="col">Name</CTableHeaderCell>
-                                                <CTableHeaderCell scope="col">Last Name</CTableHeaderCell>
-                                                <CTableHeaderCell scope="col">Email</CTableHeaderCell>
-                                                <CTableHeaderCell scope="col">Phone</CTableHeaderCell>
-                                                <CTableHeaderCell scope="col">Specialty</CTableHeaderCell>
-                                            </CTableRow>
-                                        </CTableHead>
-                                        <CTableBody>
-                                            { doctors.map(d => 
-                                                <CTableRow key={d._id}>
-                                                    <CTableHeaderCell scope="row">{d.doctorInfo.code}</CTableHeaderCell>
-                                                    <CTableDataCell>{d.personInfo.name}</CTableDataCell>
-                                                    <CTableDataCell>{d.personInfo.lastName}</CTableDataCell>
-                                                    <CTableDataCell>{d.personInfo.email}</CTableDataCell>
-                                                    <CTableDataCell>{d.personInfo.phone}</CTableDataCell>
-                                                    <CTableDataCell>{d.doctorInfo.specialty}</CTableDataCell>
-                                                </CTableRow>
-                                            ) }
-                                        </CTableBody>
-                                    </CTable>
-                                </CCardBody>
-                            </CCard>
-                        </CCol>
+                        <DoctorTable 
+                            doctors={doctors}
+                            onUpdate={this.onUpdateDoctor}
+                        />
                         <DoctorDetails 
                             visible={showDoctorOffcanvas} 
                             mode={mode} 
                             doctorSelected={doctorSelected}
-                            onChangeDoctor={this.onChangeDoctor}
-                            onSave={this.onSaveDoctor}
+                            onSave={this.saveDoctor}
                             onClose={this.onCloseDoctor}
                         />
                     </CRow>
