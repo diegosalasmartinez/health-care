@@ -2,11 +2,6 @@
 
 Health Care is meant to be a system able to manage all hospital activities and staff.
 
-## Quick Start
-
-- [Download the latest release](https://github.com/coreui/coreui-free-react-admin-template/archive/refs/heads/main.zip)
-- Clone the repo: `git clone https://github.com/coreui/coreui-free-react-admin-template.git`
-
 ### Instalation
 
 ``` bash
