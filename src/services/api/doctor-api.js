@@ -1,4 +1,4 @@
-import { apiGet } from './api'
+import { apiGet, apiPost } from './api'
 
 const getDoctors = async () => {
     return await apiGet(`doctors`);
