@@ -9,7 +9,7 @@ import packageJson from '../../package.json'
 const DocsExample = (props) => {
   const { children, href } = props
 
-  const _href = `https://coreui.io/react/docs/${packageJson.config.coreui_library_short_version}/${href}`
+  const _href = `https://coreui.io/react/docs/${href}`
 
   return (
     <div className="example">
