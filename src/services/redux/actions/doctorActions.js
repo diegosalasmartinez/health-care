@@ -4,9 +4,11 @@ import {
     ERROR_DOCTOR
 } from './actionTypes/doctorActionTypes'
 import {
-    getDoctors as getDoctorsAPI,
-    createDoctor as createDoctorAPI
+    getDoctors as getDoctorsAPI
 } from './../../api/doctor-api'
+import {
+    createUser as createUserAPI
+} from './../../api/user-api'
 
 const getDoctors = () => async (dispatch) => {
     let message = "There was a problem with the server. Sorry :("
@@ -29,7 +31,7 @@ const createDoctor = (doctor) => async (dispatch) => {
     let message = "There was a problem with the server. Sorry :("
     try {
         doctor.role = "DOCTOR";
-        const res = await createDoctorAPI(doctor);
+        const res = await createUserAPI(doctor);
         let doctorResponse = {...res.user};
         doctorResponse.personInfo = {...res.personInfo};
         doctorResponse.doctorInfo = {...res.doctorInfo};
