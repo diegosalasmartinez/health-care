@@ -21,6 +21,10 @@ export default class DoctorTable extends Component {
         this.props.onUpdate(doctor);
     }
 
+    onDelete = (doctor) => {
+        this.props.onDelete(doctor);
+    }
+
     render() {
         const { doctors } = this.props;
 
@@ -56,7 +60,7 @@ export default class DoctorTable extends Component {
                                             <CButton color={colorTypes.LIGHT} style={{marginRight: "1rem"}} onClick={() => this.onUpdate(d)}>
                                                 <CIcon icon={cilPencil} size="sm"/>
                                             </CButton>
-                                            <CButton color={colorTypes.DANGER}>
+                                            <CButton color={colorTypes.DANGER} onClick={() => this.onDelete(d)}>
                                                 <CIcon icon={cilTrash} size="sm"/>
                                             </CButton>
                                         </CTableDataCell>
