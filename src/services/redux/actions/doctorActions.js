@@ -32,7 +32,6 @@ const getDoctors = () => async (dispatch) => {
 const createDoctor = (doctor) => async (dispatch) => {
     let message = "There was a problem with the server. Sorry :("
     try {
-        console.log(doctor);
         doctor.role = "DOCTOR";
         const res = await createUserAPI(doctor);
         let doctorResponse = {...res.user};
@@ -44,7 +43,6 @@ const createDoctor = (doctor) => async (dispatch) => {
             playload: doctorResponse
         })
     } catch(e){
-        console.log(e);
         message = e.response.data.message;
     }
     return dispatch({
@@ -56,9 +54,7 @@ const createDoctor = (doctor) => async (dispatch) => {
 const updateDoctor = (doctor) => async (dispatch) => {
     let message = "There was a problem with the server. Sorry :("
     try {
-        console.log(doctor);
         const res = await updateUserAPI(doctor);
-        console.log(res);
         return dispatch({
             type: UPDATE_DOCTOR,
             playload: doctor
