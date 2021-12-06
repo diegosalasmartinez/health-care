@@ -2,7 +2,7 @@ import axios from 'axios'
 import { apiUrl } from '../config/api-url'
 
 export function generateUrl(path) {
-	return apiUrl + '/'+ path;
+	return apiUrl + '/' + path;
 }
 
 export function apiReq(endPoint, data, method, headers, requestOptions = {}) {
