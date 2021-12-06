@@ -1,13 +1,15 @@
 import {
     GET_DOCTORS,
     CREATE_DOCTOR,
+    UPDATE_DOCTOR,
     ERROR_DOCTOR
 } from './actionTypes/doctorActionTypes'
 import {
     getDoctors as getDoctorsAPI
 } from './../../api/doctor-api'
 import {
-    createUser as createUserAPI
+    createUser as createUserAPI,
+    updateUser as updateUserAPI
 } from './../../api/user-api'
 
 const getDoctors = () => async (dispatch) => {
@@ -30,6 +32,7 @@ const getDoctors = () => async (dispatch) => {
 const createDoctor = (doctor) => async (dispatch) => {
     let message = "There was a problem with the server. Sorry :("
     try {
+        console.log(doctor);
         doctor.role = "DOCTOR";
         const res = await createUserAPI(doctor);
         let doctorResponse = {...res.user};
@@ -41,6 +44,7 @@ const createDoctor = (doctor) => async (dispatch) => {
             playload: doctorResponse
         })
     } catch(e){
+        console.log(e);
         message = e.response.data.message;
     }
     return dispatch({
@@ -49,4 +53,23 @@ const createDoctor = (doctor) => async (dispatch) => {
     })
 }
 
-export { getDoctors, createDoctor }
+const updateDoctor = (doctor) => async (dispatch) => {
+    let message = "There was a problem with the server. Sorry :("
+    try {
+        console.log(doctor);
+        const res = await updateUserAPI(doctor);
+        console.log(res);
+        return dispatch({
+            type: UPDATE_DOCTOR,
+            playload: doctor
+        })
+    } catch(e){
+        message = e.response.data.message;
+    }
+    return dispatch({
+        type: ERROR_DOCTOR,
+        playload: message
+    })
+}
+
+export { getDoctors, createDoctor, updateDoctor }

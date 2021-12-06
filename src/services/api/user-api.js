@@ -8,4 +8,8 @@ const createUser = async (user) => {
     return await apiPost(`users/add`, user);
 }
 
-export { getUsers, createUser }
+const updateUser = async (user) => {
+    return await apiPost(`users/${user._id}`, user);
+}
+
+export { getUsers, createUser, updateUser }
