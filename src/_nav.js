@@ -8,6 +8,7 @@ import {
   cilDrop,
   cilNotes,
   cilPencil,
+  cilPeople,
   cilPuzzle,
   cilSpeedometer,
   cilStar,
@@ -24,6 +25,12 @@ const _nav = [
       color: 'info',
       text: 'NEW',
     },
+  },
+  {
+    component: CNavItem,
+    name: 'Doctors',
+    to: '/doctors',
+    icon: <CIcon icon={cilPeople} customClassName="nav-icon" />
   },
   {
     component: CNavTitle,
