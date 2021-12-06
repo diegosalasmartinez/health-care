@@ -1,7 +1,11 @@
-import { apiGet } from './api'
+import { apiGet, apiPost } from './api'
 
 const getDoctors = async () => {
     return await apiGet(`doctors`);
 }
 
-export { getDoctors }
+const createDoctor = async (doctor) => {
+    return await apiPost(`doctors/add`, doctor);
+}
+
+export { getDoctors, createDoctor }

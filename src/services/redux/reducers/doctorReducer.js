@@ -1,5 +1,6 @@
 import {
     GET_DOCTORS,
+    CREATE_DOCTOR,
     ERROR_DOCTOR
 } from '../actions/actionTypes/doctorActionTypes'
 
@@ -14,6 +15,8 @@ const doctor = (state = initialState, action) => {
     switch(action.type){
         case GET_DOCTORS:
             return {...state, doctors: [...action.playload], error: "", loaded: true, failed: false};
+        case CREATE_DOCTOR:
+            return {...state, doctors: [...state.doctors, action.playload], error: "", loaded: true, failed: false};
         case ERROR_DOCTOR:
             return {...state, error: action.playload, loaded: true, failed: true};
         default:

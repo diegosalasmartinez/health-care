@@ -1,2 +1,3 @@
 export const GET_DOCTORS = "GET_DOCTORS"
+export const CREATE_DOCTOR = "CREATE_DOCTOR"
 export const ERROR_DOCTOR = "ERROR_DOCTOR"
