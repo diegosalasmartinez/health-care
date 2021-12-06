@@ -12,4 +12,8 @@ const updateUser = async (user) => {
     return await apiPost(`users/${user._id}`, user);
 }
 
-export { getUsers, createUser, updateUser }
+const deleteUser = async (user) => {
+    return await apiPost(`users/delete/${user._id}`, user);
+}
+
+export { getUsers, createUser, updateUser, deleteUser }
