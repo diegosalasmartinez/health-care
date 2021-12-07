@@ -1,0 +1,21 @@
+.header{
+    .first{
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+
+        nav{
+            display: none;
+            @include md{
+                display: flex;
+            }
+        }
+    }
+    
+    .second, .header-divider{
+        display: flex;
+        @include md{
+            display: none;
+        }
+    }
+}
