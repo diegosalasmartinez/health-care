@@ -90,7 +90,7 @@ export class Patients extends Component {
             showPatientOffcanvas: false,
             mode: actionTypes.NONE, 
             patientSelected: new PatientModel(),
-            patients: [...this.props.doctor.doctors],
+            patients: [...this.props.patient.patients],
             notifications: [...this.state.notifications, newNotification]
         });
     }
