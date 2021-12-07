@@ -1,6 +1,10 @@
 // Variables
-//
-// If you want to customize your project please uncomment and update one of the following variables.
+$xs: 0;
+$sm: 576px;
+$md: 768px;
+$lg: 992px;
+$xl: 1200px;
+$xxl: 1400px;
 
 // Color system
 
@@ -76,7 +80,7 @@
 
 // fusv-disable
 // $primary-dark:  #1f1498 !default;
-// $primary-base:  #321fdb !default;
+$primary-base:  #4475FE !default;
 // $primary-50:    #988fed !default;
 // $primary-25:    #ccc7f6 !default;
 
@@ -1640,7 +1644,7 @@
 // $sidebar-padding-y:                        0 !default;
 // $sidebar-padding-x:                        0 !default;
 // $sidebar-color:                            $high-emphasis-inverse !default;
-// $sidebar-bg:                               $gray-base !default;
+$sidebar-bg:                               $primary-base !default;
 // $sidebar-border-width:                     0 !default;
 // $sidebar-border-color:                     transparent !default;
 // $sidebar-transition:                       margin-left .15s, margin-right .15s, box-shadow .075s, transform .15s, width .15s, z-index 0s ease .15s !default;
