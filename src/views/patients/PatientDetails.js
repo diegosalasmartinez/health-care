@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import { CButton, CCol, CFormInput, CFormLabel, COffcanvas, COffcanvasBody, COffcanvasHeader, COffcanvasTitle, CRow } from '@coreui/react'
+import DatePicker from 'react-date-picker'
 import actionTypes from '../../services/models/others/actionTypes'
 import PatientModel from '../../services/models/PatientModel'
 import colorTypes from '../../services/models/others/colorTypes'
+import moment from 'moment'
 
 export default class PatientDetails extends Component {
     constructor(props) {
@@ -22,9 +24,9 @@ export default class PatientDetails extends Component {
         }
     }
 
-    onChange = (key, isNumeric = false, isDate = false, isTime = false) => (e = {}) => {
+    onChange = (key, isNumeric = false, isDate = false) => (e = {}) => {
         const { patient } = this.state;
-            let val = isNumeric ? parseInt(e.target.value || '0') : (isDate || isTime) ? e : e.target.value;
+            let val = isNumeric ? parseInt(e.target.value || '0') : (isDate) ? moment(e).format("YYYY-MM-DD") : e.target.value;
             let patientUpdated = { ...patient };
             const keys = key.split(".");
             if (keys.length > 1) {
@@ -116,7 +118,11 @@ export default class PatientDetails extends Component {
                     <CRow className="mb-3">
                         <CFormLabel htmlFor="birthday" className="col-sm-4 col-form-label">Birthday</CFormLabel>
                         <CCol sm={8}>
-                            <CFormInput type="text" id="birthday" value={patient.birthday} onChange={this.onChange('birthday', false, false)}/>
+                            <DatePicker
+                                format="dd-MM-y"
+                                value={patient.birthday ? new Date(moment(patient.birthday).format("YYYY-MM-DD HH:mm:ss")) : new Date()}
+                                onChange={this.onChange('birthday', false, true)}
+                            />
                         </CCol>
                     </CRow>
                     <CRow className="mb-3">
