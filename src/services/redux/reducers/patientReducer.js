@@ -18,7 +18,7 @@ const patient = (state = initialState, action) => {
         case GET_PATIENTS:
             return {...state, patients: [...action.playload], error: "", loaded: true, failed: false};
         case CREATE_PATIENT:
-            return {...state, patients: [...state.PATIENTs, action.playload], error: "", loaded: true, failed: false};
+            return {...state, patients: [...state.patients, action.playload], error: "", loaded: true, failed: false};
         case UPDATE_PATIENT:
             const patientsUpdated = state.patients.map(d => d._id === action.playload._id ? {...action.playload} : {...d});
             return {...state, patients: [...patientsUpdated], error: "", loaded: true, failed: false};
