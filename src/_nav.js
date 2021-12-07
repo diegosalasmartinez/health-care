@@ -29,6 +29,12 @@ const _nav = [
   },
   {
     component: CNavItem,
+    name: 'Specialties',
+    to: '/specialties',
+    icon: <CIcon icon={cilHospital} customClassName="nav-icon" />
+  },
+  {
+    component: CNavItem,
     name: 'Doctors',
     to: '/doctors',
     icon: <CIcon icon={cilHospital} customClassName="nav-icon" />

@@ -4,6 +4,7 @@ const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 const Typography = React.lazy(() => import('./views/theme/typography/Typography'))
 
+const Specialties = React.lazy(() => import('./views/specialties/Specialties'))
 const Doctors = React.lazy(() => import('./views/doctors/Doctors'))
 const Patients = React.lazy(() => import('./views/patients/Patients'))
 
@@ -58,6 +59,7 @@ const routes = [
   { path: '/theme', name: 'Theme', component: Colors, exact: true },
   { path: '/theme/colors', name: 'Colors', component: Colors },
   { path: '/theme/typography', name: 'Typography', component: Typography },
+  { path: '/specialties', name: 'Specialties', component: Specialties },
   { path: '/doctors', name: 'Doctors', component: Doctors },
   { path: '/patients', name: 'Patients', component: Patients },
   { path: '/base', name: 'Base', component: Cards, exact: true },
