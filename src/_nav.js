@@ -6,6 +6,7 @@ import {
   cilChartPie,
   cilCursor,
   cilDrop,
+  cilHospital,
   cilNotes,
   cilPencil,
   cilPeople,
@@ -30,6 +31,12 @@ const _nav = [
     component: CNavItem,
     name: 'Doctors',
     to: '/doctors',
+    icon: <CIcon icon={cilHospital} customClassName="nav-icon" />
+  },
+  {
+    component: CNavItem,
+    name: 'Patients',
+    to: '/patients',
     icon: <CIcon icon={cilPeople} customClassName="nav-icon" />
   },
   {

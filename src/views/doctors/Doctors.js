@@ -110,7 +110,7 @@ export class Doctors extends Component {
                     <CRow>
                         <CCol xs="12" className="right-side mb-3">
                             <CTooltip content="Add a new doctor" placement="top">
-                                <CButton onClick={this.onAddDoctor}>
+                                <CButton onClick={this.onAddDoctor} style={{color: 'white'}}>
                                     <CIcon icon={cilMedicalCross} size="sm"/>
                                 </CButton>
                             </CTooltip>
