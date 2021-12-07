@@ -126,7 +126,7 @@ export class Patients extends Component {
                             patientSelected={patientSelected}
                             onSave={this.savePatient}
                             onClose={this.onClosePatient}
-                            />
+                        />
                         <Confirmation
                             type="patient"
                             mode={mode} 
