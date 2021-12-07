@@ -22,14 +22,7 @@ const AppSidebar = () => {
   const sidebarShow = useSelector((state) => state.changeState.sidebarShow)
 
   return (
-    <CSidebar
-      position="fixed"
-      unfoldable={unfoldable}
-      visible={sidebarShow}
-      onVisibleChange={(visible) => {
-        dispatch({ type: CHANGE_STATE, sidebarShow: visible })
-      }}
-    >
+    <CSidebar position="fixed" unfoldable={unfoldable} visible={sidebarShow} onVisibleChange={(visible) => { dispatch({ type: CHANGE_STATE, sidebarShow: visible })}}>
       <CSidebarBrand className="d-none d-md-flex" to="/">
         <CIcon className="sidebar-brand-full" icon={logoNegative} height={35} />
         <CIcon className="sidebar-brand-narrow" icon={sygnet} height={35} />
@@ -39,10 +32,7 @@ const AppSidebar = () => {
           <AppSidebarNav items={navigation} />
         </SimpleBar>
       </CSidebarNav>
-      <CSidebarToggler
-        className="d-none d-lg-flex"
-        onClick={() => dispatch({ type: CHANGE_STATE, sidebarUnfoldable: !unfoldable })}
-      />
+      <CSidebarToggler className="d-none d-lg-flex" onClick={() => dispatch({ type: CHANGE_STATE, sidebarUnfoldable: !unfoldable })}/>
     </CSidebar>
   )
 }
