@@ -3,6 +3,7 @@ import PersonModel from './PersonModel'
 import moment from 'moment';
 
 export default class PatientModel extends SimpleProperty {
+    _id = "";
     clinicHistoryId = "";
     code = "";
     allergies = "";

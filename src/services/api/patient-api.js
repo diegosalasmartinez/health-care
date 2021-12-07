@@ -11,6 +11,7 @@ const createPatient = async (patient) => {
 const updatePatient = async (patient) => {
     return await apiPost(`patients/${patient._id}`, patient);
 }
+
 const deletePatient = async (patient) => {
     return await apiPost(`patients/delete/${patient._id}`, patient);
 }
