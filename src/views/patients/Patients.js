@@ -126,6 +126,15 @@ export class Patients extends Component {
                             patientSelected={patientSelected}
                             onSave={this.savePatient}
                             onClose={this.onClosePatient}
+                            />
+                        <Confirmation
+                            type="patient"
+                            mode={mode} 
+                            body={patientSelected.code + " - " + patientSelected.personInfo.name + " " + patientSelected.personInfo.lastName}
+                            object={patientSelected}
+                            visible={showPatientModal} 
+                            onAccept={this.savePatient}
+                            onClose={this.onClosePatient}
                         />
                     </CRow>
                 }

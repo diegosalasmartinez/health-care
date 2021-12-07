@@ -128,9 +128,12 @@ export class Doctors extends Component {
                             onClose={this.onCloseDoctor}
                         />
                         <Confirmation
+                            type="doctor"
+                            mode={mode}
+                            body={doctorSelected.doctorInfo.code + " - " + doctorSelected.personInfo.name + " " + doctorSelected.personInfo.lastName}
+                            object={doctorSelected}
                             visible={showDoctorModal} 
-                            doctorSelected={doctorSelected}
-                            onDelete={this.saveDoctor}
+                            onAccept={this.saveDoctor}
                             onClose={this.onCloseDoctor}
                         />
                     </CRow>
