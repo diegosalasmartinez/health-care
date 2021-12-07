@@ -4,8 +4,11 @@ import {
     CButton,
     CCol,
     CRow,
-    CSpinner
+    CSpinner,
+    CTooltip
 } from '@coreui/react'
+import CIcon from '@coreui/icons-react'
+import { cilMedicalCross } from '@coreui/icons'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as doctorActions from '../../services/redux/actions/doctorActions'
@@ -16,6 +19,7 @@ import DoctorModel from '../../services/models/DoctorModel'
 import DoctorDetails from './DoctorDetails'
 import Notification from '../../components/common/Notification'
 import DoctorTable from './DoctorTable'
+import Confirmation from 'src/components/common/Confirmation'
 
 export class Doctors extends Component {
     constructor(props) {
@@ -24,6 +28,7 @@ export class Doctors extends Component {
             doctors: [],
             doctorSelected: new DoctorModel(),
             showDoctorOffcanvas: false,
+            showDoctorModal: false,
             mode: actionTypes.NONE,
             notifications: [],
             loaded: false,
@@ -46,29 +51,38 @@ export class Doctors extends Component {
         this.setState({showDoctorOffcanvas: true, mode: actionTypes.CREATE});
     }
     
+    onDeleteDoctor = (doctor) => {
+        this.setState({showDoctorModal: true, mode: actionTypes.DELETE, doctorSelected: {...doctor}});
+    }
+
     onUpdateDoctor = (doctor) => {
         this.setState({showDoctorOffcanvas: true, mode: actionTypes.UPDATE, doctorSelected: {...doctor}});
     }
 
     onCloseDoctor = () => {
-        this.setState({showDoctorOffcanvas: false, mode: actionTypes.NONE, doctorSelected: new DoctorModel()});
+        this.setState({showDoctorOffcanvas: false, showDoctorModal:false, mode: actionTypes.NONE, doctorSelected: new DoctorModel()});
     }
 
     saveDoctor = async (doctor) => {
         this.setState({loaded: false, failed: false});
         
+        let bodyMessage = "";
         if (this.state.mode === actionTypes.CREATE) {
             await this.props.createDoctor(doctor);
-        } else {
+            bodyMessage = "Doctor created";
+        } else if(this.state.mode === actionTypes.UPDATE) {
             await this.props.updateDoctor(doctor);
+            bodyMessage = "Doctor updated";
+        } else {
+            await this.props.deleteDoctor(doctor);
+            bodyMessage = "Doctor deleted";
         }
         const failed = this.props.doctor.failed;
         let newNotification;
         if (failed) {
             newNotification = new notification(colorTypes.DANGER, 'Error', this.props.doctor.error); 
         } else {
-            const titleMessage = this.state.mode === actionTypes.CREATE ? 'Doctor created' : 'Doctor updated';
-            newNotification = new notification(colorTypes.SUCCESS, 'Success', titleMessage);
+            newNotification = new notification(colorTypes.SUCCESS, 'Success', bodyMessage);
         }
         this.setState({
             loaded: true, 
@@ -82,7 +96,7 @@ export class Doctors extends Component {
     }
 
     render() {
-        const { doctors, loaded, failed, error, notifications, showDoctorOffcanvas, mode, doctorSelected } = this.state;
+        const { doctors, loaded, failed, error, notifications, showDoctorOffcanvas, showDoctorModal, mode, doctorSelected } = this.state;
 
         return (
             <>
@@ -95,17 +109,28 @@ export class Doctors extends Component {
                 { loaded && !failed && 
                     <CRow>
                         <CCol xs="12" className="right-side mb-3">
-                            <CButton onClick={this.onAddDoctor}>Add a doctor</CButton>
+                            <CTooltip content="Add a new doctor" placement="top">
+                                <CButton onClick={this.onAddDoctor} style={{color: 'white'}}>
+                                    <CIcon icon={cilMedicalCross} size="sm"/>
+                                </CButton>
+                            </CTooltip>
                         </CCol>
                         <DoctorTable 
                             doctors={doctors}
                             onUpdate={this.onUpdateDoctor}
+                            onDelete={this.onDeleteDoctor}
                         />
                         <DoctorDetails 
                             visible={showDoctorOffcanvas} 
                             mode={mode} 
                             doctorSelected={doctorSelected}
                             onSave={this.saveDoctor}
+                            onClose={this.onCloseDoctor}
+                        />
+                        <Confirmation
+                            visible={showDoctorModal} 
+                            doctorSelected={doctorSelected}
+                            onDelete={this.saveDoctor}
                             onClose={this.onCloseDoctor}
                         />
                     </CRow>

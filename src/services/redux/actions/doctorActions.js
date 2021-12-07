@@ -2,6 +2,7 @@ import {
     GET_DOCTORS,
     CREATE_DOCTOR,
     UPDATE_DOCTOR,
+    DELETE_DOCTOR,
     ERROR_DOCTOR
 } from './actionTypes/doctorActionTypes'
 import {
@@ -9,7 +10,8 @@ import {
 } from './../../api/doctor-api'
 import {
     createUser as createUserAPI,
-    updateUser as updateUserAPI
+    updateUser as updateUserAPI,
+    deleteUser as deleteUserAPI
 } from './../../api/user-api'
 
 const getDoctors = () => async (dispatch) => {
@@ -68,4 +70,21 @@ const updateDoctor = (doctor) => async (dispatch) => {
     })
 }
 
-export { getDoctors, createDoctor, updateDoctor }
+const deleteDoctor = (doctor) => async (dispatch) => {
+    let message = "There was a problem with the server. Sorry :("
+    try {
+        const res = await deleteUserAPI(doctor);
+        return dispatch({
+            type: DELETE_DOCTOR,
+            playload: doctor
+        })
+    } catch(e){
+        message = e.response.data.message;
+    }
+    return dispatch({
+        type: ERROR_DOCTOR,
+        playload: message
+    })
+}
+
+export { getDoctors, createDoctor, updateDoctor, deleteDoctor }
