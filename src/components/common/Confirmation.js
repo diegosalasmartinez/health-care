@@ -8,6 +8,7 @@ import {
     CModalTitle 
 } from '@coreui/react'
 import colorTypes from 'src/services/models/others/colorTypes';
+import actionTypes from 'src/services/models/others/actionTypes';
 
 export default class Confirmation extends Component {
     constructor(props) {
@@ -28,28 +29,68 @@ export default class Confirmation extends Component {
         this.props.onClose();
     }
 
-    onDelete = () => {
-        this.props.onDelete(this.props.doctorSelected);
+    onAccept = () => {
+        this.props.onAccept(this.props.object);
+    }
+
+    getConfirmationTitle = () => {
+        switch(this.props.mode) {
+            case actionTypes.CREATE:
+                return "Create " + this.props.type;
+            case actionTypes.DELETE:
+                return "Delete " + this.props.type;
+            case actionTypes.UPDATE:
+                return "Update " + this.props.type;
+            default:
+                return "";
+        }
+    }
+
+    getConfirmationMessage = () => {
+        switch(this.props.mode) {
+            case actionTypes.CREATE:
+                return "Are you sure you want to create a new " + this.props.type + "?";
+            case actionTypes.DELETE:
+                return "Are you sure you want to delete " + this.props.type + " " + this.props.body + "?";
+            case actionTypes.UPDATE:
+                return "Are you sure you want to update " + this.props.type + " " + this.props.body + "?";
+            default:
+                return "";
+        }
+    }
+
+    getConfirmationButton = () => {
+        switch(this.props.mode) {
+            case actionTypes.CREATE:
+                return "Create";
+            case actionTypes.DELETE:
+                return "Delete";
+            case actionTypes.UPDATE:
+                return "Update";
+            default:
+                return "";
+        }
     }
 
     render() {
         const { visible } = this.state;
-        const { doctorSelected } = this.props;
-        const doctorInfo = doctorSelected.doctorInfo.code + " - " + doctorSelected.personInfo.name + " " + doctorSelected.personInfo.lastName;
+        const title = this.getConfirmationTitle();
+        const message = this.getConfirmationMessage();
+        const button = this.getConfirmationButton();
 
         return (
             <CModal visible={visible} onClose={this.onClose}>
                 <CModalHeader>
-                    <CModalTitle>Delete doctor</CModalTitle>
+                    <CModalTitle>{title}</CModalTitle>
                 </CModalHeader>
                 <CModalBody>
-                    Are you sure you want to delete doctor {doctorInfo}?
+                    {message}
                 </CModalBody>
                 <CModalFooter>
                     <CButton color={colorTypes.LIGHT} onClick={this.onClose}>
-                    Close
+                        Close
                     </CButton>
-                    <CButton color={colorTypes.DANGER} onClick={this.onDelete}>Delete</CButton>
+                    <CButton color={colorTypes.DANGER} onClick={this.onAccept}>{button}</CButton>
                 </CModalFooter>
             </CModal>
         )
