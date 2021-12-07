@@ -131,7 +131,7 @@ export default class DoctorDetails extends Component {
                         </>
                     }
                     <CCol xs="12" className="right-side my-3">
-                        <CButton color={colorTypes.SECONDARY} style={{marginRight: "1rem"}} onClick={this.onClose}>Back</CButton>
+                        <CButton color={colorTypes.LIGHT} style={{marginRight: "1rem"}} onClick={this.onClose}>Back</CButton>
                         <CButton color={color} onClick={this.onSave}>{txtButton}</CButton>
                     </CCol>
                 </COffcanvasBody>
