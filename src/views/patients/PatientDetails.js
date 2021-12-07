@@ -101,6 +101,42 @@ export default class PatientDetails extends Component {
                             <CFormInput type="text" id="code" value={patient.code} onChange={this.onChange('code', false, false)}/>
                         </CCol>
                     </CRow>
+                    <CRow className="mb-3">
+                        <CFormLabel htmlFor="allergies" className="col-sm-4 col-form-label">Allergies</CFormLabel>
+                        <CCol sm={8}>
+                            <CFormInput type="text" id="allergies" value={patient.allergies} onChange={this.onChange('allergies', false, false)}/>
+                        </CCol>
+                    </CRow>
+                    <CRow className="mb-3">
+                        <CFormLabel htmlFor="address" className="col-sm-4 col-form-label">Address</CFormLabel>
+                        <CCol sm={8}>
+                            <CFormInput type="text" id="address" value={patient.address} onChange={this.onChange('address', false, false)}/>
+                        </CCol>
+                    </CRow>
+                    <CRow className="mb-3">
+                        <CFormLabel htmlFor="birthday" className="col-sm-4 col-form-label">Birthday</CFormLabel>
+                        <CCol sm={8}>
+                            <CFormInput type="text" id="birthday" value={patient.birthday} onChange={this.onChange('birthday', false, false)}/>
+                        </CCol>
+                    </CRow>
+                    <CRow className="mb-3">
+                        <CFormLabel htmlFor="occupation" className="col-sm-4 col-form-label">Occupation</CFormLabel>
+                        <CCol sm={8}>
+                            <CFormInput type="text" id="occupation" value={patient.occupation} onChange={this.onChange('occupation', false, false)}/>
+                        </CCol>
+                    </CRow>
+                    <CRow className="mb-3">
+                        <CFormLabel htmlFor="civilStatus" className="col-sm-4 col-form-label">Civil Status</CFormLabel>
+                        <CCol sm={8}>
+                            <CFormInput type="text" id="civilStatus" value={patient.civilStatus} onChange={this.onChange('civilStatus', false, false)}/>
+                        </CCol>
+                    </CRow>
+                    <CRow className="mb-3">
+                        <CFormLabel htmlFor="nationality" className="col-sm-4 col-form-label">Nationality</CFormLabel>
+                        <CCol sm={8}>
+                            <CFormInput type="text" id="nationality" value={patient.nationality} onChange={this.onChange('nationality', false, false)}/>
+                        </CCol>
+                    </CRow>
                     <CCol xs="12" className="right-side my-3">
                         <CButton color={colorTypes.LIGHT} style={{marginRight: "1rem"}} onClick={this.onClose}>Back</CButton>
                         <CButton color={color} onClick={this.onSave}>{txtButton}</CButton>
