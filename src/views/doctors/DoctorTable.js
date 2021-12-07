@@ -10,7 +10,8 @@ import {
     CTableDataCell,
     CTableHead,
     CTableHeaderCell,
-    CTableRow
+    CTableRow,
+    CTooltip
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilPencil, cilTrash } from '@coreui/icons'
@@ -31,9 +32,8 @@ export default class DoctorTable extends Component {
         return (
             <CCol xs="12">
                 <CCard>
-                    <CCardHeader>Doctors</CCardHeader>
                     <CCardBody>
-                        <CTable>
+                        <CTable responsive>
                             <CTableHead>
                                 <CTableRow>
                                     <CTableHeaderCell scope="col">Code</CTableHeaderCell>
@@ -49,7 +49,7 @@ export default class DoctorTable extends Component {
                             <CTableBody>
                                 { doctors.map(d => 
                                     <CTableRow key={d._id}>
-                                        <CTableHeaderCell scope="row">{d.doctorInfo.code}</CTableHeaderCell>
+                                        <CTableDataCell>{d.doctorInfo.code}</CTableDataCell>
                                         <CTableDataCell>{d.doctorInfo.CMP}</CTableDataCell>
                                         <CTableDataCell>{d.personInfo.name}</CTableDataCell>
                                         <CTableDataCell>{d.personInfo.lastName}</CTableDataCell>
@@ -57,12 +57,16 @@ export default class DoctorTable extends Component {
                                         <CTableDataCell>{d.personInfo.email}</CTableDataCell>
                                         <CTableDataCell>{d.personInfo.phone}</CTableDataCell>
                                         <CTableDataCell>
-                                            <CButton color={colorTypes.LIGHT} style={{marginRight: "1rem"}} onClick={() => this.onUpdate(d)}>
-                                                <CIcon icon={cilPencil} size="sm"/>
-                                            </CButton>
-                                            <CButton color={colorTypes.DANGER} onClick={() => this.onDelete(d)}>
-                                                <CIcon icon={cilTrash} size="sm"/>
-                                            </CButton>
+                                            <CTooltip content="Update" placement="top">
+                                                <CButton color={colorTypes.LIGHT} style={{marginRight: "1rem"}} onClick={() => this.onUpdate(d)}>
+                                                    <CIcon icon={cilPencil} size="sm"/>
+                                                </CButton>
+                                            </CTooltip>
+                                            <CTooltip content="Delete" placement="top">
+                                                <CButton color={colorTypes.DANGER} onClick={() => this.onDelete(d)}>
+                                                    <CIcon icon={cilTrash} size="sm"/>
+                                                </CButton>
+                                            </CTooltip>
                                         </CTableDataCell>
                                     </CTableRow>
                                 ) }

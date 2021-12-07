@@ -4,8 +4,11 @@ import {
     CButton,
     CCol,
     CRow,
-    CSpinner
+    CSpinner,
+    CTooltip
 } from '@coreui/react'
+import CIcon from '@coreui/icons-react'
+import { cilMedicalCross } from '@coreui/icons'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as doctorActions from '../../services/redux/actions/doctorActions'
@@ -106,7 +109,11 @@ export class Doctors extends Component {
                 { loaded && !failed && 
                     <CRow>
                         <CCol xs="12" className="right-side mb-3">
-                            <CButton onClick={this.onAddDoctor}>Add a doctor</CButton>
+                            <CTooltip content="Add a new doctor" placement="top">
+                                <CButton onClick={this.onAddDoctor}>
+                                    <CIcon icon={cilMedicalCross} size="sm"/>
+                                </CButton>
+                            </CTooltip>
                         </CCol>
                         <DoctorTable 
                             doctors={doctors}
