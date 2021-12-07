@@ -19,7 +19,7 @@ import DoctorModel from '../../services/models/DoctorModel'
 import DoctorDetails from './DoctorDetails'
 import Notification from '../../components/common/Notification'
 import DoctorTable from './DoctorTable'
-import Confirmation from 'src/components/common/Confirmation'
+import Confirmation from '../../components/common/Confirmation'
 
 export class Doctors extends Component {
     constructor(props) {

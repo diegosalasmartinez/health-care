@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { CButton, CCol, CFormInput, CFormLabel, COffcanvas, COffcanvasBody, COffcanvasHeader, COffcanvasTitle, CRow } from '@coreui/react'
-import actionTypes from 'src/services/models/others/actionTypes';
-import DoctorModel from 'src/services/models/DoctorModel';
-import colorTypes from 'src/services/models/others/colorTypes';
+import actionTypes from '../../services/models/others/actionTypes'
+import DoctorModel from '../../services/models/DoctorModel'
+import colorTypes from '../../services/models/others/colorTypes'
 
 export default class DoctorDetails extends Component {
     constructor(props) {

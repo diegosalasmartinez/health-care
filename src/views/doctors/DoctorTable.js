@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 import { 
     CButton,
     CCard, 
-    CCardBody, 
-    CCardHeader,
+    CCardBody,
     CCol,
     CTable,
     CTableBody,
