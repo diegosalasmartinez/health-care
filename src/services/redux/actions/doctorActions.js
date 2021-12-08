@@ -38,7 +38,7 @@ const createDoctor = (doctor) => async (dispatch) => {
         const res = await createUserAPI(doctor);
         let doctorResponse = {...res.user};
         doctorResponse.personInfo = {...res.personInfo};
-        doctorResponse.doctorInfo = {...res.doctorInfo};
+        doctorResponse.doctorInfo = {...res.doctorInfo, specialtyInfo: {...res.specialtyInfo}};
 
         return dispatch({
             type: CREATE_DOCTOR,
