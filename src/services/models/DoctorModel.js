@@ -1,10 +1,12 @@
 import UserModel from './UserModel'
+import SpecialtyModel from './SpecialtyModel'
 
 export default class DoctorModel extends UserModel {
     doctorInfo = {
         _id: "",
         code: "",
         CMP: "",
-        specialty: ""
+        specialtyId: "",
+        specialtyInfo: new SpecialtyModel()
     }
 }

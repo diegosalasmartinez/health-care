@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { CButton, CCol, CFormInput, CFormLabel, COffcanvas, COffcanvasBody, COffcanvasHeader, COffcanvasTitle, CRow } from '@coreui/react'
+import { CButton, CCol, CFormInput, CFormLabel, CFormSelect, COffcanvas, COffcanvasBody, COffcanvasHeader, COffcanvasTitle, CRow } from '@coreui/react'
 import actionTypes from '../../services/models/others/actionTypes'
 import DoctorModel from '../../services/models/DoctorModel'
 import colorTypes from '../../services/models/others/colorTypes'
@@ -46,7 +46,7 @@ export default class DoctorDetails extends Component {
 
     render() {
         const { visible, doctor } = this.state;
-        const { mode } = this.props;
+        const { mode, specialties } = this.props;
         const title = mode === actionTypes.CREATE ? "Add a new doctor" : "Update doctor";
         const txtButton = mode === actionTypes.CREATE ? "Register" : "Update";
         const color = mode === actionTypes.CREATE ? colorTypes.SUCCESS : colorTypes.WARNING;
@@ -110,7 +110,12 @@ export default class DoctorDetails extends Component {
                     <CRow className="mb-3">
                         <CFormLabel htmlFor="specialty" className="col-sm-4 col-form-label">Specialty</CFormLabel>
                         <CCol sm={8}>
-                            <CFormInput type="text" id="specialty" value={doctor.doctorInfo.specialty} onChange={this.onChange('doctorInfo.specialty', false, false)}/>
+                            <CFormSelect aria-label="specialty" value={doctor.doctorInfo.specialtyId} onChange={this.onChange('doctorInfo.specialtyId', false, false)}>
+                                <option>Select a specialty</option>
+                                { specialties.map(s => 
+                                    <option key={s._id} value={s._id}>{s.name}</option>
+                                ) }
+                            </CFormSelect>
                         </CCol>
                     </CRow>
                     { mode === actionTypes.CREATE && 
