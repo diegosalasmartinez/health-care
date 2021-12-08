@@ -96,6 +96,7 @@ export class Doctors extends Component {
     }
 
     render() {
+        const { specialties } = this.props;
         const { doctors, loaded, failed, error, notifications, showDoctorOffcanvas, showDoctorModal, mode, doctorSelected } = this.state;
 
         return (
@@ -124,6 +125,7 @@ export class Doctors extends Component {
                             visible={showDoctorOffcanvas} 
                             mode={mode} 
                             doctorSelected={doctorSelected}
+                            specialties={specialties}
                             onSave={this.saveDoctor}
                             onClose={this.onCloseDoctor}
                         />
@@ -150,7 +152,8 @@ export class Doctors extends Component {
 
 const mapStateToProps = state => {
     return {
-        doctor: state.doctor
+        doctor: state.doctor,
+        specialties: state.specialty.specialties
     }
 }
 

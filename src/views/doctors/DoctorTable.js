@@ -52,7 +52,7 @@ export default class DoctorTable extends Component {
                                         <CTableDataCell>{d.doctorInfo.CMP}</CTableDataCell>
                                         <CTableDataCell>{d.personInfo.name}</CTableDataCell>
                                         <CTableDataCell>{d.personInfo.lastName}</CTableDataCell>
-                                        <CTableDataCell>{d.doctorInfo.specialty}</CTableDataCell>
+                                        <CTableDataCell>{d.doctorInfo.specialtyInfo.name}</CTableDataCell>
                                         <CTableDataCell>{d.personInfo.email}</CTableDataCell>
                                         <CTableDataCell>{d.personInfo.phone}</CTableDataCell>
                                         <CTableDataCell>
