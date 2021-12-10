@@ -15,6 +15,7 @@ import {
 import CIcon from '@coreui/icons-react'
 import { cilPencil, cilTrash } from '@coreui/icons'
 import colorTypes from '../../services/models/others/colorTypes'
+import { userTypes } from 'src/utils/userUtils'
 
 export default class UserTable extends Component {
     onUpdate = (user) => {
@@ -40,6 +41,8 @@ export default class UserTable extends Component {
                                     <CTableHeaderCell scope="col">Last Name</CTableHeaderCell>
                                     <CTableHeaderCell scope="col">Email</CTableHeaderCell>
                                     <CTableHeaderCell scope="col">Phone</CTableHeaderCell>
+                                    <CTableHeaderCell scope="col">Sex</CTableHeaderCell>
+                                    <CTableHeaderCell scope="col">Role</CTableHeaderCell>
                                     <CTableHeaderCell scope="col">Actions</CTableHeaderCell>
                                 </CTableRow>
                             </CTableHead>
@@ -51,6 +54,8 @@ export default class UserTable extends Component {
                                         <CTableDataCell>{u.personInfo.lastName}</CTableDataCell>
                                         <CTableDataCell>{u.personInfo.email}</CTableDataCell>
                                         <CTableDataCell>{u.personInfo.phone}</CTableDataCell>
+                                        <CTableDataCell>{u.personInfo.sex}</CTableDataCell>
+                                        <CTableDataCell>{userTypes[u.role]}</CTableDataCell>
                                         <CTableDataCell>
                                             <CTooltip content="Update" placement="top">
                                                 <CButton color={colorTypes.LIGHT} style={{marginRight: "1rem"}} onClick={() => this.onUpdate(u)}>
