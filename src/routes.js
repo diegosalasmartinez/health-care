@@ -5,6 +5,7 @@ const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 const Specialties = React.lazy(() => import('./views/specialties/Specialties'))
 const Doctors = React.lazy(() => import('./views/doctors/Doctors'))
 const Patients = React.lazy(() => import('./views/patients/Patients'))
+const PatientDetails = React.lazy(() => import('./views/patients/PatientDetails'))
 const Users = React.lazy(() => import('./views/users/Users'))
 
 const routes = [
@@ -12,7 +13,8 @@ const routes = [
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
   { path: '/specialties', name: 'Specialties', component: Specialties },
   { path: '/doctors', name: 'Doctors', component: Doctors },
-  { path: '/patients', name: 'Patients', component: Patients },
+  { path: '/patients', name: 'Patients', component: Patients, exact: true },
+  { path: '/patients/create', name: 'Patient Details', component: PatientDetails },
   { path: '/users', name: 'Users', component: Users }
 ]
 

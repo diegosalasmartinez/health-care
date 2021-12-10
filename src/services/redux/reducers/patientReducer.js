@@ -3,11 +3,14 @@ import {
     CREATE_PATIENT,
     UPDATE_PATIENT,
     DELETE_PATIENT,
+    STAGE_PATIENT,
     ERROR_PATIENT
 } from '../actions/actionTypes/patientActionTypes'
+import PatientModel from './../../models/PatientModel';
 
 const initialState = {
     patients: [],
+    patientSelected: new PatientModel(),
     error: "",
     loaded: false,
     failed: false
@@ -25,6 +28,8 @@ const patient = (state = initialState, action) => {
         case DELETE_PATIENT:
             const patientsDeleted = state.patients.filter(d => d._id !== action.playload._id);
             return {...state, patients: [...patientsDeleted], error: "", loaded: true, failed: false};
+        case STAGE_PATIENT:
+            return {...state, patientSelected: {...action.playload}, error: "", loaded: true, failed: false};
         case ERROR_PATIENT:
             return {...state, error: action.playload, loaded: true, failed: true};
         default:
