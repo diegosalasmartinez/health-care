@@ -1,6 +1,6 @@
 import SimpleProperty from './SimpleProperty'
 
-export default class UserModel extends SimpleProperty {
+export default class PersonModel extends SimpleProperty {
     _id = "";
     DNI = "";
     name = "";

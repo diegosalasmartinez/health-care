@@ -15,18 +15,19 @@ import {
 import CIcon from '@coreui/icons-react'
 import { cilPencil, cilTrash } from '@coreui/icons'
 import colorTypes from '../../services/models/others/colorTypes'
+import { userTypes } from 'src/utils/userUtils'
 
-export default class DoctorTable extends Component {
-    onUpdate = (doctor) => {
-        this.props.onUpdate(doctor);
+export default class UserTable extends Component {
+    onUpdate = (user) => {
+        this.props.onUpdate(user);
     }
 
-    onDelete = (doctor) => {
-        this.props.onDelete(doctor);
+    onDelete = (user) => {
+        this.props.onDelete(user);
     }
 
     render() {
-        const { doctors } = this.props;
+        const { users } = this.props;
 
         return (
             <CCol xs="12">
@@ -35,36 +36,34 @@ export default class DoctorTable extends Component {
                         <CTable responsive>
                             <CTableHead>
                                 <CTableRow>
-                                    <CTableHeaderCell scope="col">Code</CTableHeaderCell>
-                                    <CTableHeaderCell scope="col">CMP</CTableHeaderCell>
+                                    <CTableHeaderCell scope="col">DNI</CTableHeaderCell>
                                     <CTableHeaderCell scope="col">Name</CTableHeaderCell>
                                     <CTableHeaderCell scope="col">Last Name</CTableHeaderCell>
-                                    <CTableHeaderCell scope="col">Specialty</CTableHeaderCell>
                                     <CTableHeaderCell scope="col">Email</CTableHeaderCell>
                                     <CTableHeaderCell scope="col">Phone</CTableHeaderCell>
                                     <CTableHeaderCell scope="col">Sex</CTableHeaderCell>
+                                    <CTableHeaderCell scope="col">Role</CTableHeaderCell>
                                     <CTableHeaderCell scope="col">Actions</CTableHeaderCell>
                                 </CTableRow>
                             </CTableHead>
                             <CTableBody>
-                                { doctors.map(d => 
-                                    <CTableRow key={d._id}>
-                                        <CTableDataCell>{d.doctorInfo.code}</CTableDataCell>
-                                        <CTableDataCell>{d.doctorInfo.CMP}</CTableDataCell>
-                                        <CTableDataCell>{d.personInfo.name}</CTableDataCell>
-                                        <CTableDataCell>{d.personInfo.lastName}</CTableDataCell>
-                                        <CTableDataCell>{d.doctorInfo.specialtyInfo.name}</CTableDataCell>
-                                        <CTableDataCell>{d.personInfo.email}</CTableDataCell>
-                                        <CTableDataCell>{d.personInfo.phone}</CTableDataCell>
-                                        <CTableDataCell>{d.personInfo.sex}</CTableDataCell>
+                                { users.map(u => 
+                                    <CTableRow key={u._id}>
+                                        <CTableDataCell>{u.personInfo.DNI}</CTableDataCell>
+                                        <CTableDataCell>{u.personInfo.name}</CTableDataCell>
+                                        <CTableDataCell>{u.personInfo.lastName}</CTableDataCell>
+                                        <CTableDataCell>{u.personInfo.email}</CTableDataCell>
+                                        <CTableDataCell>{u.personInfo.phone}</CTableDataCell>
+                                        <CTableDataCell>{u.personInfo.sex}</CTableDataCell>
+                                        <CTableDataCell>{userTypes[u.role]}</CTableDataCell>
                                         <CTableDataCell>
                                             <CTooltip content="Update" placement="top">
-                                                <CButton color={colorTypes.LIGHT} style={{marginRight: "1rem"}} onClick={() => this.onUpdate(d)}>
+                                                <CButton color={colorTypes.LIGHT} style={{marginRight: "1rem"}} onClick={() => this.onUpdate(u)}>
                                                     <CIcon icon={cilPencil} size="sm"/>
                                                 </CButton>
                                             </CTooltip>
                                             <CTooltip content="Delete" placement="top">
-                                                <CButton color={colorTypes.DANGER} onClick={() => this.onDelete(d)}>
+                                                <CButton color={colorTypes.DANGER} onClick={() => this.onDelete(u)}>
                                                     <CIcon icon={cilTrash} size="sm"/>
                                                 </CButton>
                                             </CTooltip>
