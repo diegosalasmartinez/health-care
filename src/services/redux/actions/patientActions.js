@@ -3,7 +3,8 @@ import {
     CREATE_PATIENT,
     UPDATE_PATIENT,
     DELETE_PATIENT,
-    ERROR_PATIENT
+    ERROR_PATIENT,
+    STAGE_PATIENT
 } from './actionTypes/patientActionTypes'
 import {
     getPatients as getPatientsAPI,
@@ -83,4 +84,11 @@ const deletePatient = (patient) => async (dispatch) => {
     })
 }
 
-export { getPatients, createPatient, updatePatient, deletePatient }
+const stagePatient = (patient) => async (dispatch) => {
+    return dispatch({
+        type: STAGE_PATIENT,
+        playload: patient
+    })
+}
+
+export { getPatients, createPatient, updatePatient, deletePatient, stagePatient }
