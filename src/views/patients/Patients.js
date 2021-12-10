@@ -19,7 +19,6 @@ import Notification from '../../components/common/Notification'
 import PatientTable from './PatientTable'
 import PatientModel from '../../services/models/PatientModel'
 import Confirmation from '../../components/common/Confirmation'
-import PatientDetails from './PatientDetails'
 
 export class Patients extends Component {
     constructor(props) {
@@ -27,7 +26,6 @@ export class Patients extends Component {
         this.state = {
             patients: [],
             patientSelected: new PatientModel(),
-            showPatientOffcanvas: false,
             showPatientModal: false,
             mode: actionTypes.NONE,
             notifications: [],
@@ -47,47 +45,39 @@ export class Patients extends Component {
         })
     }
 
-    onAddPatient = () => {
-        this.setState({showPatientOffcanvas: true, mode: actionTypes.CREATE});
+    onAddPatient = async () => {
+        await this.props.stagePatient(new PatientModel());
+        this.props.history.push("/patients/create");
     }
     
     onDeletePatient = (patient) => {
         this.setState({showPatientModal: true, mode: actionTypes.DELETE, patientSelected: {...patient}});
     }
-
-    onUpdatePatient = (patient) => {
-        this.setState({showPatientOffcanvas: true, mode: actionTypes.UPDATE, patientSelected: {...patient}});
+    
+    onUpdatePatient = async (patient) => {
+        await this.props.stagePatient(patient);
+        this.props.history.push("/patients/create");
     }
 
     onClosePatient = () => {
-        this.setState({showPatientOffcanvas: false, showPatientModal:false, mode: actionTypes.NONE, patientSelected: new PatientModel()});
+        this.setState({showPatientModal:false, mode: actionTypes.NONE, patientSelected: new PatientModel()});
     }
 
-    savePatient = async (patient) => {
+    deletePatient = async (patient) => {
         this.setState({loaded: false, failed: false});
         
-        let bodyMessage = "";
-        if (this.state.mode === actionTypes.CREATE) {
-            await this.props.createPatient(patient);
-            bodyMessage = "Patient created";
-        } else if(this.state.mode === actionTypes.UPDATE) {
-            await this.props.updatePatient(patient);
-            bodyMessage = "Patient updated";
-        } else {
-            await this.props.deletePatient(patient);
-            bodyMessage = "Patient deleted";
-        }
+        await this.props.deletePatient(patient);
+        
         const failed = this.props.patient.failed;
         let newNotification;
         if (failed) {
             newNotification = new notification(colorTypes.DANGER, 'Error', this.props.patient.error); 
         } else {
-            newNotification = new notification(colorTypes.SUCCESS, 'Success', bodyMessage);
+            newNotification = new notification(colorTypes.SUCCESS, 'Success', "Patient deleted");
         }
         this.setState({
             loaded: true, 
             failed: false, 
-            showPatientOffcanvas: false,
             mode: actionTypes.NONE, 
             patientSelected: new PatientModel(),
             patients: [...this.props.patient.patients],
@@ -96,7 +86,7 @@ export class Patients extends Component {
     }
 
     render() {
-        const { patients, loaded, failed, error, notifications, showPatientOffcanvas, showPatientModal, mode, patientSelected } = this.state;
+        const { patients, loaded, failed, error, notifications, showPatientModal, mode, patientSelected } = this.state;
 
         return (
             <>
@@ -120,20 +110,13 @@ export class Patients extends Component {
                             onUpdate={this.onUpdatePatient}
                             onDelete={this.onDeletePatient}
                         />
-                        <PatientDetails
-                            visible={showPatientOffcanvas} 
-                            mode={mode} 
-                            patientSelected={patientSelected}
-                            onSave={this.savePatient}
-                            onClose={this.onClosePatient}
-                        />
                         <Confirmation
                             type="patient"
                             mode={mode} 
                             body={patientSelected.code + " - " + patientSelected.personInfo.name + " " + patientSelected.personInfo.lastName}
                             object={patientSelected}
                             visible={showPatientModal} 
-                            onAccept={this.savePatient}
+                            onAccept={this.deletePatient}
                             onClose={this.onClosePatient}
                         />
                     </CRow>
