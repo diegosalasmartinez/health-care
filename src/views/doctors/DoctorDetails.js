@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { CButton, CCol, CFormInput, CFormLabel, CFormSelect, COffcanvas, COffcanvasBody, COffcanvasHeader, COffcanvasTitle, CRow } from '@coreui/react'
+import { CButton, CCol, CFormCheck, CFormInput, CFormLabel, CFormSelect, COffcanvas, COffcanvasBody, COffcanvasHeader, COffcanvasTitle, CRow } from '@coreui/react'
 import actionTypes from '../../services/models/others/actionTypes'
 import DoctorModel from '../../services/models/DoctorModel'
 import colorTypes from '../../services/models/others/colorTypes'
@@ -91,7 +91,8 @@ export default class DoctorDetails extends Component {
                     <CRow className="mb-3">
                         <CFormLabel htmlFor="sex" className="col-sm-4 col-form-label">Sex</CFormLabel>
                         <CCol sm={8}>
-                            <CFormInput type="text" id="sex" value={doctor.personInfo.sex} onChange={this.onChange('personInfo.sex', false, false)}/>
+                            <CFormCheck inline type="radio" name="inlineRadioOptions" id="inlineCheckbox1" checked={doctor.personInfo.sex === "F"} value="F" label="F" onChange={this.onChange('personInfo.sex', false, false)}/>
+                            <CFormCheck inline type="radio" name="inlineRadioOptions" id="inlineCheckbox2" checked={doctor.personInfo.sex === "M"} value="M" label="M" onChange={this.onChange('personInfo.sex', false, false)}/>
                         </CCol>
                     </CRow>
                     <CFormLabel className="col-sm-12 my-3" style={{fontWeight: 500}}>Professional Information</CFormLabel>

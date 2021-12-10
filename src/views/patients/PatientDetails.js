@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { CButton, CCol, CFormInput, CFormLabel, COffcanvas, COffcanvasBody, COffcanvasHeader, COffcanvasTitle, CRow } from '@coreui/react'
+import { CButton, CCol, CFormCheck, CFormInput, CFormLabel, COffcanvas, COffcanvasBody, COffcanvasHeader, COffcanvasTitle, CRow } from '@coreui/react'
 import DatePicker from 'react-date-picker'
 import actionTypes from '../../services/models/others/actionTypes'
 import PatientModel from '../../services/models/PatientModel'
@@ -93,7 +93,8 @@ export default class PatientDetails extends Component {
                     <CRow className="mb-3">
                         <CFormLabel htmlFor="sex" className="col-sm-4 col-form-label">Sex</CFormLabel>
                         <CCol sm={8}>
-                            <CFormInput type="text" id="sex" value={patient.personInfo.sex} onChange={this.onChange('personInfo.sex', false, false)}/>
+                            <CFormCheck inline type="radio" name="inlineRadioOptions" id="inlineCheckbox1" checked={patient.personInfo.sex === "F"} value="F" label="F" onChange={this.onChange('personInfo.sex', false, false)}/>
+                            <CFormCheck inline type="radio" name="inlineRadioOptions" id="inlineCheckbox2" checked={patient.personInfo.sex === "M"} value="M" label="M" onChange={this.onChange('personInfo.sex', false, false)}/>
                         </CCol>
                     </CRow>
                     <CFormLabel className="col-sm-12 my-3" style={{fontWeight: 500}}>Extra Information</CFormLabel>

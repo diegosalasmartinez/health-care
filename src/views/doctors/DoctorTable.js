@@ -42,6 +42,7 @@ export default class DoctorTable extends Component {
                                     <CTableHeaderCell scope="col">Specialty</CTableHeaderCell>
                                     <CTableHeaderCell scope="col">Email</CTableHeaderCell>
                                     <CTableHeaderCell scope="col">Phone</CTableHeaderCell>
+                                    <CTableHeaderCell scope="col">Sex</CTableHeaderCell>
                                     <CTableHeaderCell scope="col">Actions</CTableHeaderCell>
                                 </CTableRow>
                             </CTableHead>
@@ -55,6 +56,7 @@ export default class DoctorTable extends Component {
                                         <CTableDataCell>{d.doctorInfo.specialtyInfo.name}</CTableDataCell>
                                         <CTableDataCell>{d.personInfo.email}</CTableDataCell>
                                         <CTableDataCell>{d.personInfo.phone}</CTableDataCell>
+                                        <CTableDataCell>{d.personInfo.sex}</CTableDataCell>
                                         <CTableDataCell>
                                             <CTooltip content="Update" placement="top">
                                                 <CButton color={colorTypes.LIGHT} style={{marginRight: "1rem"}} onClick={() => this.onUpdate(d)}>
