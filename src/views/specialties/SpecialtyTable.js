@@ -45,7 +45,7 @@ export default class SpecialtyTable extends Component {
                                     <CTableRow key={s._id}>
                                         <CTableDataCell>{s.code}</CTableDataCell>
                                         <CTableDataCell>{s.name}</CTableDataCell>
-                                        <CTableDataCell>
+                                        <CTableDataCell style={{width: '150px'}}>
                                             <CTooltip content="Update" placement="top">
                                                 <CButton color={colorTypes.LIGHT} style={{marginRight: "1rem"}} onClick={() => this.onUpdate(s)}>
                                                     <CIcon icon={cilPencil} size="sm"/>

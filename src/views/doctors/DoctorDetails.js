@@ -90,7 +90,7 @@ export default class DoctorDetails extends Component {
                     </CRow>
                     <CRow className="mb-3">
                         <CFormLabel htmlFor="sex" className="col-sm-4 col-form-label">Sex</CFormLabel>
-                        <CCol sm={8}>
+                        <CCol sm={8} style={{display: 'flex', alignItems: 'center'}}>
                             <CFormCheck inline type="radio" name="inlineRadioOptions" id="inlineCheckbox1" checked={doctor.personInfo.sex === "F"} value="F" label="F" onChange={this.onChange('personInfo.sex', false, false)}/>
                             <CFormCheck inline type="radio" name="inlineRadioOptions" id="inlineCheckbox2" checked={doctor.personInfo.sex === "M"} value="M" label="M" onChange={this.onChange('personInfo.sex', false, false)}/>
                         </CCol>
