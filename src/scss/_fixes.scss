@@ -1,0 +1,36 @@
+.react-date-picker, 
+.react-time-picker{
+    display: block;
+    width: 100%;
+}
+.react-date-picker__wrapper, 
+.react-time-picker__wrapper{
+    height: calc(1.5em + 0.75rem + 2px);
+    padding: 0.375rem 0.75rem;
+    line-height: 1.5;
+    background-clip: padding-box;
+    border: 1px solid;
+    background-color: #fff;
+    border-color: #d8dbe0;
+    border-radius: 0.25rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    
+    .react-date-picker__inputGroup, 
+    .react-time-picker__inputGroup{
+        color: #768192;
+    }
+    
+    .react-date-picker__inputGroup__day,
+    .react-date-picker__inputGroup__month,
+    .react-date-picker__inputGroup__year,
+    .react-time-picker__inputGroup__hour,
+    .react-time-picker__inputGroup__minute,
+    .react-time-picker__inputGroup__second,
+    .react-time-picker__inputGroup__amPm{
+        color: #768192;
+    }
+
+    &:focus{
+        border-color: #958bef;
+    }
+}
