@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { apiUrl } from '../config/api-url'
+// import { store } from '../redux/store'
 
 export function generateUrl(path) {
 	return apiUrl + '/' + path;
