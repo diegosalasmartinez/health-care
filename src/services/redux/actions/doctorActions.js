@@ -23,7 +23,9 @@ const getDoctors = () => async (dispatch) => {
             playload: res
         })
     } catch(e){
-        message = e.response.data.message;
+        if (e.response && e.response.data && e.response.data.message) {
+            message = e.response.data.message;
+        }
     }
     return dispatch({
         type: ERROR_DOCTOR,
@@ -45,7 +47,9 @@ const createDoctor = (doctor) => async (dispatch) => {
             playload: doctorResponse
         })
     } catch(e){
-        message = e.response.data.message;
+        if (e.response && e.response.data && e.response.data.message) {
+            message = e.response.data.message;
+        }
     }
     return dispatch({
         type: ERROR_DOCTOR,
@@ -62,7 +66,9 @@ const updateDoctor = (doctor) => async (dispatch) => {
             playload: doctor
         })
     } catch(e){
-        message = e.response.data.message;
+        if (e.response && e.response.data && e.response.data.message) {
+            message = e.response.data.message;
+        }
     }
     return dispatch({
         type: ERROR_DOCTOR,
@@ -79,7 +85,9 @@ const deleteDoctor = (doctor) => async (dispatch) => {
             playload: doctor
         })
     } catch(e){
-        message = e.response.data.message;
+        if (e.response && e.response.data && e.response.data.message) {
+            message = e.response.data.message;
+        }
     }
     return dispatch({
         type: ERROR_DOCTOR,

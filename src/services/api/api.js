@@ -1,5 +1,9 @@
 import axios from 'axios'
-import { apiUrl } from '../config/api-url'
+// import { store } from '../redux/store'
+import dotenv from 'dotenv'
+dotenv.config();
+
+const apiUrl = process.env.REACT_APP_SERVER_URL;
 
 export function generateUrl(path) {
 	return apiUrl + '/' + path;

@@ -101,7 +101,7 @@ export class Specialties extends Component {
         return (
             <>
                 { failed && 
-                    <CAlert variant={colorTypes.DANGER}>{error}</CAlert>
+                    <CAlert color={colorTypes.DANGER}>{error}</CAlert>
                 }
                 { notifications.map((notification, index) => 
                     <Notification key={index} mode={notification.mode} title={notification.title} body={notification.body}></Notification>

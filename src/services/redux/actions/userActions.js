@@ -21,7 +21,9 @@ const getUsers = () => async (dispatch) => {
             playload: res
         })
     } catch(e){
-        message = e.response.data.message;
+        if (e.response && e.response.data && e.response.data.message) {
+            message = e.response.data.message;
+        }
     }
     return dispatch({
         type: ERROR_USER,
@@ -41,7 +43,9 @@ const createUser = (user) => async (dispatch) => {
             playload: userResponse
         })
     } catch(e){
-        message = e.response.data.message;
+        if (e.response && e.response.data && e.response.data.message) {
+            message = e.response.data.message;
+        }
     }
     return dispatch({
         type: ERROR_USER,
@@ -58,7 +62,9 @@ const updateUser = (user) => async (dispatch) => {
             playload: user
         })
     } catch(e){
-        message = e.response.data.message;
+        if (e.response && e.response.data && e.response.data.message) {
+            message = e.response.data.message;
+        }
     }
     return dispatch({
         type: ERROR_USER,
@@ -75,7 +81,9 @@ const deleteUser = (user) => async (dispatch) => {
             playload: user
         })
     } catch(e){
-        message = e.response.data.message;
+        if (e.response && e.response.data && e.response.data.message) {
+            message = e.response.data.message;
+        }
     }
     return dispatch({
         type: ERROR_USER,

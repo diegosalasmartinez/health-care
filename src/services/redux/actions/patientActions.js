@@ -22,7 +22,9 @@ const getPatients = () => async (dispatch) => {
             playload: res
         })
     } catch(e){
-        message = e.response.data.message;
+        if (e.response && e.response.data && e.response.data.message) {
+            message = e.response.data.message;
+        }
     }
     return dispatch({
         type: ERROR_PATIENT,
@@ -42,7 +44,9 @@ const createPatient = (patient) => async (dispatch) => {
             playload: patientResponse
         })
     } catch(e){
-        message = e.response.data.message;
+        if (e.response && e.response.data && e.response.data.message) {
+            message = e.response.data.message;
+        }
     }
     return dispatch({
         type: ERROR_PATIENT,
@@ -59,7 +63,9 @@ const updatePatient = (patient) => async (dispatch) => {
             playload: patient
         })
     } catch(e){
-        message = e.response.data.message;
+        if (e.response && e.response.data && e.response.data.message) {
+            message = e.response.data.message;
+        }
     }
     return dispatch({
         type: ERROR_PATIENT,
@@ -76,7 +82,9 @@ const deletePatient = (patient) => async (dispatch) => {
             playload: patient
         })
     } catch(e){
-        message = e.response.data.message;
+        if (e.response && e.response.data && e.response.data.message) {
+            message = e.response.data.message;
+        }
     }
     return dispatch({
         type: ERROR_PATIENT,

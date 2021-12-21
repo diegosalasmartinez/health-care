@@ -21,7 +21,9 @@ const getSpecialties = () => async (dispatch) => {
             playload: res
         })
     } catch(e){
-        message = e.response.data.message;
+        if (e.response && e.response.data && e.response.data.message) {
+            message = e.response.data.message;
+        }
     }
     return dispatch({
         type: ERROR_SPECIALTY,
@@ -39,7 +41,9 @@ const createSpecialty = (specialty) => async (dispatch) => {
             playload: res
         })
     } catch(e){
-        message = e.response.data.message;
+        if (e.response && e.response.data && e.response.data.message) {
+            message = e.response.data.message;
+        }
     }
     return dispatch({
         type: ERROR_SPECIALTY,
@@ -56,7 +60,9 @@ const updateSpecialty = (specialty) => async (dispatch) => {
             playload: specialty
         })
     } catch(e){
-        message = e.response.data.message;
+        if (e.response && e.response.data && e.response.data.message) {
+            message = e.response.data.message;
+        }
     }
     return dispatch({
         type: ERROR_SPECIALTY,
@@ -73,7 +79,9 @@ const deleteSpecialty = (specialty) => async (dispatch) => {
             playload: specialty
         })
     } catch(e){
-        message = e.response.data.message;
+        if (e.response && e.response.data && e.response.data.message) {
+            message = e.response.data.message;
+        }
     }
     return dispatch({
         type: ERROR_SPECIALTY,
