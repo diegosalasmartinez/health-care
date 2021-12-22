@@ -7,7 +7,7 @@ export default class PersonModel extends SimpleProperty {
     lastName = "";
     email = "";
     phone = "";
-    sex = "";
+    sex = "F";
     createdAt = "";
     updatedAt = "";
 }
