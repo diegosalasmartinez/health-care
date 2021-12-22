@@ -1,15 +1,18 @@
 import React, { Component } from 'react'
 import { CButton, CCol, CFormInput, CFormLabel, COffcanvas, COffcanvasBody, COffcanvasHeader, COffcanvasTitle, CRow } from '@coreui/react'
 import actionTypes from '../../services/models/others/actionTypes'
-import SpecialtyModel from '../../services/models/SpecialtyModel'
+import SpecialtyModel, { validate } from '../../services/models/SpecialtyModel'
 import colorTypes from '../../services/models/others/colorTypes'
+import { objIsNull } from '../../utils/utils'
 
 export default class SpecialtyDetails extends Component {
     constructor(props) {
         super(props);
         this.state = {
             visible: false,
-            specialty: new SpecialtyModel()
+            firstTime: true,
+            specialty: new SpecialtyModel(),
+            errors: {}
         }
     }
 
@@ -36,7 +39,12 @@ export default class SpecialtyDetails extends Component {
     }
     
     onSave = () => {
-        this.props.onSave(this.state.specialty);
+        this.setState({firstTime: false});
+        const errors = validate(this.state.specialty);
+        if (objIsNull(errors)) {
+            this.props.onSave(this.state.specialty);
+        }
+        this.setState({errors: errors});
     }
 
     onClose = () => {
@@ -45,7 +53,7 @@ export default class SpecialtyDetails extends Component {
     }
 
     render() {
-        const { visible, specialty } = this.state;
+        const { visible, specialty, errors, firstTime } = this.state;
         const { mode } = this.props;
         const title = mode === actionTypes.CREATE ? "Add a new specialty" : "Update specialty";
         const txtButton = mode === actionTypes.CREATE ? "Register" : "Update";
@@ -60,13 +68,13 @@ export default class SpecialtyDetails extends Component {
                     <CRow className="mb-3">
                         <CFormLabel htmlFor="code" className="col-sm-4 col-form-label">Code</CFormLabel>
                         <CCol sm={8}>
-                            <CFormInput type="text" id="code" value={specialty.code} onChange={this.onChange('code', false, false)}/>
+                            <CFormInput type="text" id="code" value={specialty.code} onChange={this.onChange('code', false, false)} invalid={!firstTime && errors.code !== null}/>
                         </CCol>
                     </CRow>
                     <CRow className="mb-3">
                         <CFormLabel htmlFor="name" className="col-sm-4 col-form-label">Name</CFormLabel>
                         <CCol sm={8}>
-                            <CFormInput type="text" id="name" value={specialty.name} onChange={this.onChange('name', false, false)}/>
+                            <CFormInput type="text" id="name" value={specialty.name} onChange={this.onChange('name', false, false)} invalid={!firstTime && errors.name !== null}/>
                         </CCol>
                     </CRow>
                     <CCol xs="12" className="right-side my-3">

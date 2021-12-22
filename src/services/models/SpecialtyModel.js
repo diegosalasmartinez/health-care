@@ -6,3 +6,21 @@ export default class SpecialtyModel extends SimpleProperty {
     name = "";
     active = true;
 }
+
+const validate = (specialty) => {
+    let errors = {
+        code: null,
+        name: null
+    }
+
+    if (!specialty.code) {
+        errors.code = "Code is mandatory";
+    }
+    if (!specialty.name) {
+        errors.name = "Name is mandatory";
+    }
+
+    return errors;
+}
+
+export { validate }
