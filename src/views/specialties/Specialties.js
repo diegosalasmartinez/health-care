@@ -27,8 +27,8 @@ export class Specialties extends Component {
         this.state = {
             specialties: [],
             specialtySelected: new SpecialtyModel(),
-            showSpecialtyOffcanvas: false,
-            showSpecialtyModal: false,
+            showOffcanvas: false,
+            showConfirmationModal: false,
             mode: actionTypes.NONE,
             notifications: [],
             loaded: false,
@@ -47,23 +47,27 @@ export class Specialties extends Component {
         })
     }
 
-    onAddSpecialty = () => {
-        this.setState({showSpecialtyOffcanvas: true, mode: actionTypes.CREATE});
+    onAdd = () => {
+        this.setState({showOffcanvas: true, mode: actionTypes.CREATE});
     }
     
-    onDeleteSpecialty = (specialty) => {
-        this.setState({showSpecialtyModal: true, mode: actionTypes.DELETE, specialtySelected: {...specialty}});
+    onDelete = (specialty) => {
+        this.setState({showConfirmationModal: true, mode: actionTypes.DELETE, specialtySelected: {...specialty}});
     }
 
-    onUpdateSpecialty = (specialty) => {
-        this.setState({showSpecialtyOffcanvas: true, mode: actionTypes.UPDATE, specialtySelected: {...specialty}});
+    onUpdate = (specialty) => {
+        this.setState({showOffcanvas: true, mode: actionTypes.UPDATE, specialtySelected: {...specialty}});
     }
 
-    onCloseSpecialty = () => {
-        this.setState({showSpecialtyOffcanvas: false, showSpecialtyModal:false, mode: actionTypes.NONE, specialtySelected: new SpecialtyModel()});
+    onAccept = (specialty) => {
+        this.setState({showConfirmationModal: true, mode: this.state.mode, specialtySelected: {...specialty}});
     }
 
-    saveSpecialty = async (specialty) => {
+    onClose = () => {
+        this.setState({showOffcanvas: false, showConfirmationModal:false, mode: actionTypes.NONE, specialtySelected: new SpecialtyModel()});
+    }
+
+    onSave = async (specialty) => {
         this.setState({loaded: false, failed: false});
         
         let bodyMessage = "";
@@ -87,7 +91,8 @@ export class Specialties extends Component {
         this.setState({
             loaded: true, 
             failed: false, 
-            showSpecialtyOffcanvas: false,
+            showOffcanvas: false,
+            showConfirmationModal: false,
             mode: actionTypes.NONE, 
             specialtySelected: new SpecialtyModel(),
             specialties: [...this.props.specialty.specialties],
@@ -96,7 +101,7 @@ export class Specialties extends Component {
     }
 
     render() {
-        const { specialties, loaded, failed, error, notifications, showSpecialtyOffcanvas, showSpecialtyModal, mode, specialtySelected } = this.state;
+        const { specialties, loaded, failed, error, notifications, showOffcanvas, showConfirmationModal, mode, specialtySelected } = this.state;
 
         return (
             <>
@@ -110,31 +115,31 @@ export class Specialties extends Component {
                     <CRow>
                         <CCol xs="12" className="right-side mb-3">
                             <CTooltip content="Add a new specialty" placement="top">
-                                <CButton onClick={this.onAddSpecialty} style={{color: 'white'}}>
+                                <CButton onClick={this.onAdd} style={{color: 'white'}}>
                                     <CIcon icon={cilMedicalCross} size="sm"/>
                                 </CButton>
                             </CTooltip>
                         </CCol>
                         <SpecialtyTable
                             specialties={specialties}
-                            onUpdate={this.onUpdateSpecialty}
-                            onDelete={this.onDeleteSpecialty}
+                            onUpdate={this.onUpdate}
+                            onDelete={this.onDelete}
                         />
                         <SpecialtyDetails
-                            visible={showSpecialtyOffcanvas} 
+                            visible={showOffcanvas} 
                             mode={mode} 
                             specialtySelected={specialtySelected}
-                            onSave={this.saveSpecialty}
-                            onClose={this.onCloseSpecialty}
+                            onSave={this.onAccept}
+                            onClose={this.onClose}
                         />
                         <Confirmation
                             type="specialty"
                             mode={mode} 
                             body={specialtySelected.code + " - " + specialtySelected.name}
                             object={specialtySelected}
-                            visible={showSpecialtyModal} 
-                            onAccept={this.saveSpecialty}
-                            onClose={this.onCloseSpecialty}
+                            visible={showConfirmationModal} 
+                            onAccept={this.onSave}
+                            onClose={this.onClose}
                         />
                     </CRow>
                 }

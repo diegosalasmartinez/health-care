@@ -27,8 +27,8 @@ export class Doctors extends Component {
         this.state = {
             doctors: [],
             doctorSelected: new DoctorModel(),
-            showDoctorOffcanvas: false,
-            showDoctorModal: false,
+            showOffcanvas: false,
+            showConfirmationModal: false,
             mode: actionTypes.NONE,
             notifications: [],
             loaded: false,
@@ -47,23 +47,27 @@ export class Doctors extends Component {
         })
     }
 
-    onAddDoctor = () => {
-        this.setState({showDoctorOffcanvas: true, mode: actionTypes.CREATE});
+    onAdd = () => {
+        this.setState({showOffcanvas: true, mode: actionTypes.CREATE});
     }
     
-    onDeleteDoctor = (doctor) => {
-        this.setState({showDoctorModal: true, mode: actionTypes.DELETE, doctorSelected: {...doctor}});
+    onDelete = (doctor) => {
+        this.setState({showConfirmationModal: true, mode: actionTypes.DELETE, doctorSelected: {...doctor}});
     }
 
-    onUpdateDoctor = (doctor) => {
-        this.setState({showDoctorOffcanvas: true, mode: actionTypes.UPDATE, doctorSelected: {...doctor}});
+    onUpdate = (doctor) => {
+        this.setState({showOffcanvas: true, mode: actionTypes.UPDATE, doctorSelected: {...doctor}});
     }
 
-    onCloseDoctor = () => {
-        this.setState({showDoctorOffcanvas: false, showDoctorModal:false, mode: actionTypes.NONE, doctorSelected: new DoctorModel()});
+    onAccept = (doctor) => {
+        this.setState({showConfirmationModal: true, mode: this.state.mode, doctorSelected: {...doctor}});
     }
 
-    saveDoctor = async (doctor) => {
+    onClose = () => {
+        this.setState({showOffcanvas: false, showConfirmationModal:false, mode: actionTypes.NONE, doctorSelected: new DoctorModel()});
+    }
+
+    onSave = async (doctor) => {
         this.setState({loaded: false, failed: false});
         
         let bodyMessage = "";
@@ -87,7 +91,8 @@ export class Doctors extends Component {
         this.setState({
             loaded: true, 
             failed: false, 
-            showDoctorOffcanvas: false,
+            showOffcanvas: false,
+            showConfirmationModal: false,
             mode: actionTypes.NONE, 
             doctorSelected: new DoctorModel(),
             doctors: [...this.props.doctor.doctors],
@@ -97,7 +102,7 @@ export class Doctors extends Component {
 
     render() {
         const { specialties } = this.props;
-        const { doctors, loaded, failed, error, notifications, showDoctorOffcanvas, showDoctorModal, mode, doctorSelected } = this.state;
+        const { doctors, loaded, failed, error, notifications, showOffcanvas, showConfirmationModal, mode, doctorSelected } = this.state;
 
         return (
             <>
@@ -111,32 +116,32 @@ export class Doctors extends Component {
                     <CRow>
                         <CCol xs="12" className="right-side mb-3">
                             <CTooltip content="Add a new doctor" placement="top">
-                                <CButton onClick={this.onAddDoctor} style={{color: 'white'}}>
+                                <CButton onClick={this.onAdd} style={{color: 'white'}}>
                                     <CIcon icon={cilMedicalCross} size="sm"/>
                                 </CButton>
                             </CTooltip>
                         </CCol>
                         <DoctorTable 
                             doctors={doctors}
-                            onUpdate={this.onUpdateDoctor}
-                            onDelete={this.onDeleteDoctor}
+                            onUpdate={this.onUpdate}
+                            onDelete={this.onDelete}
                         />
                         <DoctorDetails 
-                            visible={showDoctorOffcanvas} 
+                            visible={showOffcanvas} 
                             mode={mode} 
                             doctorSelected={doctorSelected}
                             specialties={specialties}
-                            onSave={this.saveDoctor}
-                            onClose={this.onCloseDoctor}
+                            onSave={this.onAccept}
+                            onClose={this.onClose}
                         />
                         <Confirmation
                             type="doctor"
                             mode={mode}
                             body={doctorSelected.doctorInfo.code + " - " + doctorSelected.personInfo.name + " " + doctorSelected.personInfo.lastName}
                             object={doctorSelected}
-                            visible={showDoctorModal} 
-                            onAccept={this.saveDoctor}
-                            onClose={this.onCloseDoctor}
+                            visible={showConfirmationModal} 
+                            onAccept={this.onSave}
+                            onClose={this.onClose}
                         />
                     </CRow>
                 }

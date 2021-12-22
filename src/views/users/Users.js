@@ -27,8 +27,8 @@ export class Users extends Component {
         this.state = {
             users: [],
             userSelected: new UserModel(),
-            showUserOffcanvas: false,
-            showUserModal: false,
+            showOffcanvas: false,
+            showConfirmationModal: false,
             mode: actionTypes.NONE,
             notifications: [],
             loaded: false,
@@ -47,23 +47,27 @@ export class Users extends Component {
         })
     }
 
-    onAddUser = () => {
-        this.setState({showUserOffcanvas: true, mode: actionTypes.CREATE});
+    onAdd = () => {
+        this.setState({showOffcanvas: true, mode: actionTypes.CREATE});
     }
     
-    onDeleteUser = (user) => {
-        this.setState({showUserModal: true, mode: actionTypes.DELETE, userSelected: {...user}});
+    onDelete = (user) => {
+        this.setState({showConfirmationModal: true, mode: actionTypes.DELETE, userSelected: {...user}});
     }
 
-    onUpdateUser = (user) => {
-        this.setState({showUserOffcanvas: true, mode: actionTypes.UPDATE, userSelected: {...user}});
+    onUpdate = (user) => {
+        this.setState({showOffcanvas: true, mode: actionTypes.UPDATE, userSelected: {...user}});
     }
 
-    onCloseUser = () => {
-        this.setState({showUserOffcanvas: false, showUserModal:false, mode: actionTypes.NONE, userSelected: new UserModel()});
+    onAccept = (user) => {
+        this.setState({showConfirmationModal: true, mode: this.state.mode, userSelected: {...user}});
     }
 
-    saveUser = async (user) => {
+    onClose = () => {
+        this.setState({showOffcanvas: false, showConfirmationModal:false, mode: actionTypes.NONE, userSelected: new UserModel()});
+    }
+
+    onSave = async (user) => {
         this.setState({loaded: false, failed: false});
         
         let bodyMessage = "";
@@ -87,7 +91,7 @@ export class Users extends Component {
         this.setState({
             loaded: true, 
             failed: false, 
-            showUserOffcanvas: false,
+            showOffcanvas: false,
             mode: actionTypes.NONE, 
             userSelected: new UserModel(),
             users: [...this.props.user.users],
@@ -96,7 +100,7 @@ export class Users extends Component {
     }
 
     render() {
-        const { users, loaded, failed, error, notifications, showUserOffcanvas, showUserModal, mode, userSelected } = this.state;
+        const { users, loaded, failed, error, notifications, showOffcanvas, showConfirmationModal, mode, userSelected } = this.state;
 
         return (
             <>
@@ -110,31 +114,31 @@ export class Users extends Component {
                     <CRow>
                         <CCol xs="12" className="right-side mb-3">
                             <CTooltip content="Add a new user" placement="top">
-                                <CButton onClick={this.onAddUser} style={{color: 'white'}}>
+                                <CButton onClick={this.onAdd} style={{color: 'white'}}>
                                     <CIcon icon={cilMedicalCross} size="sm"/>
                                 </CButton>
                             </CTooltip>
                         </CCol>
                         <UserTable 
                             users={users}
-                            onUpdate={this.onUpdateUser}
-                            onDelete={this.onDeleteUser}
+                            onUpdate={this.onUpdate}
+                            onDelete={this.onDelete}
                         />
                         <UserDetails 
-                            visible={showUserOffcanvas} 
+                            visible={showOffcanvas} 
                             mode={mode} 
                             userSelected={userSelected}
-                            onSave={this.saveUser}
-                            onClose={this.onCloseUser}
+                            onSave={this.onAccept}
+                            onClose={this.onClose}
                         />
                         <Confirmation
                             type="user"
                             mode={mode}
                             body={userSelected.personInfo.DNI + " - " + userSelected.personInfo.name + " " + userSelected.personInfo.lastName}
                             object={userSelected}
-                            visible={showUserModal} 
-                            onAccept={this.saveUser}
-                            onClose={this.onCloseUser}
+                            visible={showConfirmationModal} 
+                            onAccept={this.onSave}
+                            onClose={this.onClose}
                         />
                     </CRow>
                 }

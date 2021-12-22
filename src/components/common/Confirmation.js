@@ -72,14 +72,24 @@ export default class Confirmation extends Component {
         }
     }
 
+    getConfirmationColor = () => {
+        switch(this.props.mode) {
+            case actionTypes.DELETE:
+                return colorTypes.DANGER;
+            default:
+                return colorTypes.PRIMARY;
+        }
+    }
+
     render() {
         const { visible } = this.state;
         const title = this.getConfirmationTitle();
         const message = this.getConfirmationMessage();
         const button = this.getConfirmationButton();
+        const color = this.getConfirmationColor();
 
         return (
-            <CModal visible={visible} onClose={this.onClose}>
+            <CModal visible={visible} onClose={this.onClose} backdrop="static">
                 <CModalHeader>
                     <CModalTitle>{title}</CModalTitle>
                 </CModalHeader>
@@ -90,7 +100,7 @@ export default class Confirmation extends Component {
                     <CButton color={colorTypes.LIGHT} onClick={this.onClose}>
                         Close
                     </CButton>
-                    <CButton color={colorTypes.DANGER} onClick={this.onAccept}>{button}</CButton>
+                    <CButton color={color} onClick={this.onAccept}>{button}</CButton>
                 </CModalFooter>
             </CModal>
         )

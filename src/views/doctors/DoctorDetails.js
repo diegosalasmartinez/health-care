@@ -1,15 +1,18 @@
 import React, { Component } from 'react'
-import { CButton, CCol, CFormCheck, CFormInput, CFormLabel, CFormSelect, COffcanvas, COffcanvasBody, COffcanvasHeader, COffcanvasTitle, CRow } from '@coreui/react'
+import { CButton, CCol, CFormCheck, CFormFeedback, CFormInput, CFormLabel, CFormSelect, COffcanvas, COffcanvasBody, COffcanvasHeader, COffcanvasTitle, CRow } from '@coreui/react'
 import actionTypes from '../../services/models/others/actionTypes'
-import DoctorModel from '../../services/models/DoctorModel'
+import DoctorModel, { validate } from '../../services/models/DoctorModel'
 import colorTypes from '../../services/models/others/colorTypes'
+import { objIsNull } from '../../utils/utils'
 
 export default class DoctorDetails extends Component {
     constructor(props) {
         super(props);
         this.state = {
             visible: false,
-            doctor: new DoctorModel()
+            firstTime: true,
+            doctor: new DoctorModel(),
+            errors: {}
         }
     }
 
@@ -36,7 +39,13 @@ export default class DoctorDetails extends Component {
     }
     
     onSave = () => {
-        this.props.onSave(this.state.doctor);
+        this.setState({firstTime: false});
+        const { mode } = this.props;
+        const errors = validate(this.state.doctor, mode === actionTypes.CREATE);
+        if(objIsNull(errors)){
+            this.props.onSave(this.state.doctor);
+        }
+        this.setState({errors: errors});
     }
 
     onClose = () => {
@@ -45,11 +54,12 @@ export default class DoctorDetails extends Component {
     }
 
     render() {
-        const { visible, doctor } = this.state;
+        const { visible, doctor, errors, firstTime } = this.state;
         const { mode, specialties } = this.props;
         const title = mode === actionTypes.CREATE ? "Add a new doctor" : "Update doctor";
         const txtButton = mode === actionTypes.CREATE ? "Register" : "Update";
         const color = mode === actionTypes.CREATE ? colorTypes.SUCCESS : colorTypes.WARNING;
+        const validateCredentials = mode === actionTypes.CREATE;
 
         return (
             <COffcanvas placement="end" visible={visible} onHide={this.onClose}>
@@ -61,31 +71,31 @@ export default class DoctorDetails extends Component {
                     <CRow className="mb-3">
                         <CFormLabel htmlFor="dni" className="col-sm-4 col-form-label">DNI</CFormLabel>
                         <CCol sm={8}>
-                            <CFormInput type="text" id="dni" value={doctor.personInfo.DNI} onChange={this.onChange('personInfo.DNI', false, false)}/>
+                            <CFormInput type="text" id="dni" value={doctor.personInfo.DNI} onChange={this.onChange('personInfo.DNI', false, false)} invalid={!firstTime && errors.DNI !== null}/>
                         </CCol>
                     </CRow>
                     <CRow className="mb-3">
                         <CFormLabel htmlFor="name" className="col-sm-4 col-form-label">Name</CFormLabel>
                         <CCol sm={8}>
-                            <CFormInput type="text" id="name" value={doctor.personInfo.name} onChange={this.onChange('personInfo.name', false, false)}/>
+                            <CFormInput type="text" id="name" value={doctor.personInfo.name} onChange={this.onChange('personInfo.name', false, false)} invalid={!firstTime && errors.name !== null}/>
                         </CCol>
                     </CRow>
                     <CRow className="mb-3">
                         <CFormLabel htmlFor="lastName" className="col-sm-4 col-form-label">Last Name</CFormLabel>
                         <CCol sm={8}>
-                            <CFormInput type="text" id="lastName" value={doctor.personInfo.lastName} onChange={this.onChange('personInfo.lastName', false, false)}/>
+                            <CFormInput type="text" id="lastName" value={doctor.personInfo.lastName} onChange={this.onChange('personInfo.lastName', false, false)} invalid={!firstTime && errors.lastName !== null}/>
                         </CCol>
                     </CRow>
                     <CRow className="mb-3">
                         <CFormLabel htmlFor="email" className="col-sm-4 col-form-label">Email</CFormLabel>
                         <CCol sm={8}>
-                            <CFormInput type="text" id="email" value={doctor.personInfo.email} onChange={this.onChange('personInfo.email', false, false)}/>
+                            <CFormInput type="text" id="email" value={doctor.personInfo.email} onChange={this.onChange('personInfo.email', false, false)} invalid={!firstTime && errors.email !== null}/>
                         </CCol>
                     </CRow>
                     <CRow className="mb-3">
                         <CFormLabel htmlFor="phone" className="col-sm-4 col-form-label">Phone</CFormLabel>
                         <CCol sm={8}>
-                            <CFormInput type="text" id="phone" value={doctor.personInfo.phone} onChange={this.onChange('personInfo.phone', false, false)}/>
+                            <CFormInput type="text" id="phone" value={doctor.personInfo.phone} onChange={this.onChange('personInfo.phone', false, false)} invalid={!firstTime && errors.phone !== null}/>
                         </CCol>
                     </CRow>
                     <CRow className="mb-3">
@@ -99,19 +109,19 @@ export default class DoctorDetails extends Component {
                     <CRow className="mb-3">
                         <CFormLabel htmlFor="code" className="col-sm-4 col-form-label">Code</CFormLabel>
                         <CCol sm={8}>
-                            <CFormInput type="text" id="code" value={doctor.doctorInfo.code} onChange={this.onChange('doctorInfo.code', false, false)}/>
+                            <CFormInput type="text" id="code" value={doctor.doctorInfo.code} onChange={this.onChange('doctorInfo.code', false, false)} invalid={!firstTime && errors.code !== null}/>
                         </CCol>
                     </CRow>
                     <CRow className="mb-3">
                         <CFormLabel htmlFor="CMP" className="col-sm-4 col-form-label">CMP</CFormLabel>
                         <CCol sm={8}>
-                            <CFormInput type="text" id="CMP" value={doctor.doctorInfo.CMP} onChange={this.onChange('doctorInfo.CMP', false, false)}/>
+                            <CFormInput type="text" id="CMP" value={doctor.doctorInfo.CMP} onChange={this.onChange('doctorInfo.CMP', false, false)} invalid={!firstTime && errors.CMP !== null}/>
                         </CCol>
                     </CRow>
                     <CRow className="mb-3">
                         <CFormLabel htmlFor="specialty" className="col-sm-4 col-form-label">Specialty</CFormLabel>
                         <CCol sm={8}>
-                            <CFormSelect aria-label="specialty" value={doctor.doctorInfo.specialtyId} onChange={this.onChange('doctorInfo.specialtyId', false, false)}>
+                            <CFormSelect aria-label="specialty" value={doctor.doctorInfo.specialtyId} onChange={this.onChange('doctorInfo.specialtyId', false, false)} invalid={!firstTime && errors.specialty !== null}>
                                 <option>Select a specialty</option>
                                 { specialties.map(s => 
                                     <option key={s._id} value={s._id}>{s.name}</option>
@@ -125,13 +135,13 @@ export default class DoctorDetails extends Component {
                             <CRow className="mb-3">
                                 <CFormLabel htmlFor="username" className="col-sm-4 col-form-label">Username</CFormLabel>
                                 <CCol sm={8}>
-                                    <CFormInput type="text" id="username" value={doctor.username} onChange={this.onChange('username', false, false)}/>
+                                    <CFormInput type="text" id="username" value={doctor.username} onChange={this.onChange('username', false, false)} invalid={!firstTime && validateCredentials && errors.username !== null}/>
                                 </CCol>
                             </CRow>
                             <CRow className="mb-3">
                                 <CFormLabel htmlFor="password" className="col-sm-4 col-form-label">Password</CFormLabel>
                                 <CCol sm={8}>
-                                    <CFormInput type="password" id="password" value={doctor.password} onChange={this.onChange('password', false, false)}/>
+                                    <CFormInput type="password" id="password" value={doctor.password} onChange={this.onChange('password', false, false)} invalid={!firstTime && validateCredentials && errors.password !== null}/>
                                 </CCol>
                             </CRow>
                         </>
