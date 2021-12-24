@@ -60,7 +60,7 @@ export class Users extends Component {
     }
 
     onAccept = (user) => {
-        this.setState({showConfirmationModal: true, mode: this.state.mode, userSelected: {...user}});
+        this.setState({showConfirmationModal: true, userSelected: {...user}});
     }
 
     onCloseOffcanvas = () => {
