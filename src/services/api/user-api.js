@@ -1,4 +1,4 @@
-import { apiGet, apiPost } from './api'
+import { apiGet, apiPatch, apiPost } from './api'
 
 const getUsers = async () => {
     return await apiGet(`users`);
@@ -9,7 +9,7 @@ const createUser = async (user) => {
 }
 
 const updateUser = async (user) => {
-    return await apiPost(`users/${user._id}`, user);
+    return await apiPatch(`users/${user._id}`, user);
 }
 
 const deleteUser = async (user) => {
