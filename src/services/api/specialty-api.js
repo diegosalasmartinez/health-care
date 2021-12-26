@@ -1,4 +1,4 @@
-import { apiGet, apiPost } from './api'
+import { apiGet, apiPatch, apiPost } from './api'
 
 const getSpecialties = async () => {
     return await apiGet(`specialties`);
@@ -9,7 +9,7 @@ const createSpecialty = async (specialty) => {
 }
 
 const updateSpecialty = async (specialty) => {
-    return await apiPost(`specialties/${specialty._id}`, specialty);
+    return await apiPatch(`specialties/${specialty._id}`, specialty);
 }
 
 const deleteSpecialty = async (specialty) => {

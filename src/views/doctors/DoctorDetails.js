@@ -42,7 +42,7 @@ export default class DoctorDetails extends Component {
         this.setState({firstTime: false});
         const { mode } = this.props;
         const errors = validate(this.state.doctor, mode === actionTypes.CREATE);
-        if(objIsNull(errors)){
+        if (objIsNull(errors)) {
             this.props.onSave(this.state.doctor);
         }
         this.setState({errors: errors});

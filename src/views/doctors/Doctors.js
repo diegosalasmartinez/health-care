@@ -60,7 +60,7 @@ export class Doctors extends Component {
     }
 
     onAccept = (doctor) => {
-        this.setState({showConfirmationModal: true, mode: this.state.mode, doctorSelected: {...doctor}});
+        this.setState({showConfirmationModal: true, doctorSelected: {...doctor}});
     }
 
     onClose = () => {

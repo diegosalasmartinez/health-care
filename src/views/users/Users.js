@@ -60,11 +60,15 @@ export class Users extends Component {
     }
 
     onAccept = (user) => {
-        this.setState({showConfirmationModal: true, mode: this.state.mode, userSelected: {...user}});
+        this.setState({showConfirmationModal: true, userSelected: {...user}});
     }
 
-    onClose = () => {
-        this.setState({showOffcanvas: false, showConfirmationModal:false, mode: actionTypes.NONE, userSelected: new UserModel()});
+    onCloseOffcanvas = () => {
+        this.setState({showOffcanvas: false, mode: actionTypes.NONE, userSelected: new UserModel()});
+    }
+
+    onCloseConfirmation = () => {
+        this.setState({showConfirmationModal:false});
     }
 
     onSave = async (user) => {
@@ -129,7 +133,7 @@ export class Users extends Component {
                             mode={mode} 
                             userSelected={userSelected}
                             onSave={this.onAccept}
-                            onClose={this.onClose}
+                            onClose={this.onCloseOffcanvas}
                         />
                         <Confirmation
                             type="user"
@@ -138,7 +142,7 @@ export class Users extends Component {
                             object={userSelected}
                             visible={showConfirmationModal} 
                             onAccept={this.onSave}
-                            onClose={this.onClose}
+                            onClose={this.onCloseConfirmation}
                         />
                     </CRow>
                 }

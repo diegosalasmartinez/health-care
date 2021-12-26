@@ -60,7 +60,7 @@ export class Specialties extends Component {
     }
 
     onAccept = (specialty) => {
-        this.setState({showConfirmationModal: true, mode: this.state.mode, specialtySelected: {...specialty}});
+        this.setState({showConfirmationModal: true, specialtySelected: {...specialty}});
     }
 
     onClose = () => {
