@@ -12,6 +12,7 @@ import Notification from '../../components/common/Notification'
 import moment from 'moment'
 import { objIsNull } from '../../utils/utils'
 import Confirmation from '../../components/common/Confirmation'
+import cloneDeep from 'lodash/cloneDeep'
 
 export class PatientDetails extends Component {
     constructor(props) {
@@ -30,7 +31,7 @@ export class PatientDetails extends Component {
 
     componentDidMount() {
         const mode = this.props.patient.patientSelected._id === "" ? actionTypes.CREATE : actionTypes.UPDATE;
-        this.setState({patient: this.props.patient.patientSelected, mode});
+        this.setState({patient: cloneDeep(this.props.patient.patientSelected), mode});
     }
 
     onChange = (key, isNumeric = false, isDate = false) => (e = {}) => {

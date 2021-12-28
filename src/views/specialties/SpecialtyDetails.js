@@ -4,6 +4,7 @@ import actionTypes from '../../services/models/others/actionTypes'
 import SpecialtyModel, { validate } from '../../services/models/SpecialtyModel'
 import colorTypes from '../../services/models/others/colorTypes'
 import { objIsNull } from '../../utils/utils'
+import cloneDeep from 'lodash/cloneDeep'
 
 export default class SpecialtyDetails extends Component {
     constructor(props) {
@@ -20,7 +21,7 @@ export default class SpecialtyDetails extends Component {
         if (prevProps.visible !== this.props.visible) {
             this.setState({visible: this.props.visible})
             if (this.props.visible) {
-                this.setState({specialty: this.props.mode === actionTypes.UPDATE ? {...this.props.specialtySelected} : new SpecialtyModel()});
+                this.setState({specialty: this.props.mode === actionTypes.UPDATE ? cloneDeep(this.props.specialtySelected) : new SpecialtyModel()});
             }
         }
     }
