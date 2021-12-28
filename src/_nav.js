@@ -1,12 +1,9 @@
 import React from 'react'
 import CIcon from '@coreui/icons-react'
 import {
-  cilDrop,
   cilHospital,
-  cilPencil,
   cilPeople,
   cilSpeedometer,
-  cilStar,
   cilUser
 } from '@coreui/icons'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'

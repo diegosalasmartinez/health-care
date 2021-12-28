@@ -16,7 +16,7 @@ import 'simplebar/dist/simplebar.min.css'
 // sidebar nav config
 import navigation from '../_nav'
 
-const AppSidebar = () => {
+const AppSidebar = ({onLogout}) => {
   const dispatch = useDispatch()
   const unfoldable = useSelector((state) => state.changeState.sidebarUnfoldable)
   const sidebarShow = useSelector((state) => state.changeState.sidebarShow)
@@ -29,7 +29,7 @@ const AppSidebar = () => {
       </CSidebarBrand>
       <CSidebarNav>
         <SimpleBar>
-          <AppSidebarNav items={navigation} />
+          <AppSidebarNav items={navigation} onLogout={onLogout}/>
         </SimpleBar>
       </CSidebarNav>
       <CSidebarToggler className="d-none d-lg-flex" onClick={() => dispatch({ type: CHANGE_STATE, sidebarUnfoldable: !unfoldable })}/>
