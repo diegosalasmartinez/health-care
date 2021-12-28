@@ -9,6 +9,12 @@ export class DefaultLayout extends Component {
     await this.props.getSpecialties();
   }
 
+  componentDidUpdate(prevProps) {
+    if (!this.props.auth.token || this.props.auth.token !== prevProps.auth.token) {
+      this.props.history.push("/login");
+    }
+  }
+
   render() {
     return (
       <div>
@@ -27,6 +33,7 @@ export class DefaultLayout extends Component {
 
 const mapStateToProps = state => {
   return {
+    auth: state.auth
   }
 }
 
