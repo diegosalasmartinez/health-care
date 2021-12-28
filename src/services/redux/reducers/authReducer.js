@@ -20,6 +20,7 @@ const initialState = {
 const doctor = (state = initialState, action) => {    
     switch(action.type){
         case UNAUTHORIZED:
+        case LOGOUT:
             return {...initialState, loaded: true, failed: false};
         case LOGIN:
             return {...state, user: {...action.playload.user}, token: action.playload.token, error: "", loaded: true, failed: false};

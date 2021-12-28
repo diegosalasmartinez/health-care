@@ -27,4 +27,10 @@ const login = (user) => async (dispatch) => {
     })
 }
 
-export { login }
+const logout = () => async (dispatch) => {
+    return dispatch({
+        type: LOGOUT
+    })
+}
+
+export { login, logout }
