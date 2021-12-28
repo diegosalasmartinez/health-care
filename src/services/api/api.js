@@ -1,5 +1,5 @@
 import axios from 'axios'
-// import { store } from '../redux/store'
+import { store } from '../redux/store'
 const baseUrl = "/api/v1/"
 import dotenv from 'dotenv'
 dotenv.config();
@@ -12,7 +12,7 @@ export function generateUrl(path) {
 
 export function apiReq(endPoint, data, method, headers, requestOptions = {}) {
 	return new Promise((res, rej) => {
-		headers = { ...headers }
+		headers = { ...headers, Authorization: "Bearer " + store.getState().auth.token }
 		if (method === 'get' || method === 'delete') {
 			data = {
 				...requestOptions,
@@ -20,7 +20,6 @@ export function apiReq(endPoint, data, method, headers, requestOptions = {}) {
 				headers
 			}
 		}
-		
 		axios[method](endPoint, data, { headers })
 			.then((result) => {
                 let { data } = result;

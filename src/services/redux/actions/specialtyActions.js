@@ -6,6 +6,9 @@ import {
     ERROR_SPECIALTY
 } from './actionTypes/specialtyActionTypes'
 import {
+    UNAUTHORIZED
+} from './actionTypes/authActionTypes'
+import {
     getSpecialties as getSpecialtiesAPI,
     createSpecialty as createSpecialtyAPI,
     updateSpecialty as updateSpecialtyAPI,
@@ -21,6 +24,11 @@ const getSpecialties = () => async (dispatch) => {
             playload: res
         })
     } catch(e){
+        if (e.response && e.response.statusText === "Unauthorized") {
+            return dispatch({
+                type: UNAUTHORIZED
+            })
+        }
         if (e.response && e.response.data && e.response.data.message) {
             message = e.response.data.message;
         }
@@ -41,6 +49,11 @@ const createSpecialty = (specialty) => async (dispatch) => {
             playload: res
         })
     } catch(e){
+        if (e.response && e.response.statusText === "Unauthorized") {
+            return dispatch({
+                type: UNAUTHORIZED
+            })
+        }
         if (e.response && e.response.data && e.response.data.message) {
             message = e.response.data.message;
         }
@@ -60,6 +73,11 @@ const updateSpecialty = (specialty) => async (dispatch) => {
             playload: specialty
         })
     } catch(e){
+        if (e.response && e.response.statusText === "Unauthorized") {
+            return dispatch({
+                type: UNAUTHORIZED
+            })
+        }
         if (e.response && e.response.data && e.response.data.message) {
             message = e.response.data.message;
         }
@@ -79,6 +97,11 @@ const deleteSpecialty = (specialty) => async (dispatch) => {
             playload: specialty
         })
     } catch(e){
+        if (e.response && e.response.statusText === "Unauthorized") {
+            return dispatch({
+                type: UNAUTHORIZED
+            })
+        }
         if (e.response && e.response.data && e.response.data.message) {
             message = e.response.data.message;
         }
