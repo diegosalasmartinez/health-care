@@ -13,13 +13,14 @@ import { sygnet } from 'src/assets/brand/sygnet'
 import SimpleBar from 'simplebar-react'
 import 'simplebar/dist/simplebar.min.css'
 
-// sidebar nav config
-import navigation from '../_nav'
+import { navAdmin, navDoctor, navSecretary } from '../_nav'
 
 const AppSidebar = ({onLogout}) => {
   const dispatch = useDispatch()
   const unfoldable = useSelector((state) => state.changeState.sidebarUnfoldable)
   const sidebarShow = useSelector((state) => state.changeState.sidebarShow)
+  const userRole = useSelector((state) => state.auth.user.role);
+  const navigation = userRole === "ADMIN" ? navAdmin : userRole === "DOCTOR" ? navDoctor : userRole === "SECRETARY" ? navSecretary : [];
 
   return (
     <CSidebar position="fixed" unfoldable={unfoldable} visible={sidebarShow} onVisibleChange={(visible) => { dispatch({ type: CHANGE_STATE, sidebarShow: visible })}}>
