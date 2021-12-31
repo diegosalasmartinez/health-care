@@ -1,7 +1,7 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom'
 
-import routes from '../routes'
+import { allRoutes as routes } from '../routes'
 
 import { CBreadcrumb, CBreadcrumbItem } from '@coreui/react'
 
@@ -10,7 +10,7 @@ const AppBreadcrumb = () => {
 
   const getRouteName = (pathname, routes) => {
     const currentRoute = routes.find((route) => route.path === pathname)
-    return currentRoute.name
+    return currentRoute ? currentRoute.name : ""
   }
 
   const getBreadcrumbs = (location) => {

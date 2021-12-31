@@ -6,6 +6,9 @@ import {
     ERROR_USER
 } from './actionTypes/userActionTypes'
 import {
+    UNAUTHORIZED
+} from './actionTypes/authActionTypes'
+import {
     getUsers as getUsersAPI,
     createUser as createUserAPI,
     updateUser as updateUserAPI,
@@ -21,6 +24,11 @@ const getUsers = () => async (dispatch) => {
             playload: res
         })
     } catch(e){
+        if (e.response && e.response.statusText === "Unauthorized") {
+            return dispatch({
+                type: UNAUTHORIZED
+            })
+        }
         if (e.response && e.response.data && e.response.data.message) {
             message = e.response.data.message;
         }
@@ -43,6 +51,11 @@ const createUser = (user) => async (dispatch) => {
             playload: userResponse
         })
     } catch(e){
+        if (e.response && e.response.statusText === "Unauthorized") {
+            return dispatch({
+                type: UNAUTHORIZED
+            })
+        }
         if (e.response && e.response.data && e.response.data.message) {
             message = e.response.data.message;
         }
@@ -62,6 +75,11 @@ const updateUser = (user) => async (dispatch) => {
             playload: user
         })
     } catch(e){
+        if (e.response && e.response.statusText === "Unauthorized") {
+            return dispatch({
+                type: UNAUTHORIZED
+            })
+        }
         if (e.response && e.response.data && e.response.data.message) {
             message = e.response.data.message;
         }
@@ -81,6 +99,11 @@ const deleteUser = (user) => async (dispatch) => {
             playload: user
         })
     } catch(e){
+        if (e.response && e.response.statusText === "Unauthorized") {
+            return dispatch({
+                type: UNAUTHORIZED
+            })
+        }
         if (e.response && e.response.data && e.response.data.message) {
             message = e.response.data.message;
         }

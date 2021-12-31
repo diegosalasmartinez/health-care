@@ -6,6 +6,9 @@ import {
     ERROR_DOCTOR
 } from './actionTypes/doctorActionTypes'
 import {
+    UNAUTHORIZED
+} from './actionTypes/authActionTypes'
+import {
     getDoctors as getDoctorsAPI
 } from './../../api/doctor-api'
 import {
@@ -23,6 +26,11 @@ const getDoctors = () => async (dispatch) => {
             playload: res
         })
     } catch(e){
+        if (e.response && e.response.statusText === "Unauthorized") {
+            return dispatch({
+                type: UNAUTHORIZED
+            })
+        }
         if (e.response && e.response.data && e.response.data.message) {
             message = e.response.data.message;
         }
@@ -47,6 +55,11 @@ const createDoctor = (doctor) => async (dispatch) => {
             playload: doctorResponse
         })
     } catch(e){
+        if (e.response && e.response.statusText === "Unauthorized") {
+            return dispatch({
+                type: UNAUTHORIZED
+            })
+        }
         if (e.response && e.response.data && e.response.data.message) {
             message = e.response.data.message;
         }
@@ -66,6 +79,11 @@ const updateDoctor = (doctor) => async (dispatch) => {
             playload: doctor
         })
     } catch(e){
+        if (e.response && e.response.statusText === "Unauthorized") {
+            return dispatch({
+                type: UNAUTHORIZED
+            })
+        }
         if (e.response && e.response.data && e.response.data.message) {
             message = e.response.data.message;
         }
@@ -85,6 +103,11 @@ const deleteDoctor = (doctor) => async (dispatch) => {
             playload: doctor
         })
     } catch(e){
+        if (e.response && e.response.statusText === "Unauthorized") {
+            return dispatch({
+                type: UNAUTHORIZED
+            })
+        }
         if (e.response && e.response.data && e.response.data.message) {
             message = e.response.data.message;
         }

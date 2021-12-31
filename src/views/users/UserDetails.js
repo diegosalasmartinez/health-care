@@ -4,6 +4,7 @@ import actionTypes from '../../services/models/others/actionTypes'
 import UserModel, { validate } from '../../services/models/UserModel'
 import colorTypes from '../../services/models/others/colorTypes'
 import { objIsNull } from '../../utils/utils'
+import cloneDeep from 'lodash/cloneDeep'
 
 export default class UserDetails extends Component {
     constructor(props) {
@@ -20,7 +21,7 @@ export default class UserDetails extends Component {
         if (prevProps.visible !== this.props.visible) {
             this.setState({visible: this.props.visible})
             if (this.props.visible) {
-                this.setState({user: this.props.mode === actionTypes.UPDATE ? {...this.props.userSelected} : new UserModel()});
+                this.setState({user: this.props.mode === actionTypes.UPDATE ? cloneDeep(this.props.userSelected) : new UserModel()});
             }
         }
     }

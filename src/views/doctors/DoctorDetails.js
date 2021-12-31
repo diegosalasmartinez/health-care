@@ -4,6 +4,7 @@ import actionTypes from '../../services/models/others/actionTypes'
 import DoctorModel, { validate } from '../../services/models/DoctorModel'
 import colorTypes from '../../services/models/others/colorTypes'
 import { objIsNull } from '../../utils/utils'
+import cloneDeep from 'lodash/cloneDeep'
 
 export default class DoctorDetails extends Component {
     constructor(props) {
@@ -20,7 +21,7 @@ export default class DoctorDetails extends Component {
         if (prevProps.visible !== this.props.visible) {
             this.setState({visible: this.props.visible})
             if (this.props.visible) {
-                this.setState({doctor: this.props.mode === actionTypes.UPDATE ? {...this.props.doctorSelected} : new DoctorModel()});
+                this.setState({doctor: this.props.mode === actionTypes.UPDATE ? cloneDeep(this.props.doctorSelected) : new DoctorModel()});
             }
         }
     }

@@ -8,3 +8,9 @@
     display: flex;
     justify-content: center;
 }
+
+.hover-button{
+    &:hover{
+        cursor: pointer;
+    }
+}

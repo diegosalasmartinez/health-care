@@ -7,6 +7,9 @@ import {
     STAGE_PATIENT
 } from './actionTypes/patientActionTypes'
 import {
+    UNAUTHORIZED
+} from './actionTypes/authActionTypes'
+import {
     getPatients as getPatientsAPI,
     createPatient as createPatientAPI,
     updatePatient as updatePatientAPI,
@@ -22,6 +25,11 @@ const getPatients = () => async (dispatch) => {
             playload: res
         })
     } catch(e){
+        if (e.response && e.response.statusText === "Unauthorized") {
+            return dispatch({
+                type: UNAUTHORIZED
+            })
+        }
         if (e.response && e.response.data && e.response.data.message) {
             message = e.response.data.message;
         }
@@ -44,6 +52,11 @@ const createPatient = (patient) => async (dispatch) => {
             playload: patientResponse
         })
     } catch(e){
+        if (e.response && e.response.statusText === "Unauthorized") {
+            return dispatch({
+                type: UNAUTHORIZED
+            })
+        }
         if (e.response && e.response.data && e.response.data.message) {
             message = e.response.data.message;
         }
@@ -63,6 +76,11 @@ const updatePatient = (patient) => async (dispatch) => {
             playload: patient
         })
     } catch(e){
+        if (e.response && e.response.statusText === "Unauthorized") {
+            return dispatch({
+                type: UNAUTHORIZED
+            })
+        }
         if (e.response && e.response.data && e.response.data.message) {
             message = e.response.data.message;
         }
@@ -82,6 +100,11 @@ const deletePatient = (patient) => async (dispatch) => {
             playload: patient
         })
     } catch(e){
+        if (e.response && e.response.statusText === "Unauthorized") {
+            return dispatch({
+                type: UNAUTHORIZED
+            })
+        }
         if (e.response && e.response.data && e.response.data.message) {
             message = e.response.data.message;
         }
