@@ -16,6 +16,7 @@ import CIcon from '@coreui/icons-react'
 import { cilPencil, cilTrash } from '@coreui/icons'
 import colorTypes from '../../services/models/others/colorTypes'
 import { userTypes } from 'src/utils/userUtils'
+import Pagination from '../../components/common/Pagination'
 
 export default class UserTable extends Component {
     onUpdate = (user) => {
@@ -27,7 +28,7 @@ export default class UserTable extends Component {
     }
 
     render() {
-        const { users } = this.props;
+        const { users, usersLength, pageSelected, pagination } = this.props;
 
         return (
             <CCol xs="12">
@@ -72,6 +73,7 @@ export default class UserTable extends Component {
                                 ) }
                             </CTableBody>
                         </CTable>
+                        <Pagination itemsLength={usersLength} pageSelected={pageSelected} pagination={pagination} onClickPage={this.props.onClickPage}/>
                     </CCardBody>
                 </CCard>
             </CCol>

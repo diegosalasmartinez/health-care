@@ -15,6 +15,7 @@ import * as userActions from '../../services/redux/actions/userActions'
 import colorTypes from '../../services/models/others/colorTypes'
 import actionTypes from '../../services/models/others/actionTypes'
 import notification from '../../services/models/others/notification'
+import pagination from '../../services/models/others/pagination'
 import UserDetails from './UserDetails'
 import Notification from '../../components/common/Notification'
 import UserTable from './UserTable'
@@ -25,7 +26,10 @@ export class Users extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            pagination: new pagination(0,5),
+            pageSelected: 1,
             users: [],
+            usersLength: 0,
             userSelected: new UserModel(),
             showOffcanvas: false,
             showConfirmationModal: false,
@@ -38,12 +42,28 @@ export class Users extends Component {
     }
 
     async componentDidMount() {
-        await this.props.getUsers();
+        await this.loadList();
+    }
+
+    loadList = async () => {
+        this.setState({loaded: false, failed: false});
+        await this.props.getUsers(this.state.pagination);
+        const { user } = this.props;
         this.setState({
-            users: [...this.props.user.users],
-            loaded: this.props.user.loaded,
-            failed: this.props.user.failed,
-            error: this.props.user.error,
+            users: [...user.users],
+            usersLength: user.length,
+            loaded: user.loaded,
+            failed: user.failed,
+            error: user.error,
+        })
+    }
+
+    onClickPage = (indexPage) => {
+        const { pagination } = this.state;
+        let paginationUpdated = {...pagination};
+        paginationUpdated.offset = paginationUpdated.limit * (indexPage - 1);
+        this.setState({ pagination: paginationUpdated, pageSelected: indexPage }, async function(){
+            await this.loadList();
         })
     }
 
@@ -104,7 +124,7 @@ export class Users extends Component {
     }
 
     render() {
-        const { users, loaded, failed, error, notifications, showOffcanvas, showConfirmationModal, mode, userSelected } = this.state;
+        const { users, loaded, failed, error, notifications, showOffcanvas, showConfirmationModal, mode, userSelected, usersLength, pageSelected, pagination } = this.state;
 
         return (
             <>
@@ -125,6 +145,10 @@ export class Users extends Component {
                         </CCol>
                         <UserTable 
                             users={users}
+                            usersLength={usersLength}
+                            pageSelected={pageSelected}
+                            pagination={pagination}
+                            onClickPage={this.onClickPage}
                             onUpdate={this.onUpdate}
                             onDelete={this.onDelete}
                         />

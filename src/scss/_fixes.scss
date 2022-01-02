@@ -34,3 +34,17 @@
         border-color: #958bef;
     }
 }
+
+.pagination{
+    .page-item{
+        &:hover{
+            cursor: pointer;
+        }
+    }
+}
+
+.table-responsive{
+    button{
+        padding: 0.15rem 0.45rem;
+    }
+}
