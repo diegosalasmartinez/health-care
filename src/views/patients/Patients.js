@@ -18,7 +18,9 @@ import notification from '../../services/models/others/notification'
 import Notification from '../../components/common/Notification'
 import PatientTable from './PatientTable'
 import PatientModel from '../../services/models/PatientModel'
+import AppointmentModel from '../../services/models/AppointmentModel'
 import Confirmation from '../../components/common/Confirmation'
+import AppointmentDetails from '../appointments/AppointmentDetails'
 
 export class Patients extends Component {
     constructor(props) {
@@ -26,7 +28,10 @@ export class Patients extends Component {
         this.state = {
             patients: [],
             patientSelected: new PatientModel(),
-            showPatientModal: false,
+            appointmentSelected: new AppointmentModel(),
+            showModal: false,
+            showModalAppointment: false,
+            showOffcanvasAppointment: false,
             mode: actionTypes.NONE,
             notifications: [],
             loaded: false,
@@ -45,22 +50,26 @@ export class Patients extends Component {
         })
     }
 
+    onCreateAppointment = (patient) => {
+        this.setState({showOffcanvasAppointment: true, mode: actionTypes.CREATE, patientSelected: {...patient}});
+    }
+
     onAddPatient = async () => {
         await this.props.stagePatient(new PatientModel());
         this.props.history.push("/patients/create");
     }
     
     onDeletePatient = (patient) => {
-        this.setState({showPatientModal: true, mode: actionTypes.DELETE, patientSelected: {...patient}});
+        this.setState({showModal: true, mode: actionTypes.DELETE, patientSelected: {...patient}});
     }
     
     onUpdatePatient = async (patient) => {
         await this.props.stagePatient(patient);
-        this.props.history.push("/patients/create");
+        this.props.history.push("/patients/update");
     }
 
     onClosePatient = () => {
-        this.setState({showPatientModal:false, mode: actionTypes.NONE, patientSelected: new PatientModel()});
+        this.setState({showModal:false, mode: actionTypes.NONE, patientSelected: new PatientModel()});
     }
 
     deletePatient = async (patient) => {
@@ -85,8 +94,25 @@ export class Patients extends Component {
         });
     }
 
+    onAcceptAppointment = (appointment) => {
+        this.setState({showModalAppointment: true, appointmentSelected: {...appointment}});
+    }
+
+    onCloseOffcanvasAppointment = () => {
+        this.setState({showOffcanvasAppointment: false, mode: actionTypes.NONE, appointmentSelected: new AppointmentModel()});
+    }
+    
+    onCloseModalAppointment = () => {
+        this.setState({showModalAppointment: false});
+    }
+
+    onSaveAppointment = async (appointment) => {
+        console.log(appointment);
+    }
+
     render() {
-        const { patients, loaded, failed, error, notifications, showPatientModal, mode, patientSelected } = this.state;
+        const { patients, loaded, failed, error, notifications, showModal, showOffcanvasAppointment, showModalAppointment, mode, patientSelected, appointmentSelected } = this.state;
+        const { auth } = this.props;
 
         return (
             <>
@@ -109,15 +135,32 @@ export class Patients extends Component {
                             patients={patients}
                             onUpdate={this.onUpdatePatient}
                             onDelete={this.onDeletePatient}
+                            onCreateAppointment={this.onCreateAppointment}
+                            role={auth.user.role}
+                        />
+                        <AppointmentDetails
+                            visible={showOffcanvasAppointment} 
+                            mode={mode} 
+                            patientSelected={patientSelected}
+                            onSave={this.onAcceptAppointment}
+                            onClose={this.onCloseOffcanvasAppointment}
                         />
                         <Confirmation
                             type="patient"
                             mode={mode} 
                             body={patientSelected.code + " - " + patientSelected.personInfo.name + " " + patientSelected.personInfo.lastName}
                             object={patientSelected}
-                            visible={showPatientModal} 
+                            visible={showModal} 
                             onAccept={this.deletePatient}
                             onClose={this.onClosePatient}
+                        />
+                        <Confirmation
+                            type="appointment"
+                            mode={mode} 
+                            object={appointmentSelected}
+                            visible={showModalAppointment} 
+                            onAccept={this.onSaveAppointment}
+                            onClose={this.onCloseModalAppointment}
                         />
                     </CRow>
                 }
@@ -133,7 +176,8 @@ export class Patients extends Component {
 
 const mapStateToProps = state => {
     return {
-        patient: state.patient
+        patient: state.patient,
+        auth: state.auth
     }
 }
 
