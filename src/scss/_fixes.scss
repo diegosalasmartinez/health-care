@@ -41,6 +41,11 @@
             cursor: pointer;
         }
     }
+    .page-item.disabled{
+        &:hover{
+            cursor: auto;
+        }
+    }
 }
 
 .table-responsive{
