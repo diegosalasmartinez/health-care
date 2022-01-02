@@ -31,7 +31,7 @@ export class Users extends Component {
                 name: '',
                 role: ''
             },
-            pagination: new pagination(0,5),
+            pagination: new pagination(0,10),
             pageSelected: 1,
             users: [],
             usersLength: 0,
