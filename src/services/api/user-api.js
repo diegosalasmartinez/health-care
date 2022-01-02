@@ -1,7 +1,7 @@
 import { apiGet, apiPatch, apiPost } from './api'
 
-const getUsers = async (pagination) => {
-    return await apiGet(`users?offset=${pagination.offset}&limit=${pagination.limit}`);
+const getUsers = async (pagination, searchParams) => {
+    return await apiGet(`users?offset=${pagination.offset}&limit=${pagination.limit}&dni=${searchParams.dni}&name=${searchParams.name}&role=${searchParams.role}`);
 }
 
 const createUser = async (user) => {
