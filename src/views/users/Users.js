@@ -26,6 +26,11 @@ export class Users extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            searchParams: {
+                dni: '',
+                name: '',
+                role: ''
+            },
             pagination: new pagination(0,5),
             pageSelected: 1,
             users: [],
@@ -47,7 +52,7 @@ export class Users extends Component {
 
     loadList = async () => {
         this.setState({loaded: false, failed: false});
-        await this.props.getUsers(this.state.pagination);
+        await this.props.getUsers(this.state.pagination, this.state.searchParams);
         const { user } = this.props;
         this.setState({
             users: [...user.users],
@@ -65,6 +70,14 @@ export class Users extends Component {
         this.setState({ pagination: paginationUpdated, pageSelected: indexPage }, async function(){
             await this.loadList();
         })
+    }
+
+    onChangeParams = (key) => (e = {}) => {
+        const { searchParams } = this.state;
+        let val = e.target.value;
+        let searchParamsUpdated = { ...searchParams };
+        searchParamsUpdated[key] = val;
+        this.setState({searchParams: searchParamsUpdated});
     }
 
     onAdd = () => {
@@ -116,6 +129,7 @@ export class Users extends Component {
             loaded: true, 
             failed: false, 
             showOffcanvas: false,
+            showConfirmationModal: false,
             mode: actionTypes.NONE, 
             userSelected: new UserModel(),
             users: [...this.props.user.users],
@@ -124,7 +138,7 @@ export class Users extends Component {
     }
 
     render() {
-        const { users, loaded, failed, error, notifications, showOffcanvas, showConfirmationModal, mode, userSelected, usersLength, pageSelected, pagination } = this.state;
+        const { users, loaded, failed, error, notifications, showOffcanvas, showConfirmationModal, mode, userSelected, usersLength, pageSelected, pagination, searchParams } = this.state;
 
         return (
             <>
@@ -148,7 +162,10 @@ export class Users extends Component {
                             usersLength={usersLength}
                             pageSelected={pageSelected}
                             pagination={pagination}
+                            searchParams={searchParams}
                             onClickPage={this.onClickPage}
+                            onChangeParams={this.onChangeParams}
+                            onSearch={this.loadList}
                             onUpdate={this.onUpdate}
                             onDelete={this.onDelete}
                         />
