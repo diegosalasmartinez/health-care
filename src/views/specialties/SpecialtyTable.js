@@ -37,6 +37,7 @@ export default class SpecialtyTable extends Component {
                                 <CTableRow>
                                     <CTableHeaderCell scope="col">Code</CTableHeaderCell>
                                     <CTableHeaderCell scope="col">Name</CTableHeaderCell>
+                                    <CTableHeaderCell scope="col"># Doctors</CTableHeaderCell>
                                     <CTableHeaderCell scope="col">Actions</CTableHeaderCell>
                                 </CTableRow>
                             </CTableHead>
@@ -45,6 +46,7 @@ export default class SpecialtyTable extends Component {
                                     <CTableRow key={s._id}>
                                         <CTableDataCell>{s.code}</CTableDataCell>
                                         <CTableDataCell>{s.name}</CTableDataCell>
+                                        <CTableDataCell>{s.numDoctors}</CTableDataCell>
                                         <CTableDataCell style={{width: '150px'}}>
                                             <CTooltip content="Update" placement="top">
                                                 <CButton color={colorTypes.LIGHT} style={{marginRight: "1rem"}} onClick={() => this.onUpdate(s)}>
