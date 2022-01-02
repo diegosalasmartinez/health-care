@@ -78,6 +78,12 @@ export default class AppointmentDetails extends Component {
                             <CFormInput type="text" id="room" value={appointment.room} onChange={this.onChange('room', false, false)} invalid={!firstTime && errors.room !== null}/>
                         </CCol>
                     </CRow>
+                    <CRow className="mb-3">
+                        <CFormLabel htmlFor="floor" className="col-sm-4 col-form-label">Floor</CFormLabel>
+                        <CCol sm={8}>
+                            <CFormInput type="text" id="floor" value={appointment.room} onChange={this.onChange('floor', false, false)} invalid={!firstTime && errors.floor !== null}/>
+                        </CCol>
+                    </CRow>
                     <CCol xs="12" className="right-side my-3">
                         <CButton color={colorTypes.LIGHT} style={{marginRight: "1rem"}} onClick={this.onClose}>Back</CButton>
                         <CButton color={color} onClick={this.onSave}>{txtButton}</CButton>
