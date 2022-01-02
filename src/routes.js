@@ -15,6 +15,7 @@ const allRoutes = [
   { path: '/doctors', name: 'Doctors', component: Doctors },
   { path: '/patients', name: 'Patients', component: Patients, exact: true },
   { path: '/patients/create', name: 'Patient Details', component: PatientDetails },
+  { path: '/patients/update', name: 'Patient Details', component: PatientDetails },
   { path: '/users', name: 'Users', component: Users }
 ]
 
@@ -25,6 +26,7 @@ const routesAdmin = [
   { path: '/doctors', name: 'Doctors', component: Doctors },
   { path: '/patients', name: 'Patients', component: Patients, exact: true },
   { path: '/patients/create', name: 'Patient Details', component: PatientDetails },
+  { path: '/patients/update', name: 'Patient Details', component: PatientDetails },
   { path: '/users', name: 'Users', component: Users }
 ]
 
@@ -33,6 +35,7 @@ const routesDoctor = [
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
   { path: '/patients', name: 'Patients', component: Patients, exact: true },
   { path: '/patients/create', name: 'Patient Details', component: PatientDetails },
+  { path: '/patients/update', name: 'Patient Details', component: PatientDetails }
 ]
 
 const routesSecretary = [
@@ -41,6 +44,7 @@ const routesSecretary = [
   { path: '/doctors', name: 'Doctors', component: Doctors },
   { path: '/patients', name: 'Patients', component: Patients, exact: true },
   { path: '/patients/create', name: 'Patient Details', component: PatientDetails },
+  { path: '/patients/update', name: 'Patient Details', component: PatientDetails },
   { path: '/users', name: 'Users', component: Users }
 ]
 
