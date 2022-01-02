@@ -46,7 +46,7 @@ export default class UserTable extends Component {
     render() {
         const { visible } = this.state;
         const { users, usersLength, pageSelected, pagination, searchParams } = this.props;
-        console.log(usersLength);
+        
         return (
             <CCol xs="12">
                 <CCard>
