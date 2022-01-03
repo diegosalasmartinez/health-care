@@ -16,10 +16,10 @@ import {
     deletePatient as deletePatientAPI
 } from '../../api/patient-api'
 
-const getPatients = () => async (dispatch) => {
+const getPatients = (pagination, searchParams) => async (dispatch) => {
     let message = "There was a problem with the server. Sorry :("
     try {
-        const res = await getPatientsAPI();
+        const res = await getPatientsAPI(pagination, searchParams);
         return dispatch({
             type: GET_PATIENTS,
             playload: res

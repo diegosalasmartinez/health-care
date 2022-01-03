@@ -10,6 +10,7 @@ import PatientModel from './../../models/PatientModel';
 
 const initialState = {
     patients: [],
+    length: 0,
     patientSelected: new PatientModel(),
     error: "",
     loaded: false,
@@ -19,7 +20,7 @@ const initialState = {
 const patient = (state = initialState, action) => {    
     switch(action.type){
         case GET_PATIENTS:
-            return {...state, patients: [...action.playload], error: "", loaded: true, failed: false};
+            return {...state, patients: [...action.playload.patients], length: action.playload.length, error: "", loaded: true, failed: false};
         case CREATE_PATIENT:
             return {...state, patients: [...state.patients, action.playload], error: "", loaded: true, failed: false};
         case UPDATE_PATIENT:

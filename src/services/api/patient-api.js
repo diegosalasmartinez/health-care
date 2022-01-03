@@ -1,7 +1,7 @@
 import { apiGet, apiPost, apiPatch } from './api'
 
-const getPatients = async () => {
-    return await apiGet(`patients`);
+const getPatients = async (pagination, searchParams) => {
+    return await apiGet(`patients?offset=${pagination.offset}&limit=${pagination.limit}&code=${searchParams.code}&dni=${searchParams.dni}&name=${searchParams.name}`);
 }
 
 const createPatient = async (patient) => {
