@@ -45,12 +45,13 @@ export default class DoctorTable extends Component {
     render() {
         const { visible } = this.state;
         const { doctors, specialties, doctorsLength, pageSelected, pagination, searchParams } = this.props;
+        const style = 'mb-2 ' + (visible ? 'jc-sb' : 'jc-fe');
 
         return (
             <CCol xs="12">
                 <CCard>
                     <CCardBody>
-                        <CRow style={{marginBottom: '1rem'}} className={visible ? 'jc-sb' : 'jc-fe'}>
+                        <CRow className={style}>
                             <CCol xs="10">
                                 <CCollapse visible={visible}>
                                     <CRow className="mb-3">
