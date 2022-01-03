@@ -8,6 +8,7 @@ import {
 
 const initialState = {
     users: [],
+    length: 0,
     error: "",
     loaded: false,
     failed: false
@@ -16,7 +17,7 @@ const initialState = {
 const user = (state = initialState, action) => {    
     switch(action.type){
         case GET_USERS:
-            return {...state, users: [...action.playload], error: "", loaded: true, failed: false};
+            return {...state, users: [...action.playload.users], length: action.playload.length, error: "", loaded: true, failed: false};
         case CREATE_USER:
             return {...state, users: [...state.users, action.playload], error: "", loaded: true, failed: false};
         case UPDATE_USER:

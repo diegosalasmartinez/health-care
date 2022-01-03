@@ -34,3 +34,22 @@
         border-color: #958bef;
     }
 }
+
+.pagination{
+    .page-item{
+        &:hover{
+            cursor: pointer;
+        }
+    }
+    .page-item.disabled{
+        &:hover{
+            cursor: auto;
+        }
+    }
+}
+
+.table-responsive{
+    button{
+        padding: 0.15rem 0.45rem;
+    }
+}

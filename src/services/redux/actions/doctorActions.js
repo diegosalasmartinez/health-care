@@ -17,10 +17,10 @@ import {
     deleteUser as deleteUserAPI
 } from './../../api/user-api'
 
-const getDoctors = () => async (dispatch) => {
+const getDoctors = (pagination, searchParams) => async (dispatch) => {
     let message = "There was a problem with the server. Sorry :("
     try {
-        const res = await getDoctorsAPI();
+        const res = await getDoctorsAPI(pagination, searchParams);
         return dispatch({
             type: GET_DOCTORS,
             playload: res

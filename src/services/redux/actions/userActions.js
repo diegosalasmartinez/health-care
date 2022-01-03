@@ -15,10 +15,10 @@ import {
     deleteUser as deleteUserAPI
 } from '../../api/user-api'
 
-const getUsers = () => async (dispatch) => {
+const getUsers = (pagination, searchParams) => async (dispatch) => {
     let message = "There was a problem with the server. Sorry :("
     try {
-        const res = await getUsersAPI();
+        const res = await getUsersAPI(pagination, searchParams);
         return dispatch({
             type: GET_USERS,
             playload: res

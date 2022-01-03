@@ -9,6 +9,16 @@
     justify-content: center;
 }
 
+.jc-sb{
+    display: flex;
+    justify-content: space-between;
+}
+
+.jc-fe{
+    display: flex;
+    justify-content: flex-end;
+}
+
 .hover-button{
     &:hover{
         cursor: pointer;

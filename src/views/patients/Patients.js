@@ -1,20 +1,16 @@
 import React, { Component } from 'react'
 import { 
     CAlert,
-    CButton,
-    CCol,
     CRow,
-    CSpinner,
-    CTooltip
+    CSpinner
 } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
-import { cilMedicalCross } from '@coreui/icons'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as patientActions from '../../services/redux/actions/patientActions'
 import colorTypes from '../../services/models/others/colorTypes'
 import actionTypes from '../../services/models/others/actionTypes'
 import notification from '../../services/models/others/notification'
+import pagination from '../../services/models/others/pagination'
 import Notification from '../../components/common/Notification'
 import PatientTable from './PatientTable'
 import PatientModel from '../../services/models/PatientModel'
@@ -24,7 +20,15 @@ export class Patients extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            searchParams: {
+                code: '',
+                dni: '',
+                name: ''
+            },
+            pagination: new pagination(0,10),
+            pageSelected: 1,
             patients: [],
+            patientsLength: 0,
             patientSelected: new PatientModel(),
             showPatientModal: false,
             mode: actionTypes.NONE,
@@ -36,13 +40,38 @@ export class Patients extends Component {
     }
 
     async componentDidMount() {
-        await this.props.getPatients();
+        await this.loadList();
+    }
+
+    loadList = async () => {
+        this.setState({loaded: false, failed: false});
+        await this.props.getPatients(this.state.pagination, this.state.searchParams);
+        const { patient } = this.props;
         this.setState({
-            patients: [...this.props.patient.patients],
-            loaded: this.props.patient.loaded,
-            failed: this.props.patient.failed,
-            error: this.props.patient.error,
+            patients: [...patient.patients],
+            patientsLength: patient.length,
+            loaded: patient.loaded,
+            failed: patient.failed,
+            error: patient.error,
         })
+    }
+
+
+    onClickPage = (indexPage) => {
+        const { pagination } = this.state;
+        let paginationUpdated = {...pagination};
+        paginationUpdated.offset = paginationUpdated.limit * (indexPage - 1);
+        this.setState({ pagination: paginationUpdated, pageSelected: indexPage }, async function(){
+            await this.loadList();
+        })
+    }
+
+    onChangeParams = (key) => (e = {}) => {
+        const { searchParams } = this.state;
+        let val = e.target.value;
+        let searchParamsUpdated = { ...searchParams };
+        searchParamsUpdated[key] = val;
+        this.setState({searchParams: searchParamsUpdated});
     }
 
     onAddPatient = async () => {
@@ -86,7 +115,7 @@ export class Patients extends Component {
     }
 
     render() {
-        const { patients, loaded, failed, error, notifications, showPatientModal, mode, patientSelected } = this.state;
+        const { patients, loaded, failed, error, notifications, showPatientModal, mode, patientSelected, patientsLength, pageSelected, pagination,searchParams } = this.state;
 
         return (
             <>
@@ -98,15 +127,16 @@ export class Patients extends Component {
                 )}
                 { loaded && !failed && 
                     <CRow>
-                        <CCol xs="12" className="right-side mb-3">
-                            <CTooltip content="Add a new patient" placement="top">
-                                <CButton onClick={this.onAddPatient} style={{color: 'white'}}>
-                                    <CIcon icon={cilMedicalCross} size="sm"/>
-                                </CButton>
-                            </CTooltip>
-                        </CCol>
                         <PatientTable
                             patients={patients}
+                            patientsLength={patientsLength}
+                            pageSelected={pageSelected}
+                            pagination={pagination}
+                            searchParams={searchParams}
+                            onClickPage={this.onClickPage}
+                            onChangeParams={this.onChangeParams}
+                            onAddPatient={this.onAddPatient}
+                            onSearch={this.loadList}
                             onUpdate={this.onUpdatePatient}
                             onDelete={this.onDeletePatient}
                         />

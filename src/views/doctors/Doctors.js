@@ -15,6 +15,7 @@ import * as doctorActions from '../../services/redux/actions/doctorActions'
 import colorTypes from '../../services/models/others/colorTypes'
 import actionTypes from '../../services/models/others/actionTypes'
 import notification from '../../services/models/others/notification'
+import pagination from '../../services/models/others/pagination'
 import DoctorModel from '../../services/models/DoctorModel'
 import DoctorDetails from './DoctorDetails'
 import Notification from '../../components/common/Notification'
@@ -25,7 +26,15 @@ export class Doctors extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            searchParams: {
+                code: '',
+                name: '',
+                specialtyId: ''
+            },
+            pagination: new pagination(0,10),
+            pageSelected: 1,
             doctors: [],
+            doctorsLength: [],
             doctorSelected: new DoctorModel(),
             showOffcanvas: false,
             showConfirmationModal: false,
@@ -38,13 +47,37 @@ export class Doctors extends Component {
     }
 
     async componentDidMount() {
-        await this.props.getDoctors();
+        await this.loadList();
+    }
+
+    loadList = async () => {
+        this.setState({loaded: false, failed: false});
+        await this.props.getDoctors(this.state.pagination, this.state.searchParams);
+        const { doctor } = this.props;
         this.setState({
-            doctors: [...this.props.doctor.doctors],
-            loaded: this.props.doctor.loaded,
-            failed: this.props.doctor.failed,
-            error: this.props.doctor.error,
+            doctors: [...doctor.doctors],
+            doctorsLength: doctor.length,
+            loaded: doctor.loaded,
+            failed: doctor.failed,
+            error: doctor.error,
         })
+    }
+
+    onClickPage = (indexPage) => {
+        const { pagination } = this.state;
+        let paginationUpdated = {...pagination};
+        paginationUpdated.offset = paginationUpdated.limit * (indexPage - 1);
+        this.setState({ pagination: paginationUpdated, pageSelected: indexPage }, async function(){
+            await this.loadList();
+        })
+    }
+
+    onChangeParams = (key) => (e = {}) => {
+        const { searchParams } = this.state;
+        let val = e.target.value;
+        let searchParamsUpdated = { ...searchParams };
+        searchParamsUpdated[key] = val;
+        this.setState({searchParams: searchParamsUpdated});
     }
 
     onAdd = () => {
@@ -102,7 +135,7 @@ export class Doctors extends Component {
 
     render() {
         const { specialties } = this.props;
-        const { doctors, loaded, failed, error, notifications, showOffcanvas, showConfirmationModal, mode, doctorSelected } = this.state;
+        const { doctors, loaded, failed, error, notifications, showOffcanvas, showConfirmationModal, mode, doctorSelected, doctorsLength, pageSelected, pagination, searchParams } = this.state;
 
         return (
             <>
@@ -114,15 +147,17 @@ export class Doctors extends Component {
                 )}
                 { loaded && !failed && 
                     <CRow>
-                        <CCol xs="12" className="right-side mb-3">
-                            <CTooltip content="Add a new doctor" placement="top">
-                                <CButton onClick={this.onAdd} style={{color: 'white'}}>
-                                    <CIcon icon={cilMedicalCross} size="sm"/>
-                                </CButton>
-                            </CTooltip>
-                        </CCol>
                         <DoctorTable 
                             doctors={doctors}
+                            specialties={specialties}
+                            doctorsLength={doctorsLength}
+                            pageSelected={pageSelected}
+                            pagination={pagination}
+                            searchParams={searchParams}
+                            onClickPage={this.onClickPage}
+                            onChangeParams={this.onChangeParams}
+                            onAdd={this.onAdd}
+                            onSearch={this.loadList}
                             onUpdate={this.onUpdate}
                             onDelete={this.onDelete}
                         />
