@@ -1,14 +1,9 @@
 import React, { Component } from 'react'
 import { 
     CAlert,
-    CButton,
-    CCol,
     CRow,
-    CSpinner,
-    CTooltip
+    CSpinner
 } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
-import { cilMedicalCross } from '@coreui/icons'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as userActions from '../../services/redux/actions/userActions'
@@ -150,13 +145,6 @@ export class Users extends Component {
                 )}
                 { loaded && !failed && 
                     <CRow>
-                        <CCol xs="12" className="right-side mb-3">
-                            <CTooltip content="Add a new user" placement="top">
-                                <CButton onClick={this.onAdd} style={{color: 'white'}}>
-                                    <CIcon icon={cilMedicalCross} size="sm"/>
-                                </CButton>
-                            </CTooltip>
-                        </CCol>
                         <UserTable 
                             users={users}
                             usersLength={usersLength}
@@ -165,6 +153,7 @@ export class Users extends Component {
                             searchParams={searchParams}
                             onClickPage={this.onClickPage}
                             onChangeParams={this.onChangeParams}
+                            onAdd={this.onAdd}
                             onSearch={this.loadList}
                             onUpdate={this.onUpdate}
                             onDelete={this.onDelete}

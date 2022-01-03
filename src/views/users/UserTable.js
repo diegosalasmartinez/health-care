@@ -18,7 +18,7 @@ import {
     CTooltip
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilFilter, cilFilterX, cilSearch, cilPencil, cilTrash } from '@coreui/icons'
+import { cilFilter, cilFilterX, cilSearch, cilPencil, cilTrash, cilMedicalCross } from '@coreui/icons'
 import colorTypes from '../../services/models/others/colorTypes'
 import { userTypes } from 'src/utils/userUtils'
 import Pagination from '../../components/common/Pagination'
@@ -51,54 +51,61 @@ export default class UserTable extends Component {
             <CCol xs="12">
                 <CCard>
                     <CCardBody>
-                        <div style={{marginBottom: '1rem'}} className={visible ? 'jc-sb' : 'jc-fe'}>
-                            <CCollapse visible={visible}>
-                                <CRow className="mb-3">
-                                    <CCol xs="3">
-                                        <CRow>
-                                            <CFormLabel htmlFor="dni" className="col-form-label">DNI</CFormLabel>
-                                            <CCol>
-                                                <CFormInput type="text" id="dni" value={searchParams.dni} onChange={this.props.onChangeParams('dni')}/>
-                                            </CCol>
-                                        </CRow>
-                                    </CCol>
-                                    <CCol xs="3">
-                                        <CRow>
-                                            <CFormLabel htmlFor="name" className="col-form-label">Name or last name</CFormLabel>
-                                            <CCol>
-                                                <CFormInput type="text" id="name" value={searchParams.name} onChange={this.props.onChangeParams('name')}/>
-                                            </CCol>
-                                        </CRow>
-                                    </CCol>
-                                    <CCol xs="3">
-                                        <CRow>
-                                            <CFormLabel htmlFor="role" className="col-form-label">Role</CFormLabel>
-                                            <CCol>
-                                                <CFormSelect aria-label="role" value={searchParams.role} onChange={this.props.onChangeParams('role')}>
-                                                    <option value={""}>Both</option>
-                                                    <option value={"ADMIN"}>Admin</option>
-                                                    <option value={"SECRETARY"}>Secretary</option>
-                                                </CFormSelect>
-                                            </CCol>
-                                        </CRow>
-                                    </CCol>
-                                    <CCol xs="3" style={{display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', width: 'auto'}}>
-                                        <CTooltip content={"Search"} placement="top">
-                                            <CButton style={{color: 'white'}} onClick={this.props.onSearch}>
-                                                <CIcon icon={cilSearch} size="sm"/>
-                                            </CButton>
-                                        </CTooltip>
-                                    </CCol>
-                                </CRow>
-                            </CCollapse>
-                            <div>
+                        <CRow style={{marginBottom: '1rem'}} className={visible ? 'jc-sb' : 'jc-fe'}>
+                            <CCol xs="10">
+                                <CCollapse visible={visible}>
+                                    <CRow className="mb-3">
+                                        <CCol xs="6" md="3">
+                                            <CRow>
+                                                <CFormLabel htmlFor="dni" className="col-form-label">DNI</CFormLabel>
+                                                <CCol>
+                                                    <CFormInput type="text" id="dni" value={searchParams.dni} onChange={this.props.onChangeParams('dni')}/>
+                                                </CCol>
+                                            </CRow>
+                                        </CCol>
+                                        <CCol xs="6" md="3">
+                                            <CRow>
+                                                <CFormLabel htmlFor="name" className="col-form-label">Name or last name</CFormLabel>
+                                                <CCol>
+                                                    <CFormInput type="text" id="name" value={searchParams.name} onChange={this.props.onChangeParams('name')}/>
+                                                </CCol>
+                                            </CRow>
+                                        </CCol>
+                                        <CCol xs="6" md="3">
+                                            <CRow>
+                                                <CFormLabel htmlFor="role" className="col-form-label">Role</CFormLabel>
+                                                <CCol>
+                                                    <CFormSelect aria-label="role" value={searchParams.role} onChange={this.props.onChangeParams('role')}>
+                                                        <option value={""}>Both</option>
+                                                        <option value={"ADMIN"}>Admin</option>
+                                                        <option value={"SECRETARY"}>Secretary</option>
+                                                    </CFormSelect>
+                                                </CCol>
+                                            </CRow>
+                                        </CCol>
+                                        <CCol xs="6" md="3" style={{display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', width: 'auto'}}>
+                                            <CTooltip content={"Search"} placement="top">
+                                                <CButton style={{color: 'white'}} onClick={this.props.onSearch}>
+                                                    <CIcon icon={cilSearch} size="sm"/>
+                                                </CButton>
+                                            </CTooltip>
+                                        </CCol>
+                                    </CRow>
+                                </CCollapse>
+                            </CCol>
+                            <CCol xs="2" style={{display: 'flex', justifyContent: 'flex-end', justifySelf: 'flex-end', alignSelf: 'flex-start', gap: '1rem'}}>
                                 <CTooltip content={visible ? "Hide filters" : "Show filters"} placement="top">
                                     <CButton style={{color: 'white'}} onClick={this.onChangeVisible}>
                                         <CIcon icon={visible ? cilFilterX : cilFilter} size="sm"/>
                                     </CButton>
                                 </CTooltip>
-                            </div>
-                        </div>
+                                <CTooltip content="Add a new patient" placement="top">
+                                    <CButton onClick={this.props.onAdd} style={{color: 'white'}}>
+                                        <CIcon icon={cilMedicalCross} size="sm"/>
+                                    </CButton>
+                                </CTooltip>
+                            </CCol>
+                        </CRow>
                         <CTable responsive>
                             <CTableHead>
                                 <CTableRow>
