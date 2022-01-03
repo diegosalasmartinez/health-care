@@ -63,8 +63,12 @@ export class Specialties extends Component {
         this.setState({showConfirmationModal: true, specialtySelected: {...specialty}});
     }
 
-    onClose = () => {
-        this.setState({showOffcanvas: false, showConfirmationModal:false, mode: actionTypes.NONE, specialtySelected: new SpecialtyModel()});
+    onCloseOffcanvas = () => {
+        this.setState({showOffcanvas: false, mode: actionTypes.NONE, specialtySelected: new SpecialtyModel()});
+    }
+
+    onCloseConfirmation = () => {
+        this.setState({showConfirmationModal:false});
     }
 
     onSave = async (specialty) => {
@@ -130,7 +134,7 @@ export class Specialties extends Component {
                             mode={mode} 
                             specialtySelected={specialtySelected}
                             onSave={this.onAccept}
-                            onClose={this.onClose}
+                            onClose={this.onCloseOffcanvas}
                         />
                         <Confirmation
                             type="specialty"
@@ -139,7 +143,7 @@ export class Specialties extends Component {
                             object={specialtySelected}
                             visible={showConfirmationModal} 
                             onAccept={this.onSave}
-                            onClose={this.onClose}
+                            onClose={this.onCloseConfirmation}
                         />
                     </CRow>
                 }

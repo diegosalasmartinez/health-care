@@ -17,7 +17,7 @@ import {
     CTooltip
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilFilter, cilFilterX, cilSearch, cilPencil, cilTrash, cilMedicalCross } from '@coreui/icons'
+import { cilFilter, cilFilterX, cilSearch, cilAddressBook, cilPencil, cilTrash, cilMedicalCross } from '@coreui/icons'
 import colorTypes from '../../services/models/others/colorTypes'
 import Pagination from '../../components/common/Pagination'
 
@@ -40,10 +40,14 @@ export default class PatientTable extends Component {
     onDelete = (patient) => {
         this.props.onDelete(patient);
     }
+    
+    onCreateAppointment = (patient) => {
+        this.props.onCreateAppointment(patient);
+    }
 
     render() {
         const { visible } = this.state;
-        const { patients, patientsLength, pageSelected, pagination, searchParams } = this.props;
+        const { patients, role, patientsLength, pageSelected, pagination, searchParams } = this.props;
         const style = 'mb-2 ' + (visible ? 'jc-sb' : 'jc-fe');
 
         return (
@@ -125,6 +129,13 @@ export default class PatientTable extends Component {
                                         <CTableDataCell>{p.personInfo.phone}</CTableDataCell>
                                         <CTableDataCell>{p.personInfo.sex}</CTableDataCell>
                                         <CTableDataCell>
+                                            { role === "ADMIN" && 
+                                                <CTooltip content="Create Appointment" placement="top">
+                                                    <CButton color={colorTypes.INFO} style={{marginRight: "1rem"}} onClick={() => this.onCreateAppointment(p)}>
+                                                        <CIcon icon={cilAddressBook} size="sm"/>
+                                                    </CButton>
+                                                </CTooltip>
+                                            }
                                             <CTooltip content="Update" placement="top">
                                                 <CButton color={colorTypes.LIGHT} style={{marginRight: "1rem"}} onClick={() => this.onUpdate(p)}>
                                                     <CIcon icon={cilPencil} size="sm"/>

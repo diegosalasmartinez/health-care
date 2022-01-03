@@ -96,8 +96,12 @@ export class Doctors extends Component {
         this.setState({showConfirmationModal: true, doctorSelected: {...doctor}});
     }
 
-    onClose = () => {
-        this.setState({showOffcanvas: false, showConfirmationModal:false, mode: actionTypes.NONE, doctorSelected: new DoctorModel()});
+    onCloseOffcanvas = () => {
+        this.setState({showOffcanvas: false, mode: actionTypes.NONE, userSelected: new DoctorModel()});
+    }
+
+    onCloseConfirmation = () => {
+        this.setState({showConfirmationModal:false});
     }
 
     onSave = async (doctor) => {
@@ -167,7 +171,7 @@ export class Doctors extends Component {
                             doctorSelected={doctorSelected}
                             specialties={specialties}
                             onSave={this.onAccept}
-                            onClose={this.onClose}
+                            onClose={this.onCloseOffcanvas}
                         />
                         <Confirmation
                             type="doctor"
@@ -176,7 +180,7 @@ export class Doctors extends Component {
                             object={doctorSelected}
                             visible={showConfirmationModal} 
                             onAccept={this.onSave}
-                            onClose={this.onClose}
+                            onClose={this.onCloseConfirmation}
                         />
                     </CRow>
                 }
