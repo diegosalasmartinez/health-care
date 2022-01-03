@@ -8,6 +8,7 @@ import {
 
 const initialState = {
     doctors: [],
+    length: 0,
     error: "",
     loaded: false,
     failed: false
@@ -16,7 +17,7 @@ const initialState = {
 const doctor = (state = initialState, action) => {    
     switch(action.type){
         case GET_DOCTORS:
-            return {...state, doctors: [...action.playload], error: "", loaded: true, failed: false};
+            return {...state, doctors: [...action.playload.doctors], length: action.playload.length, error: "", loaded: true, failed: false};
         case CREATE_DOCTOR:
             return {...state, doctors: [...state.doctors, action.playload], error: "", loaded: true, failed: false};
         case UPDATE_DOCTOR:
