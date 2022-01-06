@@ -7,8 +7,8 @@ import {
     CModalHeader, 
     CModalTitle 
 } from '@coreui/react'
-import colorTypes from 'src/services/models/others/colorTypes';
-import actionTypes from 'src/services/models/others/actionTypes';
+import colorTypes from '../../services/models/others/colorTypes'
+import actionTypes from '../../services/models/others/actionTypes'
 
 export default class Confirmation extends Component {
     constructor(props) {
