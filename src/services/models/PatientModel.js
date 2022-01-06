@@ -18,6 +18,7 @@ export default class PatientModel extends SimpleProperty {
     code = "";
     allergies = "";
     address = "";
+    fullName = "";
     birthday = moment().format("YYYY-MM-DD");
     occupation = "";
     civilStatus = "";
