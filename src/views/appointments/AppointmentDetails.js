@@ -80,13 +80,30 @@ export default class AppointmentDetails extends Component {
         const title = mode === actionTypes.CREATE ? "Add a new appointment" : "Update appointment";
         const txtButton = mode === actionTypes.CREATE ? "Register" : "Update";
         const color = mode === actionTypes.CREATE ? colorTypes.SUCCESS : colorTypes.WARNING;
-        
+
         return (
             <COffcanvas placement="end" visible={visible} onHide={this.onClose}>
                 <COffcanvasHeader>
                     <COffcanvasTitle>{title}</COffcanvasTitle>
                 </COffcanvasHeader>
                 <COffcanvasBody>
+                    <CRow className="mb-3">
+                        <CFormLabel htmlFor="patient" className="col-sm-4 col-form-label">Patient</CFormLabel>
+                        <CCol sm={8}>
+                            <CFormInput type="text" id="patient" value={appointment.patientInfo.fullName} readOnly={true}/>
+                        </CCol>
+                    </CRow>
+                    <CRow className="mb-3">
+                        <CFormLabel htmlFor="doctor" className="col-sm-4 col-form-label">Doctor</CFormLabel>
+                        <CCol sm={8}>
+                            <CInputGroup>
+                                <CFormInput type="text" id="doctor" value={appointment.doctorInfo.fullName} readOnly={true}/>
+                                <CButton onClick={() => {this.setState({showDoctorModal: true})}}>
+                                    <CIcon icon={cilMagnifyingGlass} size="sm"/>
+                                </CButton>
+                            </CInputGroup>
+                        </CCol>
+                    </CRow>
                     <CRow className="mb-3">
                         <CFormLabel htmlFor="room" className="col-sm-4 col-form-label">Room</CFormLabel>
                         <CCol sm={8}>
@@ -96,30 +113,19 @@ export default class AppointmentDetails extends Component {
                     <CRow className="mb-3">
                         <CFormLabel htmlFor="floor" className="col-sm-4 col-form-label">Floor</CFormLabel>
                         <CCol sm={8}>
-                            <CFormInput type="text" id="floor" value={appointment.room} onChange={this.onChange('floor', false, false)} invalid={!firstTime && errors.floor !== null}/>
-                        </CCol>
-                    </CRow>
-                    <CRow className="mb-3">
-                        <CFormLabel htmlFor="doctor" className="col-sm-4 col-form-label">Doctor</CFormLabel>
-                        <CCol sm={8}>
-                            <CInputGroup>
-                                <CFormInput type="text" id="floor" value={appointment.doctorInfo.fullName} readOnly={true}/>
-                                <CButton onClick={() => {this.setState({showDoctorModal: true})}}>
-                                    <CIcon icon={cilMagnifyingGlass} size="sm"/>
-                                </CButton>
-                            </CInputGroup>
+                            <CFormInput type="text" id="floor" value={appointment.floor} onChange={this.onChange('floor', false, false)} invalid={!firstTime && errors.floor !== null}/>
                         </CCol>
                     </CRow>
                     <CCol xs="12" className="right-side my-3">
                         <CButton color={colorTypes.LIGHT} style={{marginRight: "1rem"}} onClick={this.onClose}>Back</CButton>
                         <CButton color={color} onClick={this.onSave}>{txtButton}</CButton>
                     </CCol>
-                    <DoctorSearch
-                        visible={showDoctorModal}
-                        onSelectDoctor={this.onSelectDoctor}
-                        onClose={this.onCloseDoctorModal}
-                    />
                 </COffcanvasBody>
+                <DoctorSearch
+                    visible={showDoctorModal}
+                    onSelectDoctor={this.onSelectDoctor}
+                    onClose={this.onCloseDoctorModal}
+                />
             </COffcanvas>
         )
     }

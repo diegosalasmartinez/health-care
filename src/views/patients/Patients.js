@@ -7,6 +7,7 @@ import {
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as patientActions from '../../services/redux/actions/patientActions'
+import * as appointmentActions from '../../services/redux/actions/appointmentActions'
 import colorTypes from '../../services/models/others/colorTypes'
 import actionTypes from '../../services/models/others/actionTypes'
 import notification from '../../services/models/others/notification'
@@ -136,7 +137,7 @@ export class Patients extends Component {
     }
 
     onSaveAppointment = async (appointment) => {
-        console.log(appointment);
+        await this.props.createAppointment(appointment);
     }
 
     render() {
@@ -213,7 +214,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        ...bindActionCreators(patientActions, dispatch)
+        ...bindActionCreators(Object.assign({}, patientActions, appointmentActions), dispatch)
     }
 }
   
