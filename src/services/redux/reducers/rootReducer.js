@@ -5,6 +5,7 @@ import doctor from './doctorReducer'
 import patient from './patientReducer'
 import specialty from './specialtyReducer'
 import user from './userReducer'
+import appointment from './appointmentReducer'
 import auth from './authReducer'
 
 const rootReducer = combineReducers({
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
 	patient,
 	specialty,
 	user,
+	appointment,
 	auth
 })
 
