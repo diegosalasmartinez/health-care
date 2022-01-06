@@ -1,17 +1,18 @@
-import DoctorModel from './DoctorModel';
-import PatientModel from './PatientModel';
+import DoctorModel from './DoctorModel'
+import PatientModel from './PatientModel'
+import UserModel from './UserModel'
 import SimpleProperty from './SimpleProperty'
+import moment from 'moment'
 
 export default class AppointmentModel extends SimpleProperty {
     _id = "";
-    doctorId = "";
     doctorInfo = new DoctorModel();
-    secretaryId = "";
-    patientId = "";
+    secretaryInfo = new UserModel();
     patientInfo = new PatientModel();
     floor = "";
     room = "";
-    date = "";
+    date = moment().format("YYYY-MM-DD");
+    time = "";
     status = "";
 }
 
@@ -23,7 +24,7 @@ const validate = (appointment) => {
         floor: null,
         room: null,
         date: null,
-        status: null,
+        time: null,
     }
 
     // if (!appointment.doctorId) {
