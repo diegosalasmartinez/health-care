@@ -18,7 +18,7 @@ import {
     CTooltip
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilFilter, cilFilterX, cilMedicalCross, cilPencil, cilSearch, cilTrash } from '@coreui/icons'
+import { cilChevronRight, cilFilter, cilFilterX, cilMedicalCross, cilPencil, cilSearch, cilTrash } from '@coreui/icons'
 import colorTypes from '../../services/models/others/colorTypes'
 import Pagination from 'src/components/common/Pagination'
 
@@ -41,10 +41,14 @@ export default class DoctorTable extends Component {
     onDelete = (doctor) => {
         this.props.onDelete(doctor);
     }
+    
+    onSelect = (doctor) => {
+        this.props.onSelect(doctor);
+    }
 
     render() {
         const { visible } = this.state;
-        const { doctors, specialties, doctorsLength, pageSelected, pagination, searchParams } = this.props;
+        const { doctors, specialties, doctorsLength, pageSelected, pagination, searchParams, selectMode } = this.props;
         const style = 'mb-2 ' + (visible ? 'jc-sb' : 'jc-fe');
 
         return (
@@ -100,11 +104,13 @@ export default class DoctorTable extends Component {
                                         <CIcon icon={visible ? cilFilterX : cilFilter} size="sm"/>
                                     </CButton>
                                 </CTooltip>
-                                <CTooltip content="Add a new patient" placement="top">
-                                    <CButton onClick={this.props.onAdd} style={{color: 'white'}}>
-                                        <CIcon icon={cilMedicalCross} size="sm"/>
-                                    </CButton>
-                                </CTooltip>
+                                { !selectMode && 
+                                    <CTooltip content="Add a new patient" placement="top">
+                                        <CButton onClick={this.props.onAdd} style={{color: 'white'}}>
+                                            <CIcon icon={cilMedicalCross} size="sm"/>
+                                        </CButton>
+                                    </CTooltip>
+                                }
                             </CCol>
                         </CRow>
                         <CTable responsive>
@@ -133,16 +139,26 @@ export default class DoctorTable extends Component {
                                         <CTableDataCell>{d.personInfo.phone}</CTableDataCell>
                                         <CTableDataCell>{d.personInfo.sex}</CTableDataCell>
                                         <CTableDataCell>
-                                            <CTooltip content="Update" placement="top">
-                                                <CButton color={colorTypes.LIGHT} style={{marginRight: "1rem"}} onClick={() => this.onUpdate(d)}>
-                                                    <CIcon icon={cilPencil} size="sm"/>
-                                                </CButton>
-                                            </CTooltip>
-                                            <CTooltip content="Delete" placement="top">
-                                                <CButton color={colorTypes.DANGER} onClick={() => this.onDelete(d)}>
-                                                    <CIcon icon={cilTrash} size="sm"/>
-                                                </CButton>
-                                            </CTooltip>
+                                            { selectMode ?
+                                                <CTooltip content="Choose" placement="top">
+                                                    <CButton color={colorTypes.PRIMARY} style={{marginRight: "1rem"}} onClick={() => this.onSelect(d)}>
+                                                        <CIcon icon={cilChevronRight} size="sm"/>
+                                                    </CButton>
+                                                </CTooltip>
+                                                :
+                                                <>
+                                                    <CTooltip content="Update" placement="top">
+                                                        <CButton color={colorTypes.LIGHT} style={{marginRight: "1rem"}} onClick={() => this.onUpdate(d)}>
+                                                            <CIcon icon={cilPencil} size="sm"/>
+                                                        </CButton>
+                                                    </CTooltip>
+                                                    <CTooltip content="Delete" placement="top">
+                                                        <CButton color={colorTypes.DANGER} onClick={() => this.onDelete(d)}>
+                                                            <CIcon icon={cilTrash} size="sm"/>
+                                                        </CButton>
+                                                    </CTooltip>
+                                                </>
+                                            }
                                         </CTableDataCell>
                                     </CTableRow>
                                 ) }
