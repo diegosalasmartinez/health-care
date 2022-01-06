@@ -1,10 +1,14 @@
+import DoctorModel from './DoctorModel';
+import PatientModel from './PatientModel';
 import SimpleProperty from './SimpleProperty'
 
 export default class AppointmentModel extends SimpleProperty {
     _id = "";
     doctorId = "";
+    doctorInfo = new DoctorModel();
     secretaryId = "";
     patientId = "";
+    patientInfo = new PatientModel();
     floor = "";
     room = "";
     date = "";

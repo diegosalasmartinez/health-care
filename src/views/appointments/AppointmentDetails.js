@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
-import { CButton, CCol, CFormCheck, CFormInput, CFormLabel, CFormSelect, COffcanvas, COffcanvasBody, COffcanvasHeader, COffcanvasTitle, CRow } from '@coreui/react'
+import { CButton, CCol, CFormCheck, CFormInput, CFormLabel, CFormSelect, CInputGroup, COffcanvas, COffcanvasBody, COffcanvasHeader, COffcanvasTitle, CRow } from '@coreui/react'
 import actionTypes from '../../services/models/others/actionTypes'
 import AppointmentModel, { validate } from '../../services/models/AppointmentModel'
 import colorTypes from '../../services/models/others/colorTypes'
 import { objIsNull } from '../../utils/utils'
 import cloneDeep from 'lodash/cloneDeep'
+import DoctorSearch from '../doctors/DoctorSearch'
+import CIcon from '@coreui/icons-react'
+import { cilMagnifyingGlass } from '@coreui/icons'
 
 export default class AppointmentDetails extends Component {
     constructor(props) {
@@ -13,6 +16,7 @@ export default class AppointmentDetails extends Component {
             visible: false,
             firstTime: true,
             appointment: new AppointmentModel(),
+            showDoctorModal: false,
             errors: {}
         }
     }
@@ -25,7 +29,7 @@ export default class AppointmentDetails extends Component {
                     this.setState({appointment: cloneDeep(this.props.appointmentSelected)});
                 } else {
                     const newAppointment = new AppointmentModel();
-                    newAppointment.patientId = this.props.patientSelected._id;
+                    newAppointment.patientInfo = cloneDeep(this.props.patientSelected)
                     this.setState({appointment: newAppointment});
                 }
             }
@@ -59,8 +63,19 @@ export default class AppointmentDetails extends Component {
         this.props.onClose();
     }
 
+    onCloseDoctorModal = () => {
+        this.setState({showDoctorModal: false});
+    }
+
+    onSelectDoctor = (d) => {
+        const { appointment } = this.state;
+        let appointmentUpdated = {...appointment};
+        appointmentUpdated.doctorInfo = cloneDeep(d);
+        this.setState({appointment: appointmentUpdated});
+    }
+
     render() {
-        const { visible, appointment, errors, firstTime } = this.state;
+        const { visible, appointment, errors, firstTime, showDoctorModal } = this.state;
         const { mode } = this.props;
         const title = mode === actionTypes.CREATE ? "Add a new appointment" : "Update appointment";
         const txtButton = mode === actionTypes.CREATE ? "Register" : "Update";
@@ -84,10 +99,26 @@ export default class AppointmentDetails extends Component {
                             <CFormInput type="text" id="floor" value={appointment.room} onChange={this.onChange('floor', false, false)} invalid={!firstTime && errors.floor !== null}/>
                         </CCol>
                     </CRow>
+                    <CRow className="mb-3">
+                        <CFormLabel htmlFor="doctor" className="col-sm-4 col-form-label">Doctor</CFormLabel>
+                        <CCol sm={8}>
+                            <CInputGroup>
+                                <CFormInput type="text" id="floor" value={appointment.doctorInfo.fullName} readOnly={true}/>
+                                <CButton onClick={() => {this.setState({showDoctorModal: true})}}>
+                                    <CIcon icon={cilMagnifyingGlass} size="sm"/>
+                                </CButton>
+                            </CInputGroup>
+                        </CCol>
+                    </CRow>
                     <CCol xs="12" className="right-side my-3">
                         <CButton color={colorTypes.LIGHT} style={{marginRight: "1rem"}} onClick={this.onClose}>Back</CButton>
                         <CButton color={color} onClick={this.onSave}>{txtButton}</CButton>
                     </CCol>
+                    <DoctorSearch
+                        visible={showDoctorModal}
+                        onSelectDoctor={this.onSelectDoctor}
+                        onClose={this.onCloseDoctorModal}
+                    />
                 </COffcanvasBody>
             </COffcanvas>
         )
