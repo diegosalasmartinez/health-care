@@ -1,13 +1,16 @@
 import React, { Component } from 'react'
 import { CButton, CCol, CFormCheck, CFormInput, CFormLabel, CFormSelect, CInputGroup, COffcanvas, COffcanvasBody, COffcanvasHeader, COffcanvasTitle, CRow } from '@coreui/react'
+import DatePicker from 'react-date-picker'
+import TimePicker from 'react-time-picker'
+import cloneDeep from 'lodash/cloneDeep'
+import CIcon from '@coreui/icons-react'
+import { cilMagnifyingGlass } from '@coreui/icons'
+import moment from 'moment'
 import actionTypes from '../../services/models/others/actionTypes'
 import AppointmentModel, { validate } from '../../services/models/AppointmentModel'
 import colorTypes from '../../services/models/others/colorTypes'
 import { objIsNull } from '../../utils/utils'
-import cloneDeep from 'lodash/cloneDeep'
 import DoctorSearch from '../doctors/DoctorSearch'
-import CIcon from '@coreui/icons-react'
-import { cilMagnifyingGlass } from '@coreui/icons'
 
 export default class AppointmentDetails extends Component {
     constructor(props) {
@@ -36,9 +39,9 @@ export default class AppointmentDetails extends Component {
         }
     }
 
-    onChange = (key, isNumeric = false, isDate = false) => (e = {}) => {
+    onChange = (key, isNumeric = false, isDate = false, isTime = false) => (e = {}) => {
         const { appointment } = this.state;
-            let val = isNumeric ? parseInt(e.target.value || '0') : (isDate) ? moment(e).format("YYYY-MM-DD") : e.target.value;
+            let val = isNumeric ? parseInt(e.target.value || '0') : (isDate) ? moment(e).format("YYYY-MM-DD") : (isTime) ? e : e.target.value;
             let appointmentUpdated = { ...appointment };
             const keys = key.split(".");
             if (keys.length > 1) {
@@ -114,6 +117,30 @@ export default class AppointmentDetails extends Component {
                         <CFormLabel htmlFor="floor" className="col-sm-4 col-form-label">Floor</CFormLabel>
                         <CCol sm={8}>
                             <CFormInput type="text" id="floor" value={appointment.floor} onChange={this.onChange('floor', false, false)} invalid={!firstTime && errors.floor !== null}/>
+                        </CCol>
+                    </CRow>
+                    <CRow className="mb-3">
+                        <CFormLabel htmlFor="date" className="col-sm-4 col-form-label">Date</CFormLabel>
+                        <CCol sm={8}>
+                            <DatePicker
+                                format="dd-MM-y"
+                                clearIcon={null}
+                                value={appointment.date ? new Date(moment(appointment.date).format("YYYY-MM-DD HH:mm:ss")) : new Date()}
+                                onChange={this.onChange('date', false, true)}
+                            />
+                        </CCol>
+                    </CRow>
+                    <CRow className="mb-3">
+                        <CFormLabel htmlFor="time" className="col-sm-4 col-form-label">Time</CFormLabel>
+                        <CCol sm={8}>
+                            <TimePicker
+                                autoFocus={false}
+                                name="time"
+                                clearIcon={null}
+                                maxDetail="second"
+                                value={appointment.time}
+                                onChange={this.onChange('time', false, false, true)}
+                            />
                         </CCol>
                     </CRow>
                     <CCol xs="12" className="right-side my-3">
