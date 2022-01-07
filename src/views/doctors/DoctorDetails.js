@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { CButton, CCol, CFormCheck, CFormFeedback, CFormInput, CFormLabel, CFormSelect, COffcanvas, COffcanvasBody, COffcanvasHeader, COffcanvasTitle, CRow } from '@coreui/react'
+import { CButton, CCol, CFormCheck, CFormInput, CFormLabel, CFormSelect, COffcanvas, COffcanvasBody, COffcanvasHeader, COffcanvasTitle, CRow } from '@coreui/react'
 import actionTypes from '../../services/models/others/actionTypes'
 import DoctorModel, { validate } from '../../services/models/DoctorModel'
 import colorTypes from '../../services/models/others/colorTypes'

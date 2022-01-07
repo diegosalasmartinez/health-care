@@ -1,6 +1,6 @@
 import SimpleProperty from './SimpleProperty'
 import PersonModel from './PersonModel'
-import moment from 'moment';
+import moment from 'moment'
 
 export default class PatientModel extends SimpleProperty {
     _id = "";
@@ -18,6 +18,7 @@ export default class PatientModel extends SimpleProperty {
     code = "";
     allergies = "";
     address = "";
+    fullName = "";
     birthday = moment().format("YYYY-MM-DD");
     occupation = "";
     civilStatus = "";

@@ -53,3 +53,9 @@
         padding: 0.15rem 0.45rem;
     }
 }
+
+.form-control-date-invalid{
+    div{
+      border-color: $error!important;
+    }
+  }
