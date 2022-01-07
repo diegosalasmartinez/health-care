@@ -137,7 +137,27 @@ export class Patients extends Component {
     }
 
     onSaveAppointment = async (appointment) => {
+        this.setState({loaded: false, failed: false});
+
         await this.props.createAppointment(appointment);
+        const failed = this.props.appointment.failed;
+        let newNotification;
+        if (failed) {
+            newNotification = new notification(colorTypes.DANGER, 'Error', this.props.appointment.error); 
+        } else {
+            newNotification = new notification(colorTypes.SUCCESS, 'Success', "Appointment created");
+        }
+        this.setState({
+            loaded: true, 
+            failed: false, 
+            showOffcanvas: false,
+            showOffcanvasAppointment: false,
+            showModalAppointment: false,
+            mode: actionTypes.NONE, 
+            patientSelected: new PatientModel(),
+            appointmentSelected: new AppointmentModel(),
+            notifications: [...this.state.notifications, newNotification]
+        });
     }
 
     render() {
@@ -208,6 +228,7 @@ export class Patients extends Component {
 const mapStateToProps = state => {
     return {
         patient: state.patient,
+        appointment: state.appointment,
         auth: state.auth
     }
 }
