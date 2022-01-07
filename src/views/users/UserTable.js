@@ -20,7 +20,7 @@ import {
 import CIcon from '@coreui/icons-react'
 import { cilFilter, cilFilterX, cilSearch, cilPencil, cilTrash, cilMedicalCross } from '@coreui/icons'
 import colorTypes from '../../services/models/others/colorTypes'
-import { userTypes } from 'src/utils/userUtils'
+import { userTypes } from '../../utils/userUtils'
 import Pagination from '../../components/common/Pagination'
 
 export default class UserTable extends Component {

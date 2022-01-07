@@ -1,19 +1,18 @@
 import React, { Component } from 'react'
 import { 
-    CButton, 
     CModal, 
     CModalBody, 
-    CModalFooter, 
     CModalHeader, 
-    CModalTitle 
+    CModalTitle, 
+    CRow,
+    CSpinner
 } from '@coreui/react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as doctorActions from '../../services/redux/actions/doctorActions'
-import colorTypes from '../../services/models/others/colorTypes'
-import actionTypes from '../../services/models/others/actionTypes'
 import DoctorTable from './DoctorTable'
 import pagination from '../../services/models/others/pagination'
+import colorTypes from '../../services/models/others/colorTypes'
 
 export class DoctorSearch extends Component {
     constructor(props) {
@@ -98,19 +97,26 @@ export class DoctorSearch extends Component {
                     <CModalTitle>Search doctor</CModalTitle>
                 </CModalHeader>
                 <CModalBody>
-                    <DoctorTable 
-                        selectMode={true}
-                        doctors={doctors}
-                        specialties={specialties}
-                        doctorsLength={doctorsLength}
-                        pageSelected={pageSelected}
-                        pagination={pagination}
-                        searchParams={searchParams}
-                        onClickPage={this.onClickPage}
-                        onChangeParams={this.onChangeParams}
-                        onSelect={this.onSelect}
-                        onSearch={this.loadList}
-                    />
+                    { loaded && !failed &&
+                        <DoctorTable 
+                            selectMode={true}
+                            doctors={doctors}
+                            specialties={specialties}
+                            doctorsLength={doctorsLength}
+                            pageSelected={pageSelected}
+                            pagination={pagination}
+                            searchParams={searchParams}
+                            onClickPage={this.onClickPage}
+                            onChangeParams={this.onChangeParams}
+                            onSelect={this.onSelect}
+                            onSearch={this.loadList}
+                        />
+                    }
+                    { !loaded &&
+                        <CRow className="center">
+                            <CSpinner color={colorTypes.PRIMARY}/>
+                        </CRow>
+                    }
                 </CModalBody>
             </CModal>
         )

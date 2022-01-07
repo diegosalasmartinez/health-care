@@ -1,14 +1,9 @@
 import React, { Component } from 'react'
 import { 
     CAlert,
-    CButton,
-    CCol,
     CRow,
     CSpinner,
-    CTooltip
 } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
-import { cilMedicalCross } from '@coreui/icons'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as doctorActions from '../../services/redux/actions/doctorActions'
