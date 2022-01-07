@@ -19,7 +19,6 @@ export default class AppointmentModel extends SimpleProperty {
 const validate = (appointment) => {
     let errors = {
         doctorId: null,
-        secretaryId: null,
         patientId: null,
         floor: null,
         room: null,
@@ -27,24 +26,24 @@ const validate = (appointment) => {
         time: null,
     }
 
-    // if (!appointment.doctorId) {
-    //     errors.doctorId = "Doctor is mandatory";
-    // }
-    // if (!appointment.patientId) {
-    //     errors.patientId = "Patient is mandatory";
-    // }
-    // if (!appointment.floor) {
-    //     errors.floor = "Floor is mandatory";
-    // }
-    // if (!appointment.room) {
-    //     errors.room = "Room is mandatory";
-    // }
-    // if (!appointment.date) {
-    //     errors.date = "Date is mandatory";
-    // }
-    // if (!appointment.status) {
-    //     errors.status = "Status is mandatory";
-    // }
+    if (!appointment.doctorInfo._id) {
+        errors.doctorId = "Doctor is mandatory";
+    }
+    if (!appointment.patientInfo._id) {
+        errors.patientId = "Patient is mandatory";
+    }
+    if (!appointment.floor) {
+        errors.floor = "Floor is mandatory";
+    }
+    if (!appointment.room) {
+        errors.room = "Room is mandatory";
+    }
+    if (!appointment.date) {
+        errors.date = "Date is mandatory";
+    }
+    if (!appointment.time) {
+        errors.time = "Time is mandatory";
+    }
     return errors;
 }
 

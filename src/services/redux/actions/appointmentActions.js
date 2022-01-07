@@ -42,15 +42,13 @@ const getAppointments = (pagination, searchParams) => async (dispatch) => {
 const createAppointment = (appointment) => async (dispatch) => {
     let message = "There was a problem with the server. Sorry :("
     try {
-        console.log(appointment);
+        let newAppointment = {...appointment};
         const res = await createAppointmentAPI(appointment);
-        console.log(res);
-        // let AppointmentResponse = {...res.appointment};
-        // AppointmentResponse.personInfo = {...res.personInfo};
+        newAppointment._id = res._id;
 
         return dispatch({
             type: CREATE_APPOINTMENT,
-            playload: res
+            playload: newAppointment
         })
     } catch(e){
         if (e.response && e.response.statusText === "Unauthorized") {

@@ -77,6 +77,14 @@ export default class AppointmentDetails extends Component {
         this.setState({appointment: appointmentUpdated});
     }
 
+    isInvalid = (key) => {
+        if (this.state.errors[key]) {
+            return "form-control-date-invalid";
+        } else {
+            return "";
+        }
+    }
+
     render() {
         const { visible, appointment, errors, firstTime, showDoctorModal } = this.state;
         const { mode } = this.props;
@@ -93,14 +101,14 @@ export default class AppointmentDetails extends Component {
                     <CRow className="mb-3">
                         <CFormLabel htmlFor="patient" className="col-sm-4 col-form-label">Patient</CFormLabel>
                         <CCol sm={8}>
-                            <CFormInput type="text" id="patient" value={appointment.patientInfo.fullName} readOnly={true}/>
+                            <CFormInput type="text" id="patient" value={appointment.patientInfo.fullName} readOnly={true} invalid={!firstTime && errors.patientId !== null}/>
                         </CCol>
                     </CRow>
                     <CRow className="mb-3">
                         <CFormLabel htmlFor="doctor" className="col-sm-4 col-form-label">Doctor</CFormLabel>
                         <CCol sm={8}>
                             <CInputGroup>
-                                <CFormInput type="text" id="doctor" value={appointment.doctorInfo.fullName} readOnly={true}/>
+                                <CFormInput type="text" id="doctor" value={appointment.doctorInfo.fullName} readOnly={true} invalid={!firstTime && errors.doctorId !== null}/>
                                 <CButton onClick={() => {this.setState({showDoctorModal: true})}}>
                                     <CIcon icon={cilMagnifyingGlass} size="sm"/>
                                 </CButton>
@@ -123,6 +131,7 @@ export default class AppointmentDetails extends Component {
                         <CFormLabel htmlFor="date" className="col-sm-4 col-form-label">Date</CFormLabel>
                         <CCol sm={8}>
                             <DatePicker
+                                className={this.isInvalid("date")}
                                 format="dd-MM-y"
                                 clearIcon={null}
                                 value={appointment.date ? new Date(moment(appointment.date).format("YYYY-MM-DD HH:mm:ss")) : new Date()}
@@ -134,10 +143,11 @@ export default class AppointmentDetails extends Component {
                         <CFormLabel htmlFor="time" className="col-sm-4 col-form-label">Time</CFormLabel>
                         <CCol sm={8}>
                             <TimePicker
+                                className={this.isInvalid("time")}
                                 autoFocus={false}
                                 name="time"
                                 clearIcon={null}
-                                maxDetail="second"
+                                maxDetail="minute"
                                 value={appointment.time}
                                 onChange={this.onChange('time', false, false, true)}
                             />
