@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import * as appointmentActions from '../../services/redux/actions/appointmentActions'
 
-export default class Appointments extends Component {
+export class Appointments extends Component {
     render() {
         return (
             <div>
@@ -9,3 +12,17 @@ export default class Appointments extends Component {
         )
     }
 }
+
+const mapStateToProps = state => {
+    return {
+        appointment: state.appointment
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        ...bindActionCreators(Object.assign({}, appointmentActions), dispatch)
+    }
+}
+  
+export default connect(mapStateToProps, mapDispatchToProps)(Appointments)
