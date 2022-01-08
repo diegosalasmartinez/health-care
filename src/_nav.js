@@ -1,6 +1,7 @@
 import React from 'react'
 import CIcon from '@coreui/icons-react'
 import {
+  cilAddressBook,
   cilHospital,
   cilPeople,
   cilSpeedometer,
@@ -39,6 +40,12 @@ const navAdmin = [
   },
   {
     component: CNavItem,
+    name: 'Appointments',
+    to: '/appointments',
+    icon: <CIcon icon={cilAddressBook} customClassName="nav-icon" />
+  },
+  {
+    component: CNavItem,
     name: 'Users',
     to: '/users',
     icon: <CIcon icon={cilUser} customClassName="nav-icon" />
@@ -55,6 +62,12 @@ const navDoctor = [
       color: 'info',
       text: 'NEW',
     },
+  },
+  {
+    component: CNavItem,
+    name: 'Appointments',
+    to: '/appointments',
+    icon: <CIcon icon={cilAddressBook} customClassName="nav-icon" />
   },
   {
     component: CNavItem,
@@ -82,6 +95,12 @@ const navSecretary= [
     name: 'Patients',
     to: '/patients',
     icon: <CIcon icon={cilPeople} customClassName="nav-icon" />
+  },
+  {
+    component: CNavItem,
+    name: 'Appointments',
+    to: '/appointments',
+    icon: <CIcon icon={cilAddressBook} customClassName="nav-icon" />
   },
   {
     component: CNavItem,

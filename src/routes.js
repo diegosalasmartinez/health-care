@@ -7,6 +7,7 @@ const Doctors = React.lazy(() => import('./views/doctors/Doctors'))
 const Patients = React.lazy(() => import('./views/patients/Patients'))
 const PatientDetails = React.lazy(() => import('./views/patients/PatientDetails'))
 const Users = React.lazy(() => import('./views/users/Users'))
+const Appointments = React.lazy(() => import('./views/appointments/Appointments'))
 
 const allRoutes = [
   { path: '/', exact: true, name: 'Home' },
@@ -16,7 +17,8 @@ const allRoutes = [
   { path: '/patients', name: 'Patients', component: Patients, exact: true },
   { path: '/patients/create', name: 'Patient Details', component: PatientDetails },
   { path: '/patients/update', name: 'Patient Details', component: PatientDetails },
-  { path: '/users', name: 'Users', component: Users }
+  { path: '/users', name: 'Users', component: Users },
+  { path: '/appointments', name: 'Appointments', component: Appointments }
 ]
 
 const routesAdmin = [
@@ -27,7 +29,9 @@ const routesAdmin = [
   { path: '/patients', name: 'Patients', component: Patients, exact: true },
   { path: '/patients/create', name: 'Patient Details', component: PatientDetails },
   { path: '/patients/update', name: 'Patient Details', component: PatientDetails },
-  { path: '/users', name: 'Users', component: Users }
+  { path: '/users', name: 'Users', component: Users },
+  { path: '/appointments', name: 'Appointments', component: Appointments }
+
 ]
 
 const routesDoctor = [
@@ -35,7 +39,9 @@ const routesDoctor = [
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
   { path: '/patients', name: 'Patients', component: Patients, exact: true },
   { path: '/patients/create', name: 'Patient Details', component: PatientDetails },
-  { path: '/patients/update', name: 'Patient Details', component: PatientDetails }
+  { path: '/patients/update', name: 'Patient Details', component: PatientDetails },
+  { path: '/appointments', name: 'Appointments', component: Appointments }
+
 ]
 
 const routesSecretary = [
@@ -45,7 +51,8 @@ const routesSecretary = [
   { path: '/patients', name: 'Patients', component: Patients, exact: true },
   { path: '/patients/create', name: 'Patient Details', component: PatientDetails },
   { path: '/patients/update', name: 'Patient Details', component: PatientDetails },
-  { path: '/users', name: 'Users', component: Users }
+  { path: '/users', name: 'Users', component: Users },
+  { path: '/appointments', name: 'Appointments', component: Appointments }
 ]
 
 export {
