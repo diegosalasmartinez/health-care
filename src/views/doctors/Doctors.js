@@ -37,7 +37,7 @@ export class Doctors extends Component {
             notifications: [],
             loaded: false,
             failed: false,
-            error: "",
+            error: ""
         }
     }
 
@@ -92,7 +92,7 @@ export class Doctors extends Component {
     }
 
     onCloseOffcanvas = () => {
-        this.setState({showOffcanvas: false, mode: actionTypes.NONE, userSelected: new DoctorModel()});
+        this.setState({showOffcanvas: false, mode: actionTypes.NONE, doctorSelected: new DoctorModel()});
     }
 
     onCloseConfirmation = () => {
