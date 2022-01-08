@@ -18,12 +18,12 @@ import {
     CTooltip
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilFilter, cilFilterX, cilSearch, cilPencil, cilTrash, cilMedicalCross } from '@coreui/icons'
+import { cilChevronRight, cilFilter, cilFilterX, cilMedicalCross, cilPencil, cilSearch, cilTrash } from '@coreui/icons'
 import colorTypes from '../../services/models/others/colorTypes'
-import { userTypes } from '../../utils/userUtils'
 import Pagination from '../../components/common/Pagination'
+import moment from 'moment'
 
-export default class UserTable extends Component {
+export default class AppointmentTable extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -35,19 +35,23 @@ export default class UserTable extends Component {
         this.setState({visible: !this.state.visible});
     }
 
-    onUpdate = (user) => {
-        this.props.onUpdate(user);
+    onUpdate = (doctor) => {
+        this.props.onUpdate(doctor);
     }
 
-    onDelete = (user) => {
-        this.props.onDelete(user);
+    onDelete = (doctor) => {
+        this.props.onDelete(doctor);
+    }
+    
+    onSelect = (doctor) => {
+        this.props.onSelect(doctor);
     }
 
     render() {
         const { visible } = this.state;
-        const { users, usersLength, pageSelected, pagination, searchParams } = this.props;
+        const { appointments, appointmentsLength, pageSelected, pagination, searchParams } = this.props;
         const style = 'mb-2 ' + (visible ? 'jc-sb' : 'jc-fe');
-        
+
         return (
             <CCol xs="12">
                 <CCard>
@@ -58,29 +62,17 @@ export default class UserTable extends Component {
                                     <CRow className="mb-3">
                                         <CCol xs="6" md="3">
                                             <CRow>
-                                                <CFormLabel htmlFor="dni" className="col-form-label">DNI</CFormLabel>
+                                                <CFormLabel htmlFor="patient" className="col-form-label">Patient</CFormLabel>
                                                 <CCol>
-                                                    <CFormInput type="text" id="dni" value={searchParams.dni} onChange={this.props.onChangeParams('dni')}/>
+                                                    <CFormInput type="text" id="patient" value={searchParams.patient} onChange={this.props.onChangeParams('patient')}/>
                                                 </CCol>
                                             </CRow>
                                         </CCol>
                                         <CCol xs="6" md="3">
                                             <CRow>
-                                                <CFormLabel htmlFor="name" className="col-form-label">Name or last name</CFormLabel>
+                                                <CFormLabel htmlFor="doctor" className="col-form-label">Doctor</CFormLabel>
                                                 <CCol>
-                                                    <CFormInput type="text" id="name" value={searchParams.name} onChange={this.props.onChangeParams('name')}/>
-                                                </CCol>
-                                            </CRow>
-                                        </CCol>
-                                        <CCol xs="6" md="3">
-                                            <CRow>
-                                                <CFormLabel htmlFor="role" className="col-form-label">Role</CFormLabel>
-                                                <CCol>
-                                                    <CFormSelect aria-label="role" value={searchParams.role} onChange={this.props.onChangeParams('role')}>
-                                                        <option value={""}>Both</option>
-                                                        <option value={"ADMIN"}>Admin</option>
-                                                        <option value={"SECRETARY"}>Secretary</option>
-                                                    </CFormSelect>
+                                                    <CFormInput type="text" id="doctor" value={searchParams.doctor} onChange={this.props.onChangeParams('doctor')}/>
                                                 </CCol>
                                             </CRow>
                                         </CCol>
@@ -100,7 +92,7 @@ export default class UserTable extends Component {
                                         <CIcon icon={visible ? cilFilterX : cilFilter} size="sm"/>
                                     </CButton>
                                 </CTooltip>
-                                <CTooltip content="Add a new patient" placement="top">
+                                <CTooltip content="Add a new appointment" placement="top">
                                     <CButton onClick={this.props.onAdd} style={{color: 'white'}}>
                                         <CIcon icon={cilMedicalCross} size="sm"/>
                                     </CButton>
@@ -110,34 +102,32 @@ export default class UserTable extends Component {
                         <CTable responsive>
                             <CTableHead>
                                 <CTableRow>
-                                    <CTableHeaderCell scope="col">DNI</CTableHeaderCell>
-                                    <CTableHeaderCell scope="col">Name</CTableHeaderCell>
-                                    <CTableHeaderCell scope="col">Last Name</CTableHeaderCell>
-                                    <CTableHeaderCell scope="col">Email</CTableHeaderCell>
-                                    <CTableHeaderCell scope="col">Phone</CTableHeaderCell>
-                                    <CTableHeaderCell scope="col">Sex</CTableHeaderCell>
-                                    <CTableHeaderCell scope="col">Role</CTableHeaderCell>
+                                    <CTableHeaderCell scope="col">Patient</CTableHeaderCell>
+                                    <CTableHeaderCell scope="col">Doctor</CTableHeaderCell>
+                                    <CTableHeaderCell scope="col">Date</CTableHeaderCell>
+                                    <CTableHeaderCell scope="col">Time</CTableHeaderCell>
+                                    <CTableHeaderCell scope="col">Floor</CTableHeaderCell>
+                                    <CTableHeaderCell scope="col">Room</CTableHeaderCell>
                                     <CTableHeaderCell scope="col">Actions</CTableHeaderCell>
                                 </CTableRow>
                             </CTableHead>
                             <CTableBody>
-                                { users.map(u => 
-                                    <CTableRow key={u._id}>
-                                        <CTableDataCell>{u.personInfo.DNI}</CTableDataCell>
-                                        <CTableDataCell>{u.personInfo.name}</CTableDataCell>
-                                        <CTableDataCell>{u.personInfo.lastName}</CTableDataCell>
-                                        <CTableDataCell>{u.personInfo.email}</CTableDataCell>
-                                        <CTableDataCell>{u.personInfo.phone}</CTableDataCell>
-                                        <CTableDataCell>{u.personInfo.sex}</CTableDataCell>
-                                        <CTableDataCell>{userTypes[u.role]}</CTableDataCell>
+                                { appointments.map(a => 
+                                    <CTableRow key={a._id}>
+                                        <CTableDataCell>{a.patientInfo.fullName}</CTableDataCell>
+                                        <CTableDataCell>{a.doctorInfo.fullName}</CTableDataCell>
+                                        <CTableDataCell>{moment(a.date).format("YYYY-MM-DD")}</CTableDataCell>
+                                        <CTableDataCell>{a.time}</CTableDataCell>
+                                        <CTableDataCell>{a.floor}</CTableDataCell>
+                                        <CTableDataCell>{a.room}</CTableDataCell>
                                         <CTableDataCell>
                                             <CTooltip content="Update" placement="top">
-                                                <CButton color={colorTypes.LIGHT} style={{marginRight: "1rem"}} onClick={() => this.onUpdate(u)}>
+                                                <CButton color={colorTypes.LIGHT} style={{marginRight: "1rem"}} onClick={() => this.onUpdate(a)}>
                                                     <CIcon icon={cilPencil} size="sm"/>
                                                 </CButton>
                                             </CTooltip>
                                             <CTooltip content="Delete" placement="top">
-                                                <CButton color={colorTypes.DANGER} onClick={() => this.onDelete(u)}>
+                                                <CButton color={colorTypes.DANGER} onClick={() => this.onDelete(a)}>
                                                     <CIcon icon={cilTrash} size="sm"/>
                                                 </CButton>
                                             </CTooltip>
@@ -146,7 +136,7 @@ export default class UserTable extends Component {
                                 ) }
                             </CTableBody>
                         </CTable>
-                        <Pagination itemsLength={usersLength} pageSelected={pageSelected} pagination={pagination} onClickPage={this.props.onClickPage}/>
+                        <Pagination itemsLength={appointmentsLength} pageSelected={pageSelected} pagination={pagination} onClickPage={this.props.onClickPage}/>
                     </CCardBody>
                 </CCard>
             </CCol>

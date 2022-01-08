@@ -20,7 +20,7 @@ import {
 import CIcon from '@coreui/icons-react'
 import { cilChevronRight, cilFilter, cilFilterX, cilMedicalCross, cilPencil, cilSearch, cilTrash } from '@coreui/icons'
 import colorTypes from '../../services/models/others/colorTypes'
-import Pagination from 'src/components/common/Pagination'
+import Pagination from '../../components/common/Pagination'
 
 export default class DoctorTable extends Component {
     constructor(props) {

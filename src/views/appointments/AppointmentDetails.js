@@ -11,6 +11,7 @@ import AppointmentModel, { validate } from '../../services/models/AppointmentMod
 import colorTypes from '../../services/models/others/colorTypes'
 import { objIsNull } from '../../utils/utils'
 import DoctorSearch from '../doctors/DoctorSearch'
+import PatientSearch from '../patients/PatientSearch'
 
 export default class AppointmentDetails extends Component {
     constructor(props) {
@@ -20,6 +21,7 @@ export default class AppointmentDetails extends Component {
             firstTime: true,
             appointment: new AppointmentModel(),
             showDoctorModal: false,
+            showPatientModal: false,
             errors: {}
         }
     }
@@ -31,8 +33,13 @@ export default class AppointmentDetails extends Component {
                 if (this.props.mode === actionTypes.UPDATE) {
                     this.setState({appointment: cloneDeep(this.props.appointmentSelected)});
                 } else {
-                    const newAppointment = new AppointmentModel();
-                    newAppointment.patientInfo = cloneDeep(this.props.patientSelected)
+                    let newAppointment;
+                    if (this.props.patientSelected) {
+                        newAppointment = new AppointmentModel();
+                        newAppointment.patientInfo = cloneDeep(this.props.patientSelected);
+                    } else {
+                        newAppointment = cloneDeep(this.props.appointmentSelected);
+                    }
                     this.setState({appointment: newAppointment});
                 }
             }
@@ -70,10 +77,21 @@ export default class AppointmentDetails extends Component {
         this.setState({showDoctorModal: false});
     }
 
+    onClosePatientModal = () => {
+        this.setState({showPatientModal: false});
+    }
+
     onSelectDoctor = (d) => {
         const { appointment } = this.state;
         let appointmentUpdated = {...appointment};
         appointmentUpdated.doctorInfo = cloneDeep(d);
+        this.setState({appointment: appointmentUpdated});
+    }
+
+    onSelectPatient = (p) => {
+        const { appointment } = this.state;
+        let appointmentUpdated = {...appointment};
+        appointmentUpdated.patientInfo = cloneDeep(p);
         this.setState({appointment: appointmentUpdated});
     }
 
@@ -86,8 +104,8 @@ export default class AppointmentDetails extends Component {
     }
 
     render() {
-        const { visible, appointment, errors, firstTime, showDoctorModal } = this.state;
-        const { mode } = this.props;
+        const { visible, appointment, errors, firstTime, showDoctorModal, showPatientModal } = this.state;
+        const { mode, patientSelected } = this.props;
         const title = mode === actionTypes.CREATE ? "Add a new appointment" : "Update appointment";
         const txtButton = mode === actionTypes.CREATE ? "Register" : "Update";
         const color = mode === actionTypes.CREATE ? colorTypes.SUCCESS : colorTypes.WARNING;
@@ -101,7 +119,14 @@ export default class AppointmentDetails extends Component {
                     <CRow className="mb-3">
                         <CFormLabel htmlFor="patient" className="col-sm-4 col-form-label">Patient</CFormLabel>
                         <CCol sm={8}>
-                            <CFormInput type="text" id="patient" value={appointment.patientInfo.fullName} readOnly={true} invalid={!firstTime && errors.patientId !== null}/>
+                            <CInputGroup>
+                                <CFormInput type="text" id="patient" value={appointment.patientInfo.fullName} readOnly={true} invalid={!firstTime && errors.patientId !== null}/>
+                                { !patientSelected &&
+                                    <CButton onClick={() => {this.setState({showPatientModal: true})}}>
+                                        <CIcon icon={cilMagnifyingGlass} size="sm"/>
+                                    </CButton>
+                                }
+                            </CInputGroup>
                         </CCol>
                     </CRow>
                     <CRow className="mb-3">
@@ -116,15 +141,15 @@ export default class AppointmentDetails extends Component {
                         </CCol>
                     </CRow>
                     <CRow className="mb-3">
-                        <CFormLabel htmlFor="room" className="col-sm-4 col-form-label">Room</CFormLabel>
-                        <CCol sm={8}>
-                            <CFormInput type="text" id="room" value={appointment.room} onChange={this.onChange('room', false, false)} invalid={!firstTime && errors.room !== null}/>
-                        </CCol>
-                    </CRow>
-                    <CRow className="mb-3">
                         <CFormLabel htmlFor="floor" className="col-sm-4 col-form-label">Floor</CFormLabel>
                         <CCol sm={8}>
                             <CFormInput type="text" id="floor" value={appointment.floor} onChange={this.onChange('floor', false, false)} invalid={!firstTime && errors.floor !== null}/>
+                        </CCol>
+                    </CRow>
+                    <CRow className="mb-3">
+                        <CFormLabel htmlFor="room" className="col-sm-4 col-form-label">Room</CFormLabel>
+                        <CCol sm={8}>
+                            <CFormInput type="text" id="room" value={appointment.room} onChange={this.onChange('room', false, false)} invalid={!firstTime && errors.room !== null}/>
                         </CCol>
                     </CRow>
                     <CRow className="mb-3">
@@ -162,6 +187,11 @@ export default class AppointmentDetails extends Component {
                     visible={showDoctorModal}
                     onSelectDoctor={this.onSelectDoctor}
                     onClose={this.onCloseDoctorModal}
+                    />
+                <PatientSearch
+                    visible={showPatientModal}
+                    onSelectPatient={this.onSelectPatient}
+                    onClose={this.onClosePatientModal}
                 />
             </COffcanvas>
         )

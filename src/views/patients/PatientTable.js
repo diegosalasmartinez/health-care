@@ -17,7 +17,7 @@ import {
     CTooltip
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilFilter, cilFilterX, cilSearch, cilAddressBook, cilPencil, cilTrash, cilMedicalCross } from '@coreui/icons'
+import { cilFilter, cilFilterX, cilSearch, cilAddressBook, cilPencil, cilTrash, cilMedicalCross, cilChevronRight } from '@coreui/icons'
 import colorTypes from '../../services/models/others/colorTypes'
 import Pagination from '../../components/common/Pagination'
 
@@ -45,9 +45,13 @@ export default class PatientTable extends Component {
         this.props.onCreateAppointment(patient);
     }
 
+    onSelect = (patient) => {
+        this.props.onSelect(patient);
+    }
+
     render() {
         const { visible } = this.state;
-        const { patients, role, patientsLength, pageSelected, pagination, searchParams } = this.props;
+        const { patients, role, patientsLength, pageSelected, pagination, searchParams, selectMode } = this.props;
         const style = 'mb-2 ' + (visible ? 'jc-sb' : 'jc-fe');
 
         return (
@@ -98,11 +102,13 @@ export default class PatientTable extends Component {
                                         <CIcon icon={visible ? cilFilterX : cilFilter} size="sm"/>
                                     </CButton>
                                 </CTooltip>
-                                <CTooltip content="Add a new patient" placement="top">
-                                    <CButton onClick={this.props.onAddPatient} style={{color: 'white'}}>
-                                        <CIcon icon={cilMedicalCross} size="sm"/>
-                                    </CButton>
-                                </CTooltip>
+                                { !selectMode && 
+                                    <CTooltip content="Add a new patient" placement="top">
+                                        <CButton onClick={this.props.onAddPatient} style={{color: 'white'}}>
+                                            <CIcon icon={cilMedicalCross} size="sm"/>
+                                        </CButton>
+                                    </CTooltip>
+                                }
                             </CCol>
                         </CRow>
                         <CTable responsive>
@@ -129,23 +135,33 @@ export default class PatientTable extends Component {
                                         <CTableDataCell>{p.personInfo.phone}</CTableDataCell>
                                         <CTableDataCell>{p.personInfo.sex}</CTableDataCell>
                                         <CTableDataCell>
-                                            { role === "ADMIN" && 
-                                                <CTooltip content="Create Appointment" placement="top">
-                                                    <CButton color={colorTypes.INFO} style={{marginRight: "1rem"}} onClick={() => this.onCreateAppointment(p)}>
-                                                        <CIcon icon={cilAddressBook} size="sm"/>
+                                            { selectMode ?
+                                                <CTooltip content="Choose" placement="top">
+                                                    <CButton color={colorTypes.PRIMARY} style={{marginRight: "1rem"}} onClick={() => this.onSelect(p)}>
+                                                        <CIcon icon={cilChevronRight} size="sm"/>
                                                     </CButton>
                                                 </CTooltip>
+                                                :
+                                                <>
+                                                    { role === "ADMIN" && 
+                                                        <CTooltip content="Create Appointment" placement="top">
+                                                            <CButton color={colorTypes.INFO} style={{marginRight: "1rem"}} onClick={() => this.onCreateAppointment(p)}>
+                                                                <CIcon icon={cilAddressBook} size="sm"/>
+                                                            </CButton>
+                                                        </CTooltip>
+                                                    }
+                                                    <CTooltip content="Update" placement="top">
+                                                        <CButton color={colorTypes.LIGHT} style={{marginRight: "1rem"}} onClick={() => this.onUpdate(p)}>
+                                                            <CIcon icon={cilPencil} size="sm"/>
+                                                        </CButton>
+                                                    </CTooltip>
+                                                    <CTooltip content="Delete" placement="top">
+                                                        <CButton color={colorTypes.DANGER} onClick={() => this.onDelete(p)}>
+                                                            <CIcon icon={cilTrash} size="sm"/>
+                                                        </CButton>
+                                                    </CTooltip>
+                                                </>
                                             }
-                                            <CTooltip content="Update" placement="top">
-                                                <CButton color={colorTypes.LIGHT} style={{marginRight: "1rem"}} onClick={() => this.onUpdate(p)}>
-                                                    <CIcon icon={cilPencil} size="sm"/>
-                                                </CButton>
-                                            </CTooltip>
-                                            <CTooltip content="Delete" placement="top">
-                                                <CButton color={colorTypes.DANGER} onClick={() => this.onDelete(p)}>
-                                                    <CIcon icon={cilTrash} size="sm"/>
-                                                </CButton>
-                                            </CTooltip>
                                         </CTableDataCell>
                                     </CTableRow>
                                 ) }

@@ -9,24 +9,24 @@ import {
 } from '@coreui/react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import * as doctorActions from '../../services/redux/actions/doctorActions'
-import DoctorTable from './DoctorTable'
+import * as patientActions from '../../services/redux/actions/patientActions'
+import PatientTable from './PatientTable'
 import pagination from '../../services/models/others/pagination'
 import colorTypes from '../../services/models/others/colorTypes'
 
-export class DoctorSearch extends Component {
+export class PatientSearch extends Component {
     constructor(props) {
         super(props);
         this.state = {
             searchParams: {
                 code: '',
-                name: '',
-                specialtyId: ''
+                dni: '',
+                name: ''
             },
             pagination: new pagination(0,10),
             pageSelected: 1,
-            doctors: [],
-            doctorsLength: [],
+            patients: [],
+            patientsLength: [],
             visible: false,
             loaded: false,
             failed: false,
@@ -45,14 +45,14 @@ export class DoctorSearch extends Component {
 
     loadList = async () => {
         this.setState({loaded: false, failed: false});
-        await this.props.getDoctors(this.state.pagination, this.state.searchParams);
-        const { doctor } = this.props;
+        await this.props.getPatients(this.state.pagination, this.state.searchParams);
+        const { patient } = this.props;
         this.setState({
-            doctors: [...doctor.doctors],
-            doctorsLength: doctor.length,
-            loaded: doctor.loaded,
-            failed: doctor.failed,
-            error: doctor.error,
+            patients: [...patient.patients],
+            patientsLength: patient.length,
+            loaded: patient.loaded,
+            failed: patient.failed,
+            error: patient.error,
         })
     }
 
@@ -82,15 +82,14 @@ export class DoctorSearch extends Component {
         this.props.onAccept(this.props.object);
     }
 
-    onSelect = (d) => {
-        this.props.onSelectDoctor(d);
+    onSelect = (p) => {
+        this.props.onSelectPatient(p);
         this.props.onClose();
     }
 
     render() {
-        const { visible, doctors, doctorsLength, pageSelected, pagination, searchParams, loaded, failed, error } = this.state;
-        const { specialties } = this.props;
-
+        const { visible, patients, patientsLength, pageSelected, pagination, searchParams, loaded, failed, error } = this.state;
+        
         return (
             <CModal visible={visible} onClose={this.onClose} backdrop="static" size='xl'>
                 <CModalHeader>
@@ -98,11 +97,10 @@ export class DoctorSearch extends Component {
                 </CModalHeader>
                 <CModalBody>
                     { loaded && !failed &&
-                        <DoctorTable 
+                        <PatientTable
                             selectMode={true}
-                            doctors={doctors}
-                            specialties={specialties}
-                            doctorsLength={doctorsLength}
+                            patients={patients}
+                            patientsLength={patientsLength}
                             pageSelected={pageSelected}
                             pagination={pagination}
                             searchParams={searchParams}
@@ -125,15 +123,14 @@ export class DoctorSearch extends Component {
 
 const mapStateToProps = state => {
     return {
-        doctor: state.doctor,
-        specialties: state.specialty.specialties
+        patient: state.patient,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        ...bindActionCreators(doctorActions, dispatch)
+        ...bindActionCreators(patientActions, dispatch)
     }
 }
   
-export default connect(mapStateToProps, mapDispatchToProps)(DoctorSearch)
+export default connect(mapStateToProps, mapDispatchToProps)(PatientSearch)
