@@ -13,7 +13,7 @@ import AppointmentDetails from './AppointmentDetails'
 import AppointmentTable from './AppointmentTable'
 import notification from '../../services/models/others/notification'
 
-export class Appointments extends Component {
+export class AppointmentsHistory extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -42,11 +42,11 @@ export class Appointments extends Component {
 
     loadList = async () => {
         this.setState({loaded: false, failed: false});
-        await this.props.getAppointments(this.state.pagination, this.state.searchParams);
+        await this.props.getAppointmentsCompleted(this.state.pagination, this.state.searchParams);
         const { appointment } = this.props;
         this.setState({
-            appointments: [...appointment.appointments],
-            appointmentsLength: appointment.length,
+            appointments: [...appointment.appointmentsCompleted],
+            appointmentsLength: appointment.lengthCompleted,
             loaded: appointment.loaded,
             failed: appointment.failed,
             error: appointment.error,
@@ -127,8 +127,8 @@ export class Appointments extends Component {
         });
     }
 
-    onSeeHistory = () => {
-        this.props.history.push("/appointments/history");
+    onSeeAppointments = () => {
+        this.props.history.push("/appointments");
     }
 
     render() {
@@ -158,8 +158,8 @@ export class Appointments extends Component {
                             onDelete={this.onDelete}
                         />
                         <CCol xs="12" className='jc-fe'>
-                            <CButton color={colorTypes.LIGHT} onClick={this.onSeeHistory}>
-                                See history
+                            <CButton color={colorTypes.LIGHT} onClick={this.onSeeAppointments}>
+                                Back
                             </CButton>
                         </CCol>
                         <AppointmentDetails
@@ -202,4 +202,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
   
-export default connect(mapStateToProps, mapDispatchToProps)(Appointments)
+export default connect(mapStateToProps, mapDispatchToProps)(AppointmentsHistory)
