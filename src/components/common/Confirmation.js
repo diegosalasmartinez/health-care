@@ -82,10 +82,11 @@ export default class Confirmation extends Component {
     }
 
     render() {
+        const { specialTextMessage, titleTxt, messageTxt, buttonTxt } = this.props;
         const { visible } = this.state;
-        const title = this.getConfirmationTitle();
-        const message = this.getConfirmationMessage();
-        const button = this.getConfirmationButton();
+        const title = specialTextMessage ? titleTxt : this.getConfirmationTitle();
+        const message = specialTextMessage ? messageTxt : this.getConfirmationMessage();
+        const button = specialTextMessage ? buttonTxt : this.getConfirmationButton();
         const color = this.getConfirmationColor();
 
         return (
