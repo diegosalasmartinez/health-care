@@ -4,7 +4,8 @@ import {
     CREATE_APPOINTMENT,
     UPDATE_APPOINTMENT,
     DELETE_APPOINTMENT,
-    ERROR_APPOINTMENT
+    ERROR_APPOINTMENT,
+    COMPLETE_APPOINTMENT
 } from '../actions/actionTypes/appointmentActionTypes'
 
 const initialState = {
@@ -28,6 +29,7 @@ const appointment = (state = initialState, action) => {
         case UPDATE_APPOINTMENT:
             const appointmentsUpdated = state.appointments.map(u => u._id === action.playload._id ? {...action.playload} : {...u});
             return {...state, appointments: [...appointmentsUpdated], error: "", loaded: true, failed: false};
+        case COMPLETE_APPOINTMENT:
         case DELETE_APPOINTMENT:
             const appointmentsDeleted = state.appointments.filter(u => u._id !== action.playload._id);
             return {...state, appointments: [...appointmentsDeleted], error: "", loaded: true, failed: false};

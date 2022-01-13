@@ -3,6 +3,7 @@ import {
     GET_APPOINTMENTS_COMPLETED,
     CREATE_APPOINTMENT,
     UPDATE_APPOINTMENT,
+    COMPLETE_APPOINTMENT,
     DELETE_APPOINTMENT,
     ERROR_APPOINTMENT
 } from './actionTypes/appointmentActionTypes'
@@ -14,6 +15,7 @@ import {
     getAppointmentsCompleted as getAppointmentsCompletedAPI,
     createAppointment as createAppointmentAPI,
     updateAppointment as updateAppointmentAPI,
+    completeAppointment as completeAppointmentAPI,
     deleteAppointment as deleteAppointmentAPI
 } from '../../api/appointment-api'
 
@@ -117,6 +119,30 @@ const updateAppointment = (appointment) => async (dispatch) => {
     })
 }
 
+const completeAppointment = (appointment) => async (dispatch) => {
+    let message = "There was a problem with the server. Sorry :("
+    try {
+        const res = await completeAppointmentAPI(appointment);
+        return dispatch({
+            type: COMPLETE_APPOINTMENT,
+            playload: appointment
+        })
+    } catch(e){
+        if (e.response && e.response.statusText === "Unauthorized") {
+            return dispatch({
+                type: UNAUTHORIZED
+            })
+        }
+        if (e.response && e.response.data && e.response.data.message) {
+            message = e.response.data.message;
+        }
+    }
+    return dispatch({
+        type: ERROR_APPOINTMENT,
+        playload: message
+    })
+}
+
 const deleteAppointment = (appointment) => async (dispatch) => {
     let message = "There was a problem with the server. Sorry :("
     try {
@@ -141,4 +167,4 @@ const deleteAppointment = (appointment) => async (dispatch) => {
     })
 }
 
-export { getAppointments, getAppointmentsCompleted, createAppointment, updateAppointment, deleteAppointment }
+export { getAppointments, getAppointmentsCompleted, createAppointment, updateAppointment, completeAppointment, deleteAppointment }
