@@ -6,8 +6,10 @@ import * as specialtyActions from '../services/redux/actions/specialtyActions'
 import * as authActions from '../services/redux/actions/authActions'
 
 export class DefaultLayout extends Component {
-  async componentDidMount(){
-    await this.props.getSpecialties();
+  async componentDidMount() {
+    if (!this.props.auth.user.role && this.props.auth.user.role !== "DOCTOR") {
+      await this.props.getSpecialties();
+    }
   }
 
   componentDidUpdate(prevProps) {

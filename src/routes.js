@@ -8,6 +8,7 @@ const Patients = React.lazy(() => import('./views/patients/Patients'))
 const PatientDetails = React.lazy(() => import('./views/patients/PatientDetails'))
 const Users = React.lazy(() => import('./views/users/Users'))
 const Appointments = React.lazy(() => import('./views/appointments/Appointments'))
+const AppointmentsHistory = React.lazy(() => import('./views/appointments/AppointmentsHistory'))
 
 const allRoutes = [
   { path: '/', exact: true, name: 'Home' },
@@ -18,7 +19,8 @@ const allRoutes = [
   { path: '/patients/create', name: 'Patient Details', component: PatientDetails },
   { path: '/patients/update', name: 'Patient Details', component: PatientDetails },
   { path: '/users', name: 'Users', component: Users },
-  { path: '/appointments', name: 'Appointments', component: Appointments }
+  { path: '/appointments', name: 'Appointments', component: Appointments },
+  { path: '/appointments/history', name: 'Appointments History', component: AppointmentsHistory }
 ]
 
 const routesAdmin = [
@@ -30,8 +32,8 @@ const routesAdmin = [
   { path: '/patients/create', name: 'Patient Details', component: PatientDetails },
   { path: '/patients/update', name: 'Patient Details', component: PatientDetails },
   { path: '/users', name: 'Users', component: Users },
-  { path: '/appointments', name: 'Appointments', component: Appointments }
-
+  { path: '/appointments', name: 'Appointments', component: Appointments, exact: true },
+  { path: '/appointments/history', name: 'Appointments History', component: AppointmentsHistory }
 ]
 
 const routesDoctor = [
@@ -40,8 +42,8 @@ const routesDoctor = [
   { path: '/patients', name: 'Patients', component: Patients, exact: true },
   { path: '/patients/create', name: 'Patient Details', component: PatientDetails },
   { path: '/patients/update', name: 'Patient Details', component: PatientDetails },
-  { path: '/appointments', name: 'Appointments', component: Appointments }
-
+  { path: '/appointments', name: 'My Appointments', component: Appointments, exact: true },
+  { path: '/appointments/history', name: 'Appointments History', component: AppointmentsHistory }
 ]
 
 const routesSecretary = [
@@ -52,7 +54,8 @@ const routesSecretary = [
   { path: '/patients/create', name: 'Patient Details', component: PatientDetails },
   { path: '/patients/update', name: 'Patient Details', component: PatientDetails },
   { path: '/users', name: 'Users', component: Users },
-  { path: '/appointments', name: 'Appointments', component: Appointments }
+  { path: '/appointments', name: 'Appointments', component: Appointments, exact: true },
+  { path: '/appointments/history', name: 'Appointments History', component: AppointmentsHistory }
 ]
 
 export {

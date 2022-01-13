@@ -4,16 +4,24 @@ const getAppointments = async (pagination, searchParams) => {
     return await apiGet(`appointments?offset=${pagination.offset}&limit=${pagination.limit}&patient=${searchParams.patient}&doctor=${searchParams.doctor}`);
 }
 
-const createAppointment = async (Appointment) => {
-    return await apiPost(`appointments/add`, Appointment);
+const getAppointmentsCompleted = async (pagination, searchParams) => {
+    return await apiGet(`appointments/completed?offset=${pagination.offset}&limit=${pagination.limit}&patient=${searchParams.patient}&doctor=${searchParams.doctor}`);
 }
 
-const updateAppointment = async (Appointment) => {
-    return await apiPatch(`appointments/${Appointment._id}`, Appointment);
+const createAppointment = async (appointment) => {
+    return await apiPost(`appointments/add`, appointment);
 }
 
-const deleteAppointment = async (Appointment) => {
-    return await apiPost(`appointments/delete/${Appointment._id}`, Appointment);
+const updateAppointment = async (appointment) => {
+    return await apiPatch(`appointments/${appointment._id}`, appointment);
 }
 
-export { getAppointments, createAppointment, updateAppointment, deleteAppointment }
+const completeAppointment = async (appointment) => {
+    return await apiPost(`appointments/complete/${appointment._id}`, appointment);
+}
+
+const deleteAppointment = async (appointment) => {
+    return await apiPost(`appointments/delete/${appointment._id}`, appointment);
+}
+
+export { getAppointments, getAppointmentsCompleted, createAppointment, updateAppointment, completeAppointment, deleteAppointment }

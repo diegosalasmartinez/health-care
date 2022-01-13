@@ -14,6 +14,7 @@ export default class AppointmentModel extends SimpleProperty {
     date = moment().format("YYYY-MM-DD");
     time = "";
     status = "";
+    details = "";
 }
 
 const validate = (appointment) => {

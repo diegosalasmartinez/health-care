@@ -9,12 +9,12 @@ import AppointmentModel from '../../services/models/AppointmentModel'
 import actionTypes from '../../services/models/others/actionTypes'
 import colorTypes from '../../services/models/others/colorTypes'
 import pagination from '../../services/models/others/pagination'
-import AppointmentDetails from './AppointmentDetails'
 import AppointmentTable from './AppointmentTable'
 import notification from '../../services/models/others/notification'
 import AppointmentCompletion from './AppointmentCompletion'
 
-export class Appointments extends Component {
+
+export class AppointmentsHistory extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -27,11 +27,9 @@ export class Appointments extends Component {
             appointments: [],
             appointmentsLength: [],
             appointmentSelected: new AppointmentModel(),
+            mode: actionTypes.NONE,
             showOffcanvas: false,
             showConfirmationModal: false,
-            showOffcanvasAppointment: false,
-            showConfirmationModalAppointment: false,
-            mode: actionTypes.NONE,
             notifications: [],
             loaded: false,
             failed: false,
@@ -45,11 +43,11 @@ export class Appointments extends Component {
 
     loadList = async () => {
         this.setState({loaded: false, failed: false});
-        await this.props.getAppointments(this.state.pagination, this.state.searchParams);
+        await this.props.getAppointmentsCompleted(this.state.pagination, this.state.searchParams);
         const { appointment } = this.props;
         this.setState({
-            appointments: [...appointment.appointments],
-            appointmentsLength: appointment.length,
+            appointments: [...appointment.appointmentsCompleted],
+            appointmentsLength: appointment.lengthCompleted,
             loaded: appointment.loaded,
             failed: appointment.failed,
             error: appointment.error,
@@ -71,46 +69,6 @@ export class Appointments extends Component {
         let searchParamsUpdated = { ...searchParams };
         searchParamsUpdated[key] = val;
         this.setState({searchParams: searchParamsUpdated});
-    }
-
-    onAdd = () => {
-        this.setState({showOffcanvas: true, mode: actionTypes.CREATE});
-    }
-    
-    onDelete = (appointment) => {
-        this.setState({showConfirmationModal: true, mode: actionTypes.DELETE, appointmentSelected: {...appointment}});
-    }
-
-    onUpdate = (appointment) => {
-        this.setState({showOffcanvas: true, mode: actionTypes.UPDATE, appointmentSelected: {...appointment}});
-    }
-
-    onAccept = (appointment) => {
-        this.setState({showConfirmationModal: true, appointmentSelected: {...appointment}});
-    }
-    
-    onAcceptAppointment = (appointment) => {
-        this.setState({showConfirmationModalAppointment: true, appointmentSelected: {...appointment}});
-    }
-    
-    onComplete = (appointment) => {
-        this.setState({showOffcanvasAppointment: true, appointmentSelected: {...appointment}});
-    }
-
-    onCloseOffcanvas = () => {
-        this.setState({showOffcanvas: false, mode: actionTypes.NONE, appointmentSelected: new AppointmentModel()});
-    }
-
-    onCloseOffcanvasAppointment = () => {
-        this.setState({showOffcanvasAppointment: false, mode: actionTypes.NONE, appointmentSelected: new AppointmentModel()});
-    }
-    
-    onCloseConfirmation = () => {
-        this.setState({showConfirmationModal:false});
-    }
-    
-    onCloseConfirmationAppointment = () => {
-        this.setState({showConfirmationModalAppointment:false});
     }
 
     onSave = async (appointment) => {
@@ -146,40 +104,27 @@ export class Appointments extends Component {
         });
     }
 
-    onSaveCompletion = async (appointment) => {
-        this.setState({loaded: false, failed: false});
-        
-        let bodyMessage = "Appointment completed";
-        await this.props.completeAppointment(appointment);
-
-        const failed = this.props.appointment.failed;
-        let newNotification;
-        if (failed) {
-            newNotification = new notification(colorTypes.DANGER, 'Error', this.props.appointment.error); 
-        } else {
-            newNotification = new notification(colorTypes.SUCCESS, 'Success', bodyMessage);
-        }
-        this.setState({
-            loaded: true, 
-            failed: false, 
-            showOffcanvasAppointment: false,
-            showConfirmationModalAppointment: false,
-            mode: actionTypes.NONE, 
-            appointmentSelected: new AppointmentModel(),
-            appointments: [...this.props.appointment.appointments],
-            notifications: [...this.state.notifications, newNotification]
-        });
+    onComplete = (appointment) => {
+        this.setState({showOffcanvas: true, appointmentSelected: {...appointment}});
     }
 
-    onSeeHistory = () => {
-        this.props.history.push("/appointments/history");
+    onCloseOffcanvas = () => {
+        this.setState({showOffcanvas: false, mode: actionTypes.NONE, appointmentSelected: new AppointmentModel()});
+    }
+
+    onAccept = (appointment) => {
+        this.setState({showConfirmationModal: true, appointmentSelected: {...appointment}});
+    }
+
+    onSeeAppointments = () => {
+        this.props.history.push("/appointments");
     }
 
     render() {
         const { auth } = this.props;
-        const { appointments, loaded, failed, error, notifications, showOffcanvas, showConfirmationModal, showOffcanvasAppointment, showConfirmationModalAppointment, mode, appointmentSelected, appointmentsLength, pageSelected, pagination, searchParams } = this.state;
+        const { appointments, loaded, failed, error, notifications, showOffcanvas, showConfirmationModal, mode, appointmentSelected, appointmentsLength, pageSelected, pagination, searchParams } = this.state;
         const doctorProfile = auth.user.role === "DOCTOR";
-
+        
         return (
             <>
                 { failed && 
@@ -191,6 +136,7 @@ export class Appointments extends Component {
                 { loaded && !failed && 
                     <CRow>
                         <AppointmentTable 
+                            historyMode={true}
                             appointments={appointments}
                             appointmentsLength={appointmentsLength}
                             pageSelected={pageSelected}
@@ -199,29 +145,20 @@ export class Appointments extends Component {
                             doctorProfile={doctorProfile}
                             onClickPage={this.onClickPage}
                             onChangeParams={this.onChangeParams}
-                            onAdd={this.onAdd}
                             onSearch={this.loadList}
-                            onUpdate={this.onUpdate}
-                            onDelete={this.onDelete}
                             onComplete={this.onComplete}
                         />
                         <CCol xs="12" className='jc-fe'>
-                            <CButton color={colorTypes.LIGHT} onClick={this.onSeeHistory}>
-                                See history
+                            <CButton color={colorTypes.LIGHT} onClick={this.onSeeAppointments}>
+                                Back
                             </CButton>
                         </CCol>
-                        <AppointmentDetails
-                            visible={showOffcanvas} 
-                            mode={mode} 
-                            appointmentSelected={appointmentSelected}
-                            onSave={this.onAccept}
-                            onClose={this.onCloseOffcanvas}
-                        />
                         <AppointmentCompletion
-                            visible={showOffcanvasAppointment}
+                            visible={showOffcanvas}
+                            historyMode={true}
                             appointmentSelected={appointmentSelected}
-                            onClose={this.onCloseOffcanvasAppointment}
-                            onSave={this.onAcceptAppointment}
+                            onClose={this.onCloseOffcanvas}
+                            onSave={this.onAccept}
                         />
                         <Confirmation
                             type="appointment"
@@ -231,16 +168,6 @@ export class Appointments extends Component {
                             visible={showConfirmationModal} 
                             onAccept={this.onSave}
                             onClose={this.onCloseConfirmation}
-                        />
-                        <Confirmation
-                            specialTextMessage={true}
-                            titleTxt="Complete appointment"
-                            messageTxt="Are you sure you want to mark this appointment as completed?"
-                            buttonTxt="Accept"
-                            object={appointmentSelected}
-                            visible={showConfirmationModalAppointment} 
-                            onAccept={this.onSaveCompletion}
-                            onClose={this.onCloseConfirmationAppointment}
                         />
                     </CRow>
                 }
@@ -267,4 +194,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
   
-export default connect(mapStateToProps, mapDispatchToProps)(Appointments)
+export default connect(mapStateToProps, mapDispatchToProps)(AppointmentsHistory)
