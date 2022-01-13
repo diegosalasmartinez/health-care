@@ -35,21 +35,25 @@ export default class AppointmentTable extends Component {
         this.setState({visible: !this.state.visible});
     }
 
-    onUpdate = (doctor) => {
-        this.props.onUpdate(doctor);
+    onUpdate = (appointment) => {
+        this.props.onUpdate(appointment);
     }
 
-    onDelete = (doctor) => {
-        this.props.onDelete(doctor);
+    onDelete = (appointment) => {
+        this.props.onDelete(appointment);
     }
     
-    onSelect = (doctor) => {
-        this.props.onSelect(doctor);
+    onSelect = (appointment) => {
+        this.props.onSelect(appointment);
+    }
+    
+    onComplete = (appointment) => {
+        this.props.onComplete(appointment);
     }
 
     render() {
         const { visible } = this.state;
-        const { appointments, appointmentsLength, pageSelected, pagination, searchParams } = this.props;
+        const { appointments, appointmentsLength, pageSelected, pagination, searchParams, doctorProfile, historyMode } = this.props;
         const style = 'mb-2 ' + (visible ? 'jc-sb' : 'jc-fe');
 
         return (
@@ -68,14 +72,16 @@ export default class AppointmentTable extends Component {
                                                 </CCol>
                                             </CRow>
                                         </CCol>
-                                        <CCol xs="6" md="3">
-                                            <CRow>
-                                                <CFormLabel htmlFor="doctor" className="col-form-label">Doctor</CFormLabel>
-                                                <CCol>
-                                                    <CFormInput type="text" id="doctor" value={searchParams.doctor} onChange={this.props.onChangeParams('doctor')}/>
-                                                </CCol>
-                                            </CRow>
-                                        </CCol>
+                                        { !doctorProfile && 
+                                            <CCol xs="6" md="3">
+                                                <CRow>
+                                                    <CFormLabel htmlFor="doctor" className="col-form-label">Doctor</CFormLabel>
+                                                    <CCol>
+                                                        <CFormInput type="text" id="doctor" value={searchParams.doctor} onChange={this.props.onChangeParams('doctor')}/>
+                                                    </CCol>
+                                                </CRow>
+                                            </CCol>
+                                        }
                                         <CCol xs="6" md="3" style={{display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', width: 'auto'}}>
                                             <CTooltip content={"Search"} placement="top">
                                                 <CButton style={{color: 'white'}} onClick={this.props.onSearch}>
@@ -92,18 +98,20 @@ export default class AppointmentTable extends Component {
                                         <CIcon icon={visible ? cilFilterX : cilFilter} size="sm"/>
                                     </CButton>
                                 </CTooltip>
-                                <CTooltip content="Add a new appointment" placement="top">
-                                    <CButton onClick={this.props.onAdd} style={{color: 'white'}}>
-                                        <CIcon icon={cilMedicalCross} size="sm"/>
-                                    </CButton>
-                                </CTooltip>
+                                { !doctorProfile && !historyMode &&
+                                    <CTooltip content="Add a new appointment" placement="top">
+                                        <CButton onClick={this.props.onAdd} style={{color: 'white'}}>
+                                            <CIcon icon={cilMedicalCross} size="sm"/>
+                                        </CButton>
+                                    </CTooltip>
+                                }
                             </CCol>
                         </CRow>
                         <CTable responsive>
                             <CTableHead>
                                 <CTableRow>
                                     <CTableHeaderCell scope="col">Patient</CTableHeaderCell>
-                                    <CTableHeaderCell scope="col">Doctor</CTableHeaderCell>
+                                    { !doctorProfile && <CTableHeaderCell scope="col">Doctor</CTableHeaderCell> }
                                     <CTableHeaderCell scope="col">Date</CTableHeaderCell>
                                     <CTableHeaderCell scope="col">Time</CTableHeaderCell>
                                     <CTableHeaderCell scope="col">Floor</CTableHeaderCell>
@@ -115,22 +123,32 @@ export default class AppointmentTable extends Component {
                                 { appointments.map(a => 
                                     <CTableRow key={a._id}>
                                         <CTableDataCell>{a.patientInfo.fullName}</CTableDataCell>
-                                        <CTableDataCell>{a.doctorInfo.fullName}</CTableDataCell>
+                                        { !doctorProfile && <CTableDataCell>{a.doctorInfo.fullName}</CTableDataCell> }
                                         <CTableDataCell>{moment(a.date).format("YYYY-MM-DD")}</CTableDataCell>
                                         <CTableDataCell>{a.time}</CTableDataCell>
                                         <CTableDataCell>{a.floor}</CTableDataCell>
                                         <CTableDataCell>{a.room}</CTableDataCell>
                                         <CTableDataCell>
-                                            <CTooltip content="Update" placement="top">
-                                                <CButton color={colorTypes.LIGHT} style={{marginRight: "1rem"}} onClick={() => this.onUpdate(a)}>
-                                                    <CIcon icon={cilPencil} size="sm"/>
-                                                </CButton>
-                                            </CTooltip>
-                                            <CTooltip content="Delete" placement="top">
-                                                <CButton color={colorTypes.DANGER} onClick={() => this.onDelete(a)}>
-                                                    <CIcon icon={cilTrash} size="sm"/>
-                                                </CButton>
-                                            </CTooltip>
+                                            { !doctorProfile && !historyMode ?
+                                                <>
+                                                    <CTooltip content="Update" placement="top">
+                                                        <CButton color={colorTypes.LIGHT} style={{marginRight: "1rem"}} onClick={() => this.onUpdate(a)}>
+                                                            <CIcon icon={cilPencil} size="sm"/>
+                                                        </CButton>
+                                                    </CTooltip>
+                                                    <CTooltip content="Delete" placement="top">
+                                                        <CButton color={colorTypes.DANGER} onClick={() => this.onDelete(a)}>
+                                                            <CIcon icon={cilTrash} size="sm"/>
+                                                        </CButton>
+                                                    </CTooltip>
+                                                </>
+                                                :
+                                                <CTooltip content="Complete" placement="top">
+                                                    <CButton color={colorTypes.PRIMARY} onClick={() => this.onComplete(a)}>
+                                                        <CIcon icon={cilChevronRight} size="sm"/>
+                                                    </CButton>
+                                                </CTooltip>
+                                            }
                                         </CTableDataCell>
                                     </CTableRow>
                                 ) }

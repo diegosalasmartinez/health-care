@@ -9,9 +9,10 @@ import AppointmentModel from '../../services/models/AppointmentModel'
 import actionTypes from '../../services/models/others/actionTypes'
 import colorTypes from '../../services/models/others/colorTypes'
 import pagination from '../../services/models/others/pagination'
-import AppointmentDetails from './AppointmentDetails'
 import AppointmentTable from './AppointmentTable'
 import notification from '../../services/models/others/notification'
+import AppointmentCompletion from './AppointmentCompletion'
+
 
 export class AppointmentsHistory extends Component {
     constructor(props) {
@@ -26,9 +27,9 @@ export class AppointmentsHistory extends Component {
             appointments: [],
             appointmentsLength: [],
             appointmentSelected: new AppointmentModel(),
+            mode: actionTypes.NONE,
             showOffcanvas: false,
             showConfirmationModal: false,
-            mode: actionTypes.NONE,
             notifications: [],
             loaded: false,
             failed: false,
@@ -70,30 +71,6 @@ export class AppointmentsHistory extends Component {
         this.setState({searchParams: searchParamsUpdated});
     }
 
-    onAdd = () => {
-        this.setState({showOffcanvas: true, mode: actionTypes.CREATE});
-    }
-    
-    onDelete = (doctor) => {
-        this.setState({showConfirmationModal: true, mode: actionTypes.DELETE, appointmentSelected: {...doctor}});
-    }
-
-    onUpdate = (doctor) => {
-        this.setState({showOffcanvas: true, mode: actionTypes.UPDATE, appointmentSelected: {...doctor}});
-    }
-
-    onAccept = (doctor) => {
-        this.setState({showConfirmationModal: true, appointmentSelected: {...doctor}});
-    }
-
-    onCloseOffcanvas = () => {
-        this.setState({showOffcanvas: false, mode: actionTypes.NONE, appointmentSelected: new AppointmentModel()});
-    }
-
-    onCloseConfirmation = () => {
-        this.setState({showConfirmationModal:false});
-    }
-
     onSave = async (appointment) => {
         this.setState({loaded: false, failed: false});
         
@@ -127,12 +104,26 @@ export class AppointmentsHistory extends Component {
         });
     }
 
+    onComplete = (appointment) => {
+        this.setState({showOffcanvas: true, appointmentSelected: {...appointment}});
+    }
+
+    onCloseOffcanvas = () => {
+        this.setState({showOffcanvas: false, mode: actionTypes.NONE, appointmentSelected: new AppointmentModel()});
+    }
+
+    onAccept = (appointment) => {
+        this.setState({showConfirmationModal: true, appointmentSelected: {...appointment}});
+    }
+
     onSeeAppointments = () => {
         this.props.history.push("/appointments");
     }
 
     render() {
+        const { auth } = this.props;
         const { appointments, loaded, failed, error, notifications, showOffcanvas, showConfirmationModal, mode, appointmentSelected, appointmentsLength, pageSelected, pagination, searchParams } = this.state;
+        const doctorProfile = auth.user.role === "DOCTOR";
         
         return (
             <>
@@ -145,29 +136,29 @@ export class AppointmentsHistory extends Component {
                 { loaded && !failed && 
                     <CRow>
                         <AppointmentTable 
+                            historyMode={true}
                             appointments={appointments}
                             appointmentsLength={appointmentsLength}
                             pageSelected={pageSelected}
                             pagination={pagination}
                             searchParams={searchParams}
+                            doctorProfile={doctorProfile}
                             onClickPage={this.onClickPage}
                             onChangeParams={this.onChangeParams}
-                            onAdd={this.onAdd}
                             onSearch={this.loadList}
-                            onUpdate={this.onUpdate}
-                            onDelete={this.onDelete}
+                            onComplete={this.onComplete}
                         />
                         <CCol xs="12" className='jc-fe'>
                             <CButton color={colorTypes.LIGHT} onClick={this.onSeeAppointments}>
                                 Back
                             </CButton>
                         </CCol>
-                        <AppointmentDetails
-                            visible={showOffcanvas} 
-                            mode={mode} 
+                        <AppointmentCompletion
+                            visible={showOffcanvas}
+                            historyMode={true}
                             appointmentSelected={appointmentSelected}
-                            onSave={this.onAccept}
                             onClose={this.onCloseOffcanvas}
+                            onSave={this.onAccept}
                         />
                         <Confirmation
                             type="appointment"
@@ -192,6 +183,7 @@ export class AppointmentsHistory extends Component {
 
 const mapStateToProps = state => {
     return {
+        auth: state.auth,
         appointment: state.appointment
     }
 }

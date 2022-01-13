@@ -12,6 +12,7 @@ import pagination from '../../services/models/others/pagination'
 import AppointmentDetails from './AppointmentDetails'
 import AppointmentTable from './AppointmentTable'
 import notification from '../../services/models/others/notification'
+import AppointmentCompletion from './AppointmentCompletion'
 
 export class Appointments extends Component {
     constructor(props) {
@@ -28,6 +29,8 @@ export class Appointments extends Component {
             appointmentSelected: new AppointmentModel(),
             showOffcanvas: false,
             showConfirmationModal: false,
+            showOffcanvasAppointment: false,
+            showConfirmationModalAppointment: false,
             mode: actionTypes.NONE,
             notifications: [],
             loaded: false,
@@ -74,24 +77,40 @@ export class Appointments extends Component {
         this.setState({showOffcanvas: true, mode: actionTypes.CREATE});
     }
     
-    onDelete = (doctor) => {
-        this.setState({showConfirmationModal: true, mode: actionTypes.DELETE, appointmentSelected: {...doctor}});
+    onDelete = (appointment) => {
+        this.setState({showConfirmationModal: true, mode: actionTypes.DELETE, appointmentSelected: {...appointment}});
     }
 
-    onUpdate = (doctor) => {
-        this.setState({showOffcanvas: true, mode: actionTypes.UPDATE, appointmentSelected: {...doctor}});
+    onUpdate = (appointment) => {
+        this.setState({showOffcanvas: true, mode: actionTypes.UPDATE, appointmentSelected: {...appointment}});
     }
 
-    onAccept = (doctor) => {
-        this.setState({showConfirmationModal: true, appointmentSelected: {...doctor}});
+    onAccept = (appointment) => {
+        this.setState({showConfirmationModal: true, appointmentSelected: {...appointment}});
+    }
+    
+    onAcceptAppointment = (appointment) => {
+        this.setState({showConfirmationModalAppointment: true, appointmentSelected: {...appointment}});
+    }
+    
+    onComplete = (appointment) => {
+        this.setState({showOffcanvasAppointment: true, appointmentSelected: {...appointment}});
     }
 
     onCloseOffcanvas = () => {
         this.setState({showOffcanvas: false, mode: actionTypes.NONE, appointmentSelected: new AppointmentModel()});
     }
 
+    onCloseOffcanvasAppointment = () => {
+        this.setState({showOffcanvasAppointment: false, mode: actionTypes.NONE, appointmentSelected: new AppointmentModel()});
+    }
+    
     onCloseConfirmation = () => {
         this.setState({showConfirmationModal:false});
+    }
+    
+    onCloseConfirmationAppointment = () => {
+        this.setState({showConfirmationModalAppointment:false});
     }
 
     onSave = async (appointment) => {
@@ -127,13 +146,40 @@ export class Appointments extends Component {
         });
     }
 
+    onSaveCompletion = async (appointment) => {
+        this.setState({loaded: false, failed: false});
+        
+        let bodyMessage = "Appointment completed";
+        await this.props.completeAppointment(appointment);
+
+        const failed = this.props.appointment.failed;
+        let newNotification;
+        if (failed) {
+            newNotification = new notification(colorTypes.DANGER, 'Error', this.props.appointment.error); 
+        } else {
+            newNotification = new notification(colorTypes.SUCCESS, 'Success', bodyMessage);
+        }
+        this.setState({
+            loaded: true, 
+            failed: false, 
+            showOffcanvasAppointment: false,
+            showConfirmationModalAppointment: false,
+            mode: actionTypes.NONE, 
+            appointmentSelected: new AppointmentModel(),
+            appointments: [...this.props.appointment.appointments],
+            notifications: [...this.state.notifications, newNotification]
+        });
+    }
+
     onSeeHistory = () => {
         this.props.history.push("/appointments/history");
     }
 
     render() {
-        const { appointments, loaded, failed, error, notifications, showOffcanvas, showConfirmationModal, mode, appointmentSelected, appointmentsLength, pageSelected, pagination, searchParams } = this.state;
-        
+        const { auth } = this.props;
+        const { appointments, loaded, failed, error, notifications, showOffcanvas, showConfirmationModal, showOffcanvasAppointment, showConfirmationModalAppointment, mode, appointmentSelected, appointmentsLength, pageSelected, pagination, searchParams } = this.state;
+        const doctorProfile = auth.user.role === "DOCTOR";
+
         return (
             <>
                 { failed && 
@@ -150,12 +196,14 @@ export class Appointments extends Component {
                             pageSelected={pageSelected}
                             pagination={pagination}
                             searchParams={searchParams}
+                            doctorProfile={doctorProfile}
                             onClickPage={this.onClickPage}
                             onChangeParams={this.onChangeParams}
                             onAdd={this.onAdd}
                             onSearch={this.loadList}
                             onUpdate={this.onUpdate}
                             onDelete={this.onDelete}
+                            onComplete={this.onComplete}
                         />
                         <CCol xs="12" className='jc-fe'>
                             <CButton color={colorTypes.LIGHT} onClick={this.onSeeHistory}>
@@ -169,6 +217,12 @@ export class Appointments extends Component {
                             onSave={this.onAccept}
                             onClose={this.onCloseOffcanvas}
                         />
+                        <AppointmentCompletion
+                            visible={showOffcanvasAppointment}
+                            appointmentSelected={appointmentSelected}
+                            onClose={this.onCloseOffcanvasAppointment}
+                            onSave={this.onAcceptAppointment}
+                        />
                         <Confirmation
                             type="appointment"
                             mode={mode}
@@ -177,6 +231,16 @@ export class Appointments extends Component {
                             visible={showConfirmationModal} 
                             onAccept={this.onSave}
                             onClose={this.onCloseConfirmation}
+                        />
+                        <Confirmation
+                            specialTextMessage={true}
+                            titleTxt="Complete appointment"
+                            messageTxt="Are you sure you want to mark this appointment as completed?"
+                            buttonTxt="Accept"
+                            object={appointmentSelected}
+                            visible={showConfirmationModalAppointment} 
+                            onAccept={this.onSaveCompletion}
+                            onClose={this.onCloseConfirmationAppointment}
                         />
                     </CRow>
                 }
@@ -192,6 +256,7 @@ export class Appointments extends Component {
 
 const mapStateToProps = state => {
     return {
+        auth: state.auth,
         appointment: state.appointment
     }
 }
