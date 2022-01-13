@@ -1,5 +1,6 @@
 import {
     GET_APPOINTMENTS,
+    GET_APPOINTMENTS_COMPLETED,
     CREATE_APPOINTMENT,
     UPDATE_APPOINTMENT,
     DELETE_APPOINTMENT,
@@ -8,7 +9,9 @@ import {
 
 const initialState = {
     appointments: [],
+    appointmentsCompleted: [],
     length: 0,
+    lengthCompleted: 0,
     error: "",
     loaded: false,
     failed: false
@@ -18,6 +21,8 @@ const appointment = (state = initialState, action) => {
     switch(action.type){
         case GET_APPOINTMENTS:
             return {...state, appointments: [...action.playload.appointments], length: action.playload.length, error: "", loaded: true, failed: false};
+        case GET_APPOINTMENTS_COMPLETED:
+            return {...state, appointmentsCompleted: [...action.playload.appointments], lengthCompleted: action.playload.length, error: "", loaded: true, failed: false};
         case CREATE_APPOINTMENT:
             return {...state, appointments: [...state.appointments, action.playload], error: "", loaded: true, failed: false};
         case UPDATE_APPOINTMENT:
