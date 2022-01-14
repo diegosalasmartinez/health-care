@@ -65,15 +65,9 @@ const navDoctor = [
   },
   {
     component: CNavItem,
-    name: 'Appointments',
+    name: 'My Appointments',
     to: '/appointments',
     icon: <CIcon icon={cilAddressBook} customClassName="nav-icon" />
-  },
-  {
-    component: CNavItem,
-    name: 'Patients',
-    to: '/patients',
-    icon: <CIcon icon={cilPeople} customClassName="nav-icon" />
   }
 ]
 
