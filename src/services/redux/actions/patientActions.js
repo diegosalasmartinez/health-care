@@ -15,6 +15,7 @@ import {
     updatePatient as updatePatientAPI,
     deletePatient as deletePatientAPI
 } from '../../api/patient-api'
+import cloneDeep from 'lodash/cloneDeep'
 
 const getPatients = (pagination, searchParams) => async (dispatch) => {
     let message = "There was a problem with the server. Sorry :("
@@ -118,7 +119,7 @@ const deletePatient = (patient) => async (dispatch) => {
 const stagePatient = (patient) => async (dispatch) => {
     return dispatch({
         type: STAGE_PATIENT,
-        playload: patient
+        playload: cloneDeep(patient)
     })
 }
 
