@@ -22,6 +22,7 @@ import Confirmation from '../../components/common/Confirmation'
 import cloneDeep from 'lodash/cloneDeep'
 import PersonalInformation from './clinicHistory/PersonalInformation'
 import ExtraInformation from './clinicHistory/ExtraInformation'
+import ClinicHistory from './clinicHistory/ClinicHistory'
 
 export class PatientHistory extends Component {
     constructor(props) {
@@ -42,23 +43,14 @@ export class PatientHistory extends Component {
     componentDidMount() {
         const patient = this.props.patient.patientSelected;
         if (patient._id === "") {
-            this.props.history.push("/")
+            this.props.history.push("/");
         } else {
-            this.setState({patient: cloneDeep(patient)});
+            this.setState({patient: cloneDeep(patient), loaded: true});
         }
     }
-
-    onChange = (key, isNumeric = false, isDate = false) => (e = {}) => {
-        const { patient } = this.state;
-            let val = isNumeric ? parseInt(e.target.value || '0') : (isDate) ? moment(e).format("YYYY-MM-DD") : e.target.value;
-            let patientUpdated = { ...patient };
-            const keys = key.split(".");
-            if (keys.length > 1) {
-                patientUpdated[keys[0]][keys[1]] = val;
-            } else {
-                patientUpdated[key] = val;
-            }
-            this.setState({patient: patientUpdated});
+    
+    goBack = () => {
+        this.props.history.push("/");
     }
     
     onAccept = () => {
@@ -74,11 +66,9 @@ export class PatientHistory extends Component {
         this.setState({showConfirmationModal: false});
     }
 
-    onSave = async () => {
+    onSave = async (patient) => {
         this.setState({loaded: false, failed: false});
         
-        const { patient } = this.state;
-
         await this.props.updatePatientHistory(patient);
         const failed = this.props.patient.failed;
         let newNotification;
@@ -98,43 +88,54 @@ export class PatientHistory extends Component {
         });
     }
 
-    // onClose = () => {
-    //     this.props.history.push("/patients");
-    // }
-
     render() {
         const { activeTab, patient, completed, loaded, failed, notifications, showConfirmationModal } = this.state;
 
         return (
-            <CRow>
-                <CCol xs="12">
-                    <CNav variant='tabs' role="tablist">
-                        <CNavItem>
-                            <CNavLink href="javascript:void(0);" active={activeTab === 1} onClick={() => this.setState({activeTab: 1})}>
-                                Personal Information
-                            </CNavLink>
-                        </CNavItem>
-                        <CNavItem>
-                            <CNavLink href="javascript:void(0);" active={activeTab === 2} onClick={() => this.setState({activeTab: 2})}>
-                                Extra Information
-                            </CNavLink>
-                        </CNavItem>
-                        <CNavItem>
-                            <CNavLink href="javascript:void(0);" active={activeTab === 3} onClick={() => this.setState({activeTab: 3})}>
-                                Clinic History
-                            </CNavLink>
-                        </CNavItem>
-                    </CNav>
-                    <CTabContent>
-                        <CTabPane role="tabpanel" aria-labelledby="home-tab" visible={activeTab === 1}>
-                            <PersonalInformation patient={patient}></PersonalInformation>
-                        </CTabPane>
-                        <CTabPane role="tabpanel" aria-labelledby="home-tab" visible={activeTab === 2}>
-                            <ExtraInformation patient={patient}></ExtraInformation>
-                        </CTabPane>
-                    </CTabContent>
-                </CCol>
-            </CRow>
+            <>
+                { notifications.map((notification, index) => 
+                    <Notification key={index} mode={notification.mode} title={notification.title} body={notification.body}></Notification>
+                )}
+                { loaded && !failed && 
+                    <CRow>
+                        <CCol xs="12">
+                            <CNav variant='tabs' role="tablist">
+                                <CNavItem>
+                                    <CNavLink href="javascript:void(0);" active={activeTab === 1} onClick={() => this.setState({activeTab: 1})}>
+                                        Personal Information
+                                    </CNavLink>
+                                </CNavItem>
+                                <CNavItem>
+                                    <CNavLink href="javascript:void(0);" active={activeTab === 2} onClick={() => this.setState({activeTab: 2})}>
+                                        Extra Information
+                                    </CNavLink>
+                                </CNavItem>
+                                <CNavItem>
+                                    <CNavLink href="javascript:void(0);" active={activeTab === 3} onClick={() => this.setState({activeTab: 3})}>
+                                        Clinic History
+                                    </CNavLink>
+                                </CNavItem>
+                            </CNav>
+                            <CTabContent>
+                                <CTabPane role="tabpanel" aria-labelledby="home-tab" visible={activeTab === 1}>
+                                    <PersonalInformation patient={patient}></PersonalInformation>
+                                </CTabPane>
+                                <CTabPane role="tabpanel" aria-labelledby="home-tab" visible={activeTab === 2}>
+                                    <ExtraInformation patient={patient}></ExtraInformation>
+                                </CTabPane>
+                                <CTabPane role="tabpanel" aria-labelledby="home-tab" visible={activeTab === 3}>
+                                    <ClinicHistory patient={patient} completed={completed} goBack={this.goBack} onSave={this.onSave}></ClinicHistory>
+                                </CTabPane>
+                            </CTabContent>
+                        </CCol>
+                    </CRow>
+                }
+                { !loaded &&
+                    <CRow className="center">
+                        <CSpinner color={colorTypes.PRIMARY}/>
+                    </CRow>
+                }
+            </>
         )
     }
 }
