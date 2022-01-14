@@ -31,7 +31,11 @@ export class PatientDetails extends Component {
 
     componentDidMount() {
         const mode = this.props.patient.patientSelected._id === "" ? actionTypes.CREATE : actionTypes.UPDATE;
-        this.setState({patient: cloneDeep(this.props.patient.patientSelected), mode});
+        if (this.props.history.location.pathname === "/patients/update" && mode === actionTypes.CREATE) {
+            this.props.history.push("/patients/create")
+        } else {
+            this.setState({patient: cloneDeep(this.props.patient.patientSelected), mode});
+        }
     }
 
     onChange = (key, isNumeric = false, isDate = false) => (e = {}) => {
