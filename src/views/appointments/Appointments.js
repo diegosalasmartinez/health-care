@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as appointmentActions from '../../services/redux/actions/appointmentActions'
+import * as patientActions from '../../services/redux/actions/patientActions'
 import Confirmation from '../../components/common/Confirmation'
 import Notification from '../../components/common/Notification'
 import AppointmentModel from '../../services/models/AppointmentModel'
@@ -93,6 +94,11 @@ export class Appointments extends Component {
         this.setState({showConfirmationModalAppointment: true, appointmentSelected: {...appointment}});
     }
     
+    onUpdateHistory = async (patient) => {
+        await this.props.stagePatient(patient);
+        this.props.history.push("/patients/history");
+    }
+
     onComplete = (appointment) => {
         this.setState({showOffcanvasAppointment: true, appointmentSelected: {...appointment}});
     }
@@ -203,6 +209,7 @@ export class Appointments extends Component {
                             onSearch={this.loadList}
                             onUpdate={this.onUpdate}
                             onDelete={this.onDelete}
+                            onUpdateHistory={this.onUpdateHistory}
                             onComplete={this.onComplete}
                         />
                         <CCol xs="12" className='jc-fe'>
@@ -263,7 +270,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        ...bindActionCreators(Object.assign({}, appointmentActions), dispatch)
+        ...bindActionCreators(Object.assign({}, appointmentActions, patientActions), dispatch)
     }
 }
   

@@ -7,7 +7,6 @@ import {
     CCollapse,
     CFormInput,
     CFormLabel,
-    CFormSelect,
     CRow,
     CTable,
     CTableBody,
@@ -18,7 +17,7 @@ import {
     CTooltip
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilChevronRight, cilFilter, cilFilterX, cilMedicalCross, cilPencil, cilSearch, cilTrash } from '@coreui/icons'
+import { cilChevronRight, cilFilter, cilFilterX, cilInfo, cilMedicalCross, cilPencil, cilSearch, cilTrash } from '@coreui/icons'
 import colorTypes from '../../services/models/others/colorTypes'
 import Pagination from '../../components/common/Pagination'
 import moment from 'moment'
@@ -45,6 +44,10 @@ export default class AppointmentTable extends Component {
     
     onSelect = (appointment) => {
         this.props.onSelect(appointment);
+    }
+
+    onUpdateHistory = (patient) => {
+        this.props.onUpdateHistory(patient);
     }
     
     onComplete = (appointment) => {
@@ -143,11 +146,20 @@ export default class AppointmentTable extends Component {
                                                     </CTooltip>
                                                 </>
                                                 :
-                                                <CTooltip content="Complete" placement="top">
-                                                    <CButton color={colorTypes.PRIMARY} onClick={() => this.onComplete(a)}>
-                                                        <CIcon icon={cilChevronRight} size="sm"/>
-                                                    </CButton>
-                                                </CTooltip>
+                                                <>
+                                                    { doctorProfile && !historyMode && 
+                                                        <CTooltip content="Update patient history" placement="top">
+                                                            <CButton color={colorTypes.LIGHT} style={{marginRight: "1rem"}} onClick={() => this.onUpdateHistory(a.patientInfo)}>
+                                                                <CIcon icon={cilInfo} size="sm"/>
+                                                            </CButton>
+                                                        </CTooltip>
+                                                    }
+                                                    <CTooltip content="Complete" placement="top">
+                                                        <CButton color={colorTypes.PRIMARY} onClick={() => this.onComplete(a)}>
+                                                            <CIcon icon={cilChevronRight} size="sm"/>
+                                                        </CButton>
+                                                    </CTooltip>
+                                                </>
                                             }
                                         </CTableDataCell>
                                     </CTableRow>
