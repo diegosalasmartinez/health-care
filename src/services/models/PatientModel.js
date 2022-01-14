@@ -74,4 +74,40 @@ const validate = (patient) => {
     return errors;
 }
 
-export { validate }
+const validateClinicHistory = (patient) => {
+    let errors = {
+        reason: null,
+        currentIllness: null,
+        historyDesease: null,
+        alcohol: null,
+        smoke: null,
+        drugs: null,
+        sexuality: null,
+        others: null
+    }
+    if (!patient.clinicHistory.reason) {
+        errors.reason = "Reason is mandatory";
+    }
+    if (!patient.clinicHistory.currentIllness) {
+        errors.currentIllness = "Current Illness is mandatory";
+    }
+    if (!patient.clinicHistory.historyDesease) {
+        errors.historyDesease = "History Desease is mandatory";
+    }
+    if (!patient.clinicHistory.alcohol) {
+        errors.alcohol = "Alcohol is mandatory";
+    }
+    if (!patient.clinicHistory.smoke) {
+        errors.smoke = "Smoke is mandatory";
+    }
+    if (!patient.clinicHistory.drugs) {
+        errors.drugs = "Drugs is mandatory";
+    }
+    if (!patient.clinicHistory.sexuality) {
+        errors.sexuality = "Sexuality is mandatory";
+    }
+
+    return errors;
+}
+
+export { validate, validateClinicHistory }
