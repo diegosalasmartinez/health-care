@@ -62,6 +62,7 @@ export default class ClinicHistory extends Component {
 
     render() {
         const { patient, errors, firstTime, showConfirmationModal } = this.state;
+        const { editMode } = this.props;
 
         return (
             <CRow>
@@ -71,46 +72,48 @@ export default class ClinicHistory extends Component {
                             <CRow className="mb-3">
                                 <CFormLabel htmlFor="reason" className="col-sm-2 col-form-label">Reason</CFormLabel>
                                 <CCol sm={4}>
-                                    <CFormInput type="text" id="reason" value={patient.clinicHistory.reason} onChange={this.onChange('clinicHistory.reason', false, false)} invalid={!firstTime && errors.reason !== null}/>
+                                    <CFormInput type="text" id="reason" value={patient.clinicHistory.reason} onChange={this.onChange('clinicHistory.reason', false, false)} invalid={!firstTime && errors.reason !== null} disabled={!editMode}/>
                                 </CCol>
                                 <CFormLabel htmlFor="currentIllness" className="col-sm-2 col-form-label">Current Illness</CFormLabel>
                                 <CCol sm={4}>
-                                    <CFormInput type="text" id="currentIllness" value={patient.clinicHistory.currentIllness} onChange={this.onChange('clinicHistory.currentIllness', false, false)} invalid={!firstTime && errors.currentIllness !== null}/>
+                                    <CFormInput type="text" id="currentIllness" value={patient.clinicHistory.currentIllness} onChange={this.onChange('clinicHistory.currentIllness', false, false)} invalid={!firstTime && errors.currentIllness !== null} disabled={!editMode}/>
                                 </CCol>
                             </CRow>
                             <CRow className="mb-3">
                                 <CFormLabel htmlFor="historyDesease" className="col-sm-2 col-form-label">History Desease</CFormLabel>
                                 <CCol sm={4}>
-                                    <CFormInput type="text" id="historyDesease" value={patient.clinicHistory.historyDesease} onChange={this.onChange('clinicHistory.historyDesease', false, false)} invalid={!firstTime && errors.historyDesease !== null}/>
+                                    <CFormInput type="text" id="historyDesease" value={patient.clinicHistory.historyDesease} onChange={this.onChange('clinicHistory.historyDesease', false, false)} invalid={!firstTime && errors.historyDesease !== null} disabled={!editMode}/>
                                 </CCol>
                                 <CFormLabel htmlFor="alcohol" className="col-sm-2 col-form-label">Alcohol</CFormLabel>
                                 <CCol sm={4}>
-                                    <CFormInput type="text" id="alcohol" value={patient.clinicHistory.alcohol} onChange={this.onChange('clinicHistory.alcohol', false, false)} invalid={!firstTime && errors.alcohol !== null}/>
+                                    <CFormInput type="text" id="alcohol" value={patient.clinicHistory.alcohol} onChange={this.onChange('clinicHistory.alcohol', false, false)} invalid={!firstTime && errors.alcohol !== null} disabled={!editMode}/>
                                 </CCol>
                             </CRow>
                             <CRow className="mb-3">
                                 <CFormLabel htmlFor="smoke" className="col-sm-2 col-form-label">Smoke</CFormLabel>
                                 <CCol sm={4}>
-                                    <CFormInput type="text" id="smoke" value={patient.clinicHistory.smoke} onChange={this.onChange('clinicHistory.smoke', false, false)} invalid={!firstTime && errors.smoke !== null}/>
+                                    <CFormInput type="text" id="smoke" value={patient.clinicHistory.smoke} onChange={this.onChange('clinicHistory.smoke', false, false)} invalid={!firstTime && errors.smoke !== null} disabled={!editMode}/>
                                 </CCol>
                                 <CFormLabel htmlFor="drugs" className="col-sm-2 col-form-label">Drugs</CFormLabel>
                                 <CCol sm={4}>
-                                    <CFormInput type="text" id="drugs" value={patient.clinicHistory.drugs} onChange={this.onChange('clinicHistory.drugs', false, false)} invalid={!firstTime && errors.drugs !== null}/>
+                                    <CFormInput type="text" id="drugs" value={patient.clinicHistory.drugs} onChange={this.onChange('clinicHistory.drugs', false, false)} invalid={!firstTime && errors.drugs !== null} disabled={!editMode}/>
                                 </CCol>
                             </CRow>
                             <CRow className="mb-3">
                                 <CFormLabel htmlFor="sexuality" className="col-sm-2 col-form-label">Sexuality</CFormLabel>
                                 <CCol sm={4}>
-                                    <CFormInput type="text" id="sexuality" value={patient.clinicHistory.sexuality} onChange={this.onChange('clinicHistory.sexuality', false, false)} invalid={!firstTime && errors.sexuality !== null}/>
+                                    <CFormInput type="text" id="sexuality" value={patient.clinicHistory.sexuality} onChange={this.onChange('clinicHistory.sexuality', false, false)} invalid={!firstTime && errors.sexuality !== null} disabled={!editMode}/>
                                 </CCol>
                                 <CFormLabel htmlFor="others" className="col-sm-2 col-form-label">Others</CFormLabel>
                                 <CCol sm={4}>
-                                    <CFormInput type="text" id="others" value={patient.clinicHistory.others} onChange={this.onChange('clinicHistory.others', false, false)} invalid={!firstTime && errors.others !== null}/>
+                                    <CFormInput type="text" id="others" value={patient.clinicHistory.others} onChange={this.onChange('clinicHistory.others', false, false)} invalid={!firstTime && errors.others !== null} disabled={!editMode}/>
                                 </CCol>
                             </CRow>
-                            <CCol xs="12" className="right-side my-3">
-                                <CButton color={colorTypes.PRIMARY} onClick={this.onAccept}>Save</CButton>
-                            </CCol>
+                            { editMode && 
+                                <CCol xs="12" className="right-side my-3">
+                                    <CButton color={colorTypes.PRIMARY} onClick={this.onAccept}>Save</CButton>
+                                </CCol>
+                            }
                         </CCardBody>
                     </CCard>
                 </CCol>
