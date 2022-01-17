@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { 
     CAlert,
+    CButton,
     CCol,
     CNav,
     CNavItem,
@@ -30,7 +31,6 @@ export class PatientHistory extends Component {
         this.state = {
             activeTab: 1,
             firstTime: true, 
-            completed: false,
             patient: new PatientModel(),
             showConfirmationModal: false,
             notifications: [],
@@ -52,19 +52,6 @@ export class PatientHistory extends Component {
     goBack = () => {
         this.props.history.push("/");
     }
-    
-    onAccept = () => {
-        this.setState({firstTime: false});
-        const errors = validate(this.state.patient);
-        if (objIsNull(errors)) {
-            this.setState({showConfirmationModal: true});
-        }
-        this.setState({errors: errors});
-    }
-    
-    onDiscard = () => {
-        this.setState({showConfirmationModal: false});
-    }
 
     onSave = async (patient) => {
         this.setState({loaded: false, failed: false});
@@ -72,24 +59,21 @@ export class PatientHistory extends Component {
         await this.props.updatePatientHistory(patient);
         const failed = this.props.patient.failed;
         let newNotification;
-        let completed = false;
         if (failed) {
             newNotification = new notification(colorTypes.DANGER, 'Error', this.props.patient.error); 
         } else {
             newNotification = new notification(colorTypes.SUCCESS, 'Success', "Patient history updated");             
-            completed = true;
         }
         this.setState({
             loaded: true, 
             failed: false, 
-            completed: completed,
-            showConfirmationModal: false,
+            patient: failed ? this.state.patient : patient,
             notifications: [...this.state.notifications, newNotification]
         });
     }
 
     render() {
-        const { activeTab, patient, completed, loaded, failed, notifications, showConfirmationModal } = this.state;
+        const { activeTab, patient, loaded, failed, notifications, showConfirmationModal } = this.state;
 
         return (
             <>
@@ -124,9 +108,12 @@ export class PatientHistory extends Component {
                                     <ExtraInformation patient={patient}></ExtraInformation>
                                 </CTabPane>
                                 <CTabPane role="tabpanel" aria-labelledby="home-tab" visible={activeTab === 3}>
-                                    <ClinicHistory patient={patient} completed={completed} goBack={this.goBack} onSave={this.onSave}></ClinicHistory>
+                                    <ClinicHistory patient={patient} goBack={this.goBack} onSave={this.onSave}></ClinicHistory>
                                 </CTabPane>
                             </CTabContent>
+                        </CCol>
+                        <CCol xs="12" className='jc-fe'>
+                            <CButton color={colorTypes.LIGHT} style={{marginRight: "1rem"}} onClick={this.goBack}>Back</CButton>
                         </CCol>
                     </CRow>
                 }

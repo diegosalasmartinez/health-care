@@ -55,10 +55,6 @@ export default class ClinicHistory extends Component {
     onSave = () => {
         this.props.onSave(this.state.patient);
     }
-    
-    onClose = () => {
-        this.props.goBack();
-    }
 
     onCloseConfirmation = () => {
         this.setState({showConfirmationModal: false});
@@ -66,7 +62,6 @@ export default class ClinicHistory extends Component {
 
     render() {
         const { patient, errors, firstTime, showConfirmationModal } = this.state;
-        const { completed } = this.props;
 
         return (
             <CRow>
@@ -114,8 +109,7 @@ export default class ClinicHistory extends Component {
                                 </CCol>
                             </CRow>
                             <CCol xs="12" className="right-side my-3">
-                                <CButton color={colorTypes.LIGHT} style={{marginRight: "1rem"}} onClick={this.onClose}>Back</CButton>
-                                <CButton color={colorTypes.PRIMARY} onClick={this.onAccept} disabled={completed}>Save</CButton>
+                                <CButton color={colorTypes.PRIMARY} onClick={this.onAccept}>Save</CButton>
                             </CCol>
                         </CCardBody>
                     </CCard>
