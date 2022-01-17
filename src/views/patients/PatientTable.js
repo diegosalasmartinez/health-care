@@ -17,7 +17,7 @@ import {
     CTooltip
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilFilter, cilFilterX, cilSearch, cilAddressBook, cilPencil, cilTrash, cilMedicalCross, cilChevronRight } from '@coreui/icons'
+import { cilFilter, cilFilterX, cilSearch, cilAddressBook, cilPencil, cilTrash, cilMedicalCross, cilChevronRight, cilInfo } from '@coreui/icons'
 import colorTypes from '../../services/models/others/colorTypes'
 import Pagination from '../../components/common/Pagination'
 
@@ -43,6 +43,10 @@ export default class PatientTable extends Component {
     
     onCreateAppointment = (patient) => {
         this.props.onCreateAppointment(patient);
+    }
+
+    onShowPatientInfo = (patient) => {
+        this.props.onShowPatientInfo(patient);
     }
 
     onSelect = (patient) => {
@@ -143,12 +147,19 @@ export default class PatientTable extends Component {
                                                 </CTooltip>
                                                 :
                                                 <>
-                                                    { role === "ADMIN" && 
-                                                        <CTooltip content="Create Appointment" placement="top">
-                                                            <CButton color={colorTypes.INFO} style={{marginRight: "1rem"}} onClick={() => this.onCreateAppointment(p)}>
-                                                                <CIcon icon={cilAddressBook} size="sm"/>
-                                                            </CButton>
-                                                        </CTooltip>
+                                                    { role !== "DOCTOR" && 
+                                                        <>
+                                                            <CTooltip content="Create Appointment" placement="top">
+                                                                <CButton color={colorTypes.INFO} style={{marginRight: "1rem"}} onClick={() => this.onCreateAppointment(p)}>
+                                                                    <CIcon icon={cilAddressBook} size="sm"/>
+                                                                </CButton>
+                                                            </CTooltip>
+                                                            <CTooltip content="Show patient info" placement="top">
+                                                                <CButton color={colorTypes.LIGHT} style={{marginRight: "1rem"}} onClick={() => this.onShowPatientInfo(p)}>
+                                                                    <CIcon icon={cilInfo} size="sm"/>
+                                                                </CButton>
+                                                            </CTooltip>
+                                                        </>
                                                     }
                                                     <CTooltip content="Update" placement="top">
                                                         <CButton color={colorTypes.LIGHT} style={{marginRight: "1rem"}} onClick={() => this.onUpdate(p)}>

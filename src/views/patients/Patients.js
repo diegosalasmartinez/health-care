@@ -84,6 +84,11 @@ export class Patients extends Component {
         this.setState({showOffcanvasAppointment: true, mode: actionTypes.CREATE, patientSelected: {...patient}});
     }
 
+    onShowPatientInfo = async (patient) => {
+        await this.props.stagePatient(patient);
+        this.props.history.push("/patients/history");
+    }
+
     onAddPatient = async () => {
         await this.props.stagePatient(new PatientModel());
         this.props.history.push("/patients/create");
@@ -187,6 +192,7 @@ export class Patients extends Component {
                             onUpdate={this.onUpdatePatient}
                             onDelete={this.onDeletePatient}
                             onCreateAppointment={this.onCreateAppointment}
+                            onShowPatientInfo={this.onShowPatientInfo}
                             role={auth.user.role}
                         />
                         <AppointmentDetails

@@ -32,7 +32,6 @@ export class PatientHistory extends Component {
             activeTab: 1,
             firstTime: true, 
             patient: new PatientModel(),
-            showConfirmationModal: false,
             notifications: [],
             loaded: false,
             failed: false,
@@ -73,7 +72,9 @@ export class PatientHistory extends Component {
     }
 
     render() {
-        const { activeTab, patient, loaded, failed, notifications, showConfirmationModal } = this.state;
+        const { activeTab, patient, loaded, failed, notifications } = this.state;
+        const { auth } = this.props;
+        const editMode = auth.user.role !== "SECRETARY";
 
         return (
             <>
@@ -108,7 +109,7 @@ export class PatientHistory extends Component {
                                     <ExtraInformation patient={patient}></ExtraInformation>
                                 </CTabPane>
                                 <CTabPane role="tabpanel" aria-labelledby="home-tab" visible={activeTab === 3}>
-                                    <ClinicHistory patient={patient} goBack={this.goBack} onSave={this.onSave}></ClinicHistory>
+                                    <ClinicHistory patient={patient} editMode={editMode} goBack={this.goBack} onSave={this.onSave}></ClinicHistory>
                                 </CTabPane>
                             </CTabContent>
                         </CCol>
