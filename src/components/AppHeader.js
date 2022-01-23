@@ -27,11 +27,11 @@ const AppHeader = () => {
         <CHeaderBrand className="mx-auto d-md-none" to="/">
           <CIcon icon={logo} height={48} alt="Logo" />
         </CHeaderBrand>
-        <AppBreadcrumb />
+        <AppBreadcrumb/>
       </CContainer>
       <CHeaderDivider />
       <CContainer fluid className="second">
-        <AppBreadcrumb />
+        <AppBreadcrumb/>
       </CContainer>
     </CHeader>
   )
