@@ -49,7 +49,12 @@ export class PatientHistory extends Component {
     }
     
     goBack = () => {
-        this.props.history.push("/");
+        const { auth } = this.props;
+        if (auth.user.role === "DOCTOR") {
+            this.props.history.push("/appointments");
+        } else {
+            this.props.history.push("/patients");
+        }
     }
 
     onSave = async (patient) => {
