@@ -10,6 +10,7 @@ const PatientHistory = React.lazy(() => import('./views/patients/PatientHistory'
 const Users = React.lazy(() => import('./views/users/Users'))
 const Appointments = React.lazy(() => import('./views/appointments/Appointments'))
 const AppointmentsHistory = React.lazy(() => import('./views/appointments/AppointmentsHistory'))
+const Profile = React.lazy(() => import('./views/profile/Profile'))
 
 const allRoutes = [
   { path: '/', exact: true, name: 'Home' },
@@ -22,7 +23,8 @@ const allRoutes = [
   { path: '/patients/history', name: 'Patient Information', component: PatientHistory },
   { path: '/users', name: 'Users', component: Users },
   { path: '/appointments', name: 'Appointments', component: Appointments },
-  { path: '/appointments/history', name: 'Appointments History', component: AppointmentsHistory }
+  { path: '/appointments/history', name: 'Appointments History', component: AppointmentsHistory },
+  { path: '/profile', name: 'Profile', component: Profile },
 ]
 
 const routesAdmin = [
@@ -36,7 +38,8 @@ const routesAdmin = [
   { path: '/patients/history', name: 'Patient History', component: PatientHistory },
   { path: '/users', name: 'Users', component: Users },
   { path: '/appointments', name: 'Appointments', component: Appointments, exact: true },
-  { path: '/appointments/history', name: 'Appointments History', component: AppointmentsHistory }
+  { path: '/appointments/history', name: 'Appointments History', component: AppointmentsHistory },
+  { path: '/profile', name: 'Profile', component: Profile },
 ]
 
 const routesDoctor = [
@@ -45,6 +48,7 @@ const routesDoctor = [
   { path: '/appointments', name: 'My Appointments', component: Appointments, exact: true },
   { path: '/appointments/history', name: 'Appointments History', component: AppointmentsHistory },
   { path: '/patients/history', name: 'Patient Information', component: PatientHistory },
+  { path: '/profile', name: 'Profile', component: Profile },
 ]
 
 const routesSecretary = [
@@ -57,7 +61,8 @@ const routesSecretary = [
   { path: '/patients/history', name: 'Patient Information', component: PatientHistory },
   { path: '/users', name: 'Users', component: Users },
   { path: '/appointments', name: 'Appointments', component: Appointments, exact: true },
-  { path: '/appointments/history', name: 'Appointments History', component: AppointmentsHistory }
+  { path: '/appointments/history', name: 'Appointments History', component: AppointmentsHistory },
+  { path: '/profile', name: 'Profile', component: Profile },
 ]
 
 export {
