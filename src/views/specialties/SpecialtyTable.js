@@ -4,6 +4,7 @@ import {
     CCard, 
     CCardBody, 
     CCol,
+    CRow,
     CTable,
     CTableBody,
     CTableDataCell,
@@ -13,8 +14,9 @@ import {
     CTooltip
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilPencil, cilTrash } from '@coreui/icons'
+import { cilMedicalCross, cilPencil, cilTrash } from '@coreui/icons'
 import colorTypes from '../../services/models/others/colorTypes'
+import Pagination from '../../components/common/Pagination'
 
 export default class SpecialtyTable extends Component {
     onUpdate = (specialty) => {
@@ -26,12 +28,23 @@ export default class SpecialtyTable extends Component {
     }
 
     render() {
-        const { specialties } = this.props;
+        const { specialties, specialtiesLength, pageSelected, pagination } = this.props;
 
         return (
             <CCol xs="12">
                 <CCard>
                     <CCardBody>
+                        <CRow className='mb-2 jc-sb'>
+                            <CCol xs="10">
+                            </CCol>
+                            <CCol xs="2" style={{display: 'flex', justifyContent: 'flex-end', justifySelf: 'flex-end', alignSelf: 'flex-start', gap: '1rem'}}>
+                                <CTooltip content="Add a new specialty" placement="top">
+                                    <CButton onClick={this.props.onAdd} style={{color: 'white'}}>
+                                        <CIcon icon={cilMedicalCross} size="sm"/>
+                                    </CButton>
+                                </CTooltip>
+                            </CCol>
+                        </CRow>
                         <CTable responsive>
                             <CTableHead>
                                 <CTableRow>
@@ -63,6 +76,7 @@ export default class SpecialtyTable extends Component {
                                 ) }
                             </CTableBody>
                         </CTable>
+                        <Pagination itemsLength={specialtiesLength} pageSelected={pageSelected} pagination={pagination} onClickPage={this.props.onClickPage}/>
                     </CCardBody>
                 </CCard>
             </CCol>
