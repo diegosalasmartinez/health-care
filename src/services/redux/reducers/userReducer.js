@@ -27,6 +27,8 @@ const user = (state = initialState, action) => {
         case DELETE_USER:
             const usersDeleted = state.users.filter(u => u._id !== action.playload._id);
             return {...state, users: [...usersDeleted], error: "", loaded: true, failed: false};
+        case CHANGE_PASSWORD:
+            return {...state, error: "", loaded: true, failed: false};
         case ERROR_USER:
             return {...state, error: action.playload, loaded: true, failed: true};
         default:
