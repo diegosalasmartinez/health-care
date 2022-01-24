@@ -2,6 +2,7 @@ import {
     GET_USERS,
     CREATE_USER,
     UPDATE_USER,
+    CHANGE_PASSWORD,
     DELETE_USER,
     ERROR_USER
 } from '../actions/actionTypes/userActionTypes'
