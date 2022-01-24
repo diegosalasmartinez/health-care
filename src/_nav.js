@@ -49,6 +49,12 @@ const navAdmin = [
     name: 'Users',
     to: '/users',
     icon: <CIcon icon={cilUser} customClassName="nav-icon" />
+  },
+  {
+    component: CNavItem,
+    name: 'My Profile',
+    to: '/profile',
+    icon: <CIcon icon={cilUser} customClassName="nav-icon" />
   }
 ]
 
@@ -65,15 +71,15 @@ const navDoctor = [
   },
   {
     component: CNavItem,
-    name: 'Appointments',
+    name: 'My Appointments',
     to: '/appointments',
     icon: <CIcon icon={cilAddressBook} customClassName="nav-icon" />
   },
   {
     component: CNavItem,
-    name: 'Patients',
-    to: '/patients',
-    icon: <CIcon icon={cilPeople} customClassName="nav-icon" />
+    name: 'My Profile',
+    to: '/profile',
+    icon: <CIcon icon={cilUser} customClassName="nav-icon" />
   }
 ]
 
@@ -106,6 +112,12 @@ const navSecretary= [
     component: CNavItem,
     name: 'Users',
     to: '/users',
+    icon: <CIcon icon={cilUser} customClassName="nav-icon" />
+  },
+  {
+    component: CNavItem,
+    name: 'My Profile',
+    to: '/profile',
     icon: <CIcon icon={cilUser} customClassName="nav-icon" />
   }
 ]

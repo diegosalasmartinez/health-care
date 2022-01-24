@@ -107,8 +107,8 @@ export default class AppointmentCompletion extends Component {
                         </CCol>
                     </CRow>
                     <CCol xs="12" className="right-side my-3">
-                        <CButton color={colorTypes.LIGHT} style={{marginRight: "1rem"}} onClick={this.onClose}>Back</CButton>
-                        { !historyMode && <CButton color={colorTypes.PRIMARY} onClick={this.onSave}>Complete</CButton> }
+                        <CButton color={colorTypes.LIGHT} onClick={this.onClose}>Back</CButton>
+                        { !historyMode && <CButton color={colorTypes.PRIMARY} style={{marginLeft: "1rem"}} onClick={this.onSave}>Complete</CButton> }
                     </CCol>
                 </COffcanvasBody>
             </COffcanvas>

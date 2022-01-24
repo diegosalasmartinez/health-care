@@ -187,7 +187,7 @@ export default class AppointmentDetails extends Component {
                     visible={showDoctorModal}
                     onSelectDoctor={this.onSelectDoctor}
                     onClose={this.onCloseDoctorModal}
-                    />
+                />
                 <PatientSearch
                     visible={showPatientModal}
                     onSelectPatient={this.onSelectPatient}

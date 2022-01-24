@@ -1,12 +1,17 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom'
 
-import { allRoutes as routes } from '../routes'
+import { routesAdmin, routesDoctor, routesSecretary } from '../routes'
+import { userTypes } from '../utils/userUtils'
 
 import { CBreadcrumb, CBreadcrumbItem } from '@coreui/react'
+import { useSelector } from 'react-redux'
 
 const AppBreadcrumb = () => {
   const currentLocation = useLocation().pathname
+  const user = useSelector((state) => state.auth.user);
+  const userRole = user.role; 
+  const routes = userRole === "ADMIN" ? routesAdmin : userRole === "DOCTOR" ? routesDoctor : userRole === "SECRETARY" ? routesSecretary : [];
 
   const getRouteName = (pathname, routes) => {
     const currentRoute = routes.find((route) => route.path === pathname)
@@ -33,16 +38,7 @@ const AppBreadcrumb = () => {
   return (
     <CBreadcrumb className="m-0 ms-2">
       <CBreadcrumbItem>{actualPage.name}</CBreadcrumbItem>
-      {/* {breadcrumbs.map((breadcrumb, index) => {
-        return (
-          <CBreadcrumbItem
-            {...(breadcrumb.active ? { active: true } : { href: breadcrumb.pathname })}
-            key={index}
-          >
-            {breadcrumb.name}
-          </CBreadcrumbItem>
-        )
-      })} */}
+      <div>{userTypes[user.role]}: {user.name} {user.lastName}</div>
     </CBreadcrumb>
   )
 }

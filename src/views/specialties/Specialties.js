@@ -1,14 +1,5 @@
 import React, { Component } from 'react'
-import { 
-    CAlert,
-    CButton,
-    CCol,
-    CRow,
-    CSpinner,
-    CTooltip
-} from '@coreui/react'
-import CIcon from '@coreui/icons-react'
-import { cilMedicalCross } from '@coreui/icons'
+import { CAlert, CRow, CSpinner } from '@coreui/react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as specialtyActions from '../../services/redux/actions/specialtyActions'
@@ -20,12 +11,16 @@ import SpecialtyTable from './SpecialtyTable'
 import SpecialtyModel from '../../services/models/SpecialtyModel'
 import Confirmation from '../../components/common/Confirmation'
 import SpecialtyDetails from './SpecialtyDetails'
+import pagination from '../../services/models/others/pagination'
 
 export class Specialties extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            pagination: new pagination(0,10),
+            pageSelected: 1,
             specialties: [],
+            specialtiesSelected: [],
             specialtySelected: new SpecialtyModel(),
             showOffcanvas: false,
             showConfirmationModal: false,
@@ -38,12 +33,31 @@ export class Specialties extends Component {
     }
 
     async componentDidMount() {
+        this.setState({loaded: false, failed: false});
         await this.props.getSpecialties();
         this.setState({
             specialties: [...this.props.specialty.specialties],
             loaded: this.props.specialty.loaded,
             failed: this.props.specialty.failed,
             error: this.props.specialty.error,
+        }, () => {
+            this.loadList();
+        })
+    }
+
+    loadList = async () => {
+        const { pagination, specialties } = this.state;
+        const specialtiesCopy = [...specialties];
+        const specialtiesSelected = specialtiesCopy.splice(pagination.offset, pagination.offset + pagination.limit);
+        this.setState({specialtiesSelected})
+    }
+
+    onClickPage = (indexPage) => {
+        const { pagination } = this.state;
+        let paginationUpdated = {...pagination};
+        paginationUpdated.offset = paginationUpdated.limit * (indexPage - 1);
+        this.setState({ pagination: paginationUpdated, pageSelected: indexPage }, async function(){
+            await this.loadList();
         })
     }
 
@@ -105,7 +119,7 @@ export class Specialties extends Component {
     }
 
     render() {
-        const { specialties, loaded, failed, error, notifications, showOffcanvas, showConfirmationModal, mode, specialtySelected } = this.state;
+        const { specialties, loaded, failed, error, notifications, showOffcanvas, showConfirmationModal, mode, specialtySelected, pageSelected, pagination, specialtiesSelected } = this.state;
 
         return (
             <>
@@ -117,15 +131,13 @@ export class Specialties extends Component {
                 )}
                 { loaded && !failed && 
                     <CRow>
-                        <CCol xs="12" className="right-side mb-3">
-                            <CTooltip content="Add a new specialty" placement="top">
-                                <CButton onClick={this.onAdd} style={{color: 'white'}}>
-                                    <CIcon icon={cilMedicalCross} size="sm"/>
-                                </CButton>
-                            </CTooltip>
-                        </CCol>
                         <SpecialtyTable
-                            specialties={specialties}
+                            specialties={specialtiesSelected}
+                            specialtiesLength={specialties.length}
+                            pageSelected={pageSelected}
+                            pagination={pagination}
+                            onClickPage={this.onClickPage}
+                            onAdd={this.onAdd}
                             onUpdate={this.onUpdate}
                             onDelete={this.onDelete}
                         />

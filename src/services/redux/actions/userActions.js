@@ -3,6 +3,7 @@ import {
     CREATE_USER,
     UPDATE_USER,
     DELETE_USER,
+    CHANGE_PASSWORD,
     ERROR_USER
 } from './actionTypes/userActionTypes'
 import {
@@ -12,6 +13,7 @@ import {
     getUsers as getUsersAPI,
     createUser as createUserAPI,
     updateUser as updateUserAPI,
+    changePassword as changePasswordAPI,
     deleteUser as deleteUserAPI
 } from '../../api/user-api'
 
@@ -66,6 +68,31 @@ const createUser = (user) => async (dispatch) => {
     })
 }
 
+const changePassword = (user) => async (dispatch) => {
+    let message = "There was a problem with the server. Sorry :("
+    try {
+        const res = await changePasswordAPI(user);
+        return dispatch({
+            type: CHANGE_PASSWORD,
+            playload: user
+        })
+    } catch(e){
+        if (e.response && e.response.statusText === "Unauthorized") {
+            return dispatch({
+                type: UNAUTHORIZED
+            })
+        }
+        if (e.response && e.response.data && e.response.data.message) {
+            message = e.response.data.message;
+        }
+    }
+    return dispatch({
+        type: ERROR_USER,
+        playload: message
+    })
+}
+
+
 const updateUser = (user) => async (dispatch) => {
     let message = "There was a problem with the server. Sorry :("
     try {
@@ -114,4 +141,4 @@ const deleteUser = (user) => async (dispatch) => {
     })
 }
 
-export { getUsers, createUser, updateUser, deleteUser }
+export { getUsers, createUser, updateUser, changePassword, deleteUser }

@@ -48,4 +48,22 @@ const validate = (user, validateCredentials) => {
     return errors;
 }
 
-export { validate }
+const validatePassword = (password, passwordConfirmation) => {
+    let errors = {
+        password: null,
+        passwordConfirmation: null
+    }
+    if (password === "" || password.length < 8) {
+        errors.password = "Your password must be at least 8 characters long";
+    }
+    if (passwordConfirmation === "" || passwordConfirmation.length < 8) {
+        errors.passwordConfirmation = "Your password must be at least 8 characters long";
+    }
+    if (password !== passwordConfirmation) {
+        errors.password = "The passwords entered do not match";
+        errors.passwordConfirmation = "The passwords entered do not match";
+    }
+    return errors;
+}
+
+export { validate, validatePassword }

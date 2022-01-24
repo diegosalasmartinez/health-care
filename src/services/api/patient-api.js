@@ -12,8 +12,12 @@ const updatePatient = async (patient) => {
     return await apiPatch(`patients/${patient._id}`, patient);
 }
 
+const updatePatientHistory = async (patient) => {
+    return await apiPatch(`patients/${patient._id}/history`, patient);
+}
+
 const deletePatient = async (patient) => {
     return await apiPost(`patients/delete/${patient._id}`, patient);
 }
 
-export { getPatients, createPatient, updatePatient, deletePatient }
+export { getPatients, createPatient, updatePatient, updatePatientHistory, deletePatient }
