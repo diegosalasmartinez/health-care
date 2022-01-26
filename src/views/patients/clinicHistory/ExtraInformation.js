@@ -35,7 +35,7 @@ export default class ExtraInformation extends Component {
                                 </CCol>
                                 <CFormLabel htmlFor="birthday" className="col-sm-2 col-form-label">Birthday</CFormLabel>
                                 <CCol sm={4}>
-                                    <CFormInput type="text" id="birthday" value={moment(patient.birthday).format("YYYY-MM-DD")} readOnly={true}/>
+                                    <CFormInput type="text" id="birthday" value={moment(patient.birthday).format("DD-MM-YYYY")} readOnly={true}/>
                                 </CCol>
                             </CRow>
                             <CRow className="mb-3">

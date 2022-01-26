@@ -127,7 +127,7 @@ export default class AppointmentTable extends Component {
                                     <CTableRow key={a._id}>
                                         <CTableDataCell>{a.patientInfo.fullName}</CTableDataCell>
                                         { !doctorProfile && <CTableDataCell>{a.doctorInfo.fullName}</CTableDataCell> }
-                                        <CTableDataCell>{moment(a.date).format("YYYY-MM-DD")}</CTableDataCell>
+                                        <CTableDataCell>{moment(a.date).format("DD-MM-YYYY")}</CTableDataCell>
                                         <CTableDataCell>{a.time}</CTableDataCell>
                                         <CTableDataCell>{a.floor}</CTableDataCell>
                                         <CTableDataCell>{a.room}</CTableDataCell>

@@ -91,7 +91,7 @@ export default class AppointmentCompletion extends Component {
                     <CRow className="mb-3">
                         <CFormLabel htmlFor="date" className="col-sm-4 col-form-label">Date</CFormLabel>
                         <CCol sm={8}>
-                            <CFormInput type="text" id="date" value={moment(appointment.date).format("YYYY-MM-DD")} readOnly={true}/>
+                            <CFormInput type="text" id="date" value={moment(appointment.date).format("DD-MM-YYYY")} readOnly={true}/>
                         </CCol>
                     </CRow>
                     <CRow className="mb-3">
