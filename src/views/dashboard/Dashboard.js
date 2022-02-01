@@ -51,6 +51,7 @@ import avatar4 from 'src/assets/images/avatars/4.jpg'
 import avatar5 from 'src/assets/images/avatars/5.jpg'
 import avatar6 from 'src/assets/images/avatars/6.jpg'
 
+const BestSpecialties = lazy(() => import('./BestSpecialties'))
 const WidgetsDropdown = lazy(() => import('../widgets/WidgetsDropdown.js'))
 const WidgetsBrand = lazy(() => import('../widgets/WidgetsBrand.js'))
 
@@ -182,6 +183,7 @@ const Dashboard = () => {
 
   return (
     <>
+      <BestSpecialties/>
       <WidgetsDropdown />
       <CCard className="mb-4">
         <CCardBody>
