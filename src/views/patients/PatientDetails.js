@@ -163,7 +163,7 @@ export class PatientDetails extends Component {
                                         <DatePicker
                                             format="dd-MM-y"
                                             clearIcon={null}
-                                            value={patient.birthday ? new Date(moment(patient.birthday).format("YYYY-MM-DD HH:mm:ss")) : new Date()}
+                                            value={patient.birthday ? new Date(moment(patient.birthday).format("YYYY-MM-DD")) : new Date()}
                                             onChange={this.onChange('birthday', false, true)}
                                         />
                                     </CCol>

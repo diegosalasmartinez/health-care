@@ -159,7 +159,7 @@ export default class AppointmentDetails extends Component {
                                 className={this.isInvalid("date")}
                                 format="dd-MM-y"
                                 clearIcon={null}
-                                value={appointment.date ? new Date(moment(appointment.date).format("YYYY-MM-DD HH:mm:ss")) : new Date()}
+                                value={appointment.date ? new Date(moment(appointment.date).format("YYYY-MM-DD")) : new Date()}
                                 onChange={this.onChange('date', false, true)}
                             />
                         </CCol>
