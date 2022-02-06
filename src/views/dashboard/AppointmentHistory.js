@@ -71,7 +71,7 @@ export default class AppointmentHistory extends Component {
 							labels: this.getLabels(data),
 							datasets: [
 								{
-									label: 'Number of appointments',
+									label: 'Appointments',
 									backgroundColor: 'transparent',
 									borderColor: getStyle('--cui-success'),
 									pointHoverBackgroundColor: getStyle('--cui-success'),
