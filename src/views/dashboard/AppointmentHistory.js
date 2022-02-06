@@ -56,68 +56,49 @@ export default class AppointmentHistory extends Component {
 		return values;
 	}
 
-  render() {
-    const data = this.createDateObject();
-	
-    return (
-        <CCard className='mb-4'>
-            <CCardHeader>
-				Appointments Chart
-            </CCardHeader>
-            <CCardBody>
-                <CChartLine
-                    style={{ height: '300px', marginTop: '40px' }}
-                    data={{
-                        labels: this.getLabels(data),
-                        datasets: [
-                            {
-                                label: 'Number of appointments',
-                                backgroundColor: 'transparent',
-                                borderColor: getStyle('--cui-success'),
-                                pointHoverBackgroundColor: getStyle('--cui-success'),
-                                borderWidth: 2,
-                                data: this.getValues(data),
-                                fill: true,
-                            }
-                        ]
-                    }}
-                    options={{
-                        maintainAspectRatio: false,
-                        plugins: {
-                          legend: {
-                            display: false,
-                          },
-                        },
-                        // scales: {
-                        //   x: {
-                        //     grid: {
-                        //       drawOnChartArea: false,
-                        //     },
-                        //   },
-                        //   y: {
-                        //     ticks: {
-                        //       beginAtZero: true,
-                        //       maxTicksLimit: 5,
-                        //       stepSize: Math.ceil(250 / 5),
-                        //       max: 250,
-                        //     },
-                        //   },
-                        // },
-                        elements: {
-                          line: {
-                            tension: 0.4,
-                          },
-                          point: {
-                            radius: 0,
-                            hitRadius: 20,
-                            hoverRadius: 4,
-                            hoverBorderWidth: 3,
-                          },
-                        },
-                      }}
-                />
-            </CCardBody>
-        </CCard>
-    )
-  }
+  	render() {
+		const data = this.createDateObject();
+
+		return (
+			<CCard className='mb-4'>
+				<CCardHeader>
+					Appointments Chart
+				</CCardHeader>
+				<CCardBody>
+					<CChartLine
+						style={{ height: '300px', marginTop: '40px' }}
+						data={{
+							labels: this.getLabels(data),
+							datasets: [
+								{
+									label: 'Number of appointments',
+									backgroundColor: 'transparent',
+									borderColor: getStyle('--cui-success'),
+									pointHoverBackgroundColor: getStyle('--cui-success'),
+									borderWidth: 2,
+									data: this.getValues(data),
+									fill: true,
+								}
+							]
+						}}
+						options={{
+							maintainAspectRatio: false,
+							plugins: {
+								legend: { display: false },
+							},
+							elements: {
+								line: { tension: 0.4 },
+								point: {
+									radius: 0,
+									hitRadius: 20,
+									hoverRadius: 4,
+									hoverBorderWidth: 3,
+								}
+							},
+						}}
+					/>
+				</CCardBody>
+			</CCard>
+		)
+	}
 }
