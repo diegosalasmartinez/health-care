@@ -24,18 +24,11 @@ export default class BestSpecialties extends Component {
     render() {
         const { bestSpecialties = [] } = this.props;
         return (
-            <CCard>
+            <CCard className='mb-4'>
                 <CCardHeader>
-                Best Specialties
+                    Best Specialties
                 </CCardHeader>
                 <CCardBody>
-                    {/* <CRow className='mb-3'>
-                        <CCol>
-                            <h4 id="traffic" className="card-title mb-0">
-                                Best Specialties
-                            </h4>
-                        </CCol>
-                    </CRow> */}
                     <CRow>
                         { bestSpecialties.map((s, index) => 
                             <CCol xs="4" key={index}>
@@ -43,12 +36,6 @@ export default class BestSpecialties extends Component {
                                     <div className="text-medium-emphasis small">{"# Appointments: " + s.count}</div>
                                     <div className="fs-5 fw-semibold">{s.specialty.name}</div>
                                 </div>
-                                {/* <CWidgetStatsA
-                                    className="mb-4 pb-2"
-                                    color="primary"
-                                    value={<>{s.specialty.name + ' '}</>}
-                                    title={"# Appointments: " + s.count}
-                                /> */}
                             </CCol>
                         )}
                     </CRow>
