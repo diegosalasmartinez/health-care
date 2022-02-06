@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { 
+	CBadge,
 	CCard, 
 	CCardBody, 
 	CCardHeader, 
@@ -11,16 +12,18 @@ import {
 	CTableHeaderCell,
 	CTableRow,
 } from '@coreui/react'
+import colorTypes from '../../services/models/others/colorTypes';
 
 export default class BestDoctors extends Component {
 	render() {
 		const { bestDoctors } = this.props;
-		console.log(bestDoctors);
+
 		return (
 			<CCol xs="12">
                 <CCard>
 					<CCardHeader>
-						Best Doctors
+						Best Doctors {' '}
+						<CBadge color={colorTypes.DARK} shape="rounded-pill">This month</CBadge>
 					</CCardHeader>
                     <CCardBody>
                         <CTable responsive>

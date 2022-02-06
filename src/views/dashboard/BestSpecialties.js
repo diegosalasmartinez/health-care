@@ -5,7 +5,9 @@ import {
     CCard,
     CCardBody,
     CCardHeader,
+    CBadge,
 } from '@coreui/react'
+import colorTypes from '../../services/models/others/colorTypes';
 
 export default class BestSpecialties extends Component {
     getColor = (index) => {
@@ -26,7 +28,8 @@ export default class BestSpecialties extends Component {
         return (
             <CCard className='mb-4'>
                 <CCardHeader>
-                    Best Specialties
+                    Best Specialties {' '}
+                    <CBadge color={colorTypes.DARK} shape="rounded-pill">This month</CBadge>
                 </CCardHeader>
                 <CCardBody>
                     <CRow>
