@@ -25,7 +25,7 @@ npm install
 
 3. Create a `.env` file with the following content:
 
-```bash
+```javascript
 REACT_APP_SERVER_URL={ your backend url. e.g: http://localhost:5000 }
 ```
 
