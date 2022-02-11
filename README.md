@@ -13,44 +13,24 @@ password: adminadmin
 
 ### Instalation
 
-``` bash
-$ npm install
-```
+1. Clone the project to your computer.
 
-or
+2. Install all the dependencies of the project
 
 ``` bash
-$ yarn install
+npm install
 ```
 
-### Basic usage
-
-``` bash
-# dev server with hot reload at http://localhost:3000
-$ npm start
-```
-
-or 
-
-``` bash
-# dev server with hot reload at http://localhost:3000
-$ yarn start
-```
-
-Navigate to [http://localhost:3000](http://localhost:3000). The app will automatically reload if you change any of the source files.
-
-#### Build
-
-Run `build` to build the project. The build artifacts will be stored in the `build/` directory.
+3. Create a `.env` file with the following content:
 
 ```bash
-# build for production with minification
-$ npm run build
+REACT_APP_SERVER_URL={ your backend url. e.g: http://localhost:5000 }
 ```
 
-or
+4. Start the project
 
-```bash
-# build for production with minification
-$ yarn build
+``` bash
+npm start
 ```
+
+5. Navigate to [http://localhost:3000](http://localhost:3000). The app will automatically reload if you change any of the source files.
