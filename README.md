@@ -2,7 +2,9 @@
 
 Health Care is meant to be a system able to manage all hospital activities and staff managment. This repo only contains the front-end side for this system. See also [Health Care API](https://github.com/diegosalasmartinez/health_care_api) to get access to the back-end project.
 
-### Basic Usage
+This project uses [Core UI React Template](https://github.com/coreui/coreui-free-react-admin-template).
+
+## Basic Usage
 
 You can visit the project on [Health Care](https://diegosalas-healthcare.web.app). You can use the following credentials to access as the administrator of the system: 
 
@@ -11,7 +13,7 @@ username: admin
 password: adminadmin
 ```
 
-### Instalation
+## Instalation
 
 1. Clone the project to your computer.
 
@@ -34,3 +36,17 @@ npm start
 ```
 
 5. Navigate to [http://localhost:3000](http://localhost:3000). The app will automatically reload if you change any of the source files.
+
+## App Info
+
+### Author
+
+Diego Salas [Diego Salas](https://www.linkedin.com/in/diego-alejandro-salas-martinez/)
+
+### Version
+
+1.0.0
+
+### License
+
+This project is licensed under the MIT License.
