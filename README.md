@@ -1,6 +1,15 @@
 # Health Care
 
-Health Care is meant to be a system able to manage all hospital activities and staff.
+Health Care is meant to be a system able to manage all hospital activities and staff managment. This repo only contains the front-end side for this system. See also [Health Care API](https://github.com/diegosalasmartinez/health_care_api) to get access to the back-end project.
+
+### Basic Usage
+
+You can visit the project on [Health Care](https://diegosalas-healthcare.web.app). You can use the following credentials to access as the administrator of the system: 
+
+```bash
+username: admin
+password: adminadmin
+```
 
 ### Instalation
 
