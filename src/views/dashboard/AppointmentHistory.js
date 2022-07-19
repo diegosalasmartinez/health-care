@@ -12,24 +12,21 @@ export default class AppointmentHistory extends Component {
 		const { history } = this.props;
 		let historyObject = history.map(e => ({year: e._id.year, month: e._id.month, count: e.count}));
 
-		if (historyObject.length < 12) {
-			const n = 12 - historyObject.length;
-			const lastItem = historyObject.lastItem;
-			let year = lastItem?.year || new Date().getFullYear();
-			let month = lastItem?.month || new Date().getMonth() + 1;
-			
-			for (let i=0; i<n; i++) {
-				month -= 1;
+		const report = [];
+		let date = new Date();
 
-				if (month < 1) {
-					month = 12;
-					year -= 1;
-				}
-
-				historyObject = [...historyObject, {year, month, count: 0}]
+		for (let i=0; i<12; i++) {
+			const year = date.getFullYear();
+			const month = date.getMonth() + 1;
+			const indexHistory = historyObject.findIndex(h => h.year === year && h.month === month);
+			if (indexHistory >= 0) {
+				report.push(historyObject[indexHistory])
+			} else {
+				report.push({year, month, count: 0})
 			}
+			date.setMonth(date.getMonth() - 1)
 		}
-		return historyObject.reverse();
+		return report.reverse();
 	}
 
 	getMonth = (n) => {
