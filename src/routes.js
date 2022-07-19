@@ -44,7 +44,6 @@ const routesAdmin = [
 
 const routesDoctor = [
   { path: '/', exact: true, name: 'Home' },
-  { path: '/dashboard', name: 'Dashboard', component: Dashboard },
   { path: '/appointments', name: 'My Appointments', component: Appointments, exact: true },
   { path: '/appointments/history', name: 'Appointments History', component: AppointmentsHistory },
   { path: '/patients/history', name: 'Patient Information', component: PatientHistory },

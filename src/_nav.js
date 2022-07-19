@@ -7,7 +7,7 @@ import {
   cilSpeedometer,
   cilUser
 } from '@coreui/icons'
-import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
+import { CNavItem } from '@coreui/react'
 
 const navAdmin = [
   {
@@ -55,16 +55,6 @@ const navAdmin = [
 ]
 
 const navDoctor = [
-  {
-    component: CNavItem,
-    name: 'Dashboard',
-    to: '/dashboard',
-    icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
-    badge: {
-      color: 'info',
-      text: 'NEW',
-    },
-  },
   {
     component: CNavItem,
     name: 'My Appointments',
