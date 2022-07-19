@@ -15,8 +15,8 @@ export default class AppointmentHistory extends Component {
 		if (historyObject.length < 12) {
 			const n = 12 - historyObject.length;
 			const lastItem = historyObject.lastItem;
-			let year = lastItem.year || new Date().getFullYear();
-			let month = lastItem.month || new Date().getMonth() + 1;
+			let year = lastItem?.year || new Date().getFullYear();
+			let month = lastItem?.month || new Date().getMonth() + 1;
 			
 			for (let i=0; i<n; i++) {
 				month -= 1;
@@ -33,7 +33,6 @@ export default class AppointmentHistory extends Component {
 	}
 
 	getMonth = (n) => {
-		// const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 		const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 		return monthNames[n-1];
 	}

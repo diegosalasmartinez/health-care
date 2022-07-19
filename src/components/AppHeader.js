@@ -10,9 +10,8 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilMenu } from '@coreui/icons'
-
+import hospital from 'src/assets/brand/hospital.svg'
 import { AppBreadcrumb } from './index'
-import { logo } from 'src/assets/brand/logo'
 
 const AppHeader = () => {
   const dispatch = useDispatch()
@@ -25,7 +24,7 @@ const AppHeader = () => {
           <CIcon icon={cilMenu} size="lg" />
         </CHeaderToggler>
         <CHeaderBrand className="mx-auto d-md-none" to="/">
-          <CIcon icon={logo} height={48} alt="Logo" />
+          <img src={hospital} alt='Logo' width={'100%'} height={48}/>
         </CHeaderBrand>
         <AppBreadcrumb/>
       </CContainer>
