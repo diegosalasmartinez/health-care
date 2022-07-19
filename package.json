@@ -2,7 +2,6 @@
   "name": "health-care",
   "version": "1.0.0",
   "description": "Health Care System",
-  "homepage": ".",
   "license": "MIT",
   "author": "Diego Alejandro Salas Martínez",
   "scripts": {
@@ -55,8 +54,16 @@
     "react-scripts": "^4.0.3",
     "sass": "^1.43.2"
   },
-  "engines": {
-    "node": ">=10",
-    "npm": ">=6"
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
