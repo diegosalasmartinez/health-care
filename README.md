@@ -4,6 +4,8 @@ Health Care is meant to be a system able to manage all hospital activities and s
 
 This project uses [Core UI React Template](https://github.com/coreui/coreui-free-react-admin-template).
 
+[App thumbnail](./doc/thumb.png)
+
 ## Basic Usage
 
 You can visit the project on [Health Care](https://diegosalas-healthcare.web.app). You can use the following credentials to access as the administrator of the system: 
