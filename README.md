@@ -59,7 +59,7 @@ npm start
 
 ### Author
 
-Diego Salas [Diego Salas](https://www.linkedin.com/in/diego-alejandro-salas-martinez/)
+[Diego Salas](https://www.linkedin.com/in/diego-alejandro-salas-martinez/)
 
 ### Version
 
