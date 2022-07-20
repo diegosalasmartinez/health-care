@@ -6,7 +6,7 @@ This project uses [Core UI React Template](https://github.com/coreui/coreui-free
 
 If you see a error on the system or no data displayed on the screen, please contacte me: diesalasmart@gmail.com.
 
-[App thumbnail](./doc/thumb.png)
+![App thumbnail](./doc/thumb.png)
 
 ## Basic Usage
 
